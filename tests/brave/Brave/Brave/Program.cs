@@ -45,13 +45,22 @@ namespace Brave
 			Console.WriteLine("Script...");
 			foreach (var FileIn in Directory.EnumerateFiles(GameDirectory + @"\scenario", "*.dat"))
 			{
-				var FileOut = Path.GetDirectoryName(FileIn) + @"\" + Path.GetFileNameWithoutExtension(FileIn) + ".scr";
-				var Bytes = File.ReadAllBytes(FileIn);
-				if (!File.Exists(FileOut))
+				var FileOutU = Path.GetDirectoryName(FileIn) + @"\" + Path.GetFileNameWithoutExtension(FileIn) + ".scr";
+				var FileOutAsm = Path.GetDirectoryName(FileIn) + @"\" + Path.GetFileNameWithoutExtension(FileIn) + ".asm";
+				Console.WriteLine("{0}...", FileIn);
+				
+				if (!File.Exists(FileOutU))
 				{
-					var BytesOut = Decrypt.DecryptData(Bytes);
-					File.WriteAllBytes(FileOut, BytesOut);
-					Console.WriteLine("{0} -> {1}", FileIn, FileOut);
+					var Bytes = File.ReadAllBytes(FileIn);
+					var BytesOut = Decrypt.DecryptDataWithKey(Bytes, Decrypt.Key23);
+					File.WriteAllBytes(FileOutU, BytesOut);
+					Console.WriteLine("{0} -> {1}", FileIn, FileOutU);
+				}
+				
+				if (!File.Exists(FileOutAsm))
+				{
+					var Script = new Script(new MemoryStream(Decrypt.DecryptDataWithKey(File.ReadAllBytes(FileIn), Decrypt.Key23)));
+					File.WriteAllLines(FileOutAsm, Script.ParseAll().Select(Item => Item.ToString()));
 				}
 			}
 
