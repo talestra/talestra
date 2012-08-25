@@ -58,7 +58,7 @@ namespace Brave
 
 			Stream.Seek(Skip, SeekOrigin.Current);
 
-			
+
 
 			var Image = new Bitmap(Width, Height);
 			//var ImageData = BinaryReader.ReadBytes(Width * Height * 2);

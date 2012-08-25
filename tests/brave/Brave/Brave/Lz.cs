@@ -19,7 +19,7 @@ namespace Brave
 		{
 			var BinaryReader = new BinaryReader(Stream);
 			var Magic = BinaryReader.ReadBytes(10);
-			if (!Magic.SequenceEqual(ExpectedMagic)) throw(new InvalidDataException("Invalid LZ file"));
+			if (!Magic.SequenceEqual(ExpectedMagic)) throw (new InvalidDataException("Invalid LZ file"));
 			var UncompressedSize = BinaryReader.ReadUInt32();
 			var Buffer = new byte[N];
 			var Input = BinaryReader.ReadBytes((int)(Stream.Length - Stream.Position));
@@ -36,7 +36,7 @@ namespace Brave
 				{
 					var CurrentBit = ((Bits & 1) != 0);
 					Bits >>= 1;
-					
+
 					if (CurrentBit)
 					{
 						Output[OutputPos++] = Buffer[i] = Input[InputPos++];
@@ -52,8 +52,8 @@ namespace Brave
 						while (len-- > 0)
 						{
 							Output[OutputPos++] = Buffer[i] = Buffer[j];
-							j=(j+1)&(N-1);
-							i=(i+1)&(N-1);
+							j = (j + 1) & (N - 1);
+							i = (i + 1) & (N - 1);
 						}
 					}
 				}

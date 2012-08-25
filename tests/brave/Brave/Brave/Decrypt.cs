@@ -39,24 +39,30 @@ namespace Brave
 		static public void DecryptDataInplace(byte[] data)
 		{
 			byte bl = 0;
-			byte dt = 0;
+			uint dt = 0;
 
 			for (var n = 0; n < data.Length; n++)
 			{
 				var keyOffset = ((n + bl) % DecryptDataInplaceKey.Length);
-				var dataByte  = data[n];
+				var dataByte = data[n];
 				var cryptByte = (byte)(DecryptDataInplaceKey[keyOffset] | (bl & dt));
 
 				data[n] = DecryptPrimitive(dataByte, cryptByte);
-		
-				if (keyOffset == 0) {
 
+				if (keyOffset == 0)
+				{
 					bl = DecryptDataInplaceKey[(bl + dt) % DecryptDataInplaceKey.Length];
 					dt++;
 				}
 			}
 		}
 
-
+		static public byte[] DecryptData(byte[] data)
+		{
+			var data2 = new byte[data.Length];
+			Array.Copy(data, data2, data.Length);
+			DecryptDataInplace(data2);
+			return data2;
+		}
 	}
 }
