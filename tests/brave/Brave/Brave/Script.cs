@@ -48,9 +48,21 @@ namespace Brave
 			public Opcode Opcode;
 			public object[] Parameters;
 
+			static public string Serialize(object Parameter)
+			{
+				if (Parameter.GetType() == typeof(string))
+				{
+					return String.Format("\"{0}\"", Parameter);
+				}
+				else
+				{
+					return Parameter.ToString();
+				}
+			}
+
 			public override string ToString()
 			{
-				return String.Format("{0:X8}: {1}({2})", Position, Opcode.OpcodeName, String.Join(", ", Parameters));
+				return String.Format("{0:X8}: {1}({2})", Position, Opcode.OpcodeName, String.Join(", ", Parameters.Select(Parameter => Serialize(Parameter))));
 			}
 		}
 
