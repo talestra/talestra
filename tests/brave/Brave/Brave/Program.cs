@@ -24,6 +24,83 @@ namespace Brave
 
 			var PartsDirectory = GameDirectory + @"\parts";
 
+			Console.WriteLine("Images...");
+			foreach (var FileIn in Directory.EnumerateFiles(PartsDirectory, "*.crp"))
+			{
+				//var FileOut = Path.GetDirectoryName(FileIn) + @"\" + Path.GetFileNameWithoutExtension(FileIn) + ".png";
+				var FileOutU = Path.GetDirectoryName(FileIn) + @"\" + Path.GetFileNameWithoutExtension(FileIn) + ".crp.u";
+				var FileOutPng = Path.GetDirectoryName(FileIn) + @"\" + Path.GetFileNameWithoutExtension(FileIn) + ".png";
+				Console.WriteLine("{0} -> {1}", FileIn, FileOutPng);
+				if (!File.Exists(FileOutU))
+				{
+					File.WriteAllBytes(FileOutU, Lz.DecodeStream(File.OpenRead(FileIn)));
+				}
+				if (!File.Exists(FileOutPng))
+				{
+					BraveImage.DecodeImage(File.OpenRead(FileIn)).Save(FileOutPng);
+				}
+			}
+
+#if true
+			Console.WriteLine("Script...");
+			foreach (var FileIn in Directory.EnumerateFiles(GameDirectory + @"\scenario", "*.dat"))
+			{
+				var FileOut = Path.GetDirectoryName(FileIn) + @"\" + Path.GetFileNameWithoutExtension(FileIn) + ".scr";
+				var Bytes = File.ReadAllBytes(FileIn);
+				if (!File.Exists(FileOut))
+				{
+					var BytesOut = Decrypt.DecryptData(Bytes);
+					File.WriteAllBytes(FileOut, BytesOut);
+					Console.WriteLine("{0} -> {1}", FileIn, FileOut);
+				}
+			}
+
+			Console.WriteLine("Base...");
+			foreach (var FileIn in Directory.EnumerateFiles(GameDirectory + @"\", "*.dat"))
+			{
+				var FileOut = Path.GetDirectoryName(FileIn) + @"\" + Path.GetFileNameWithoutExtension(FileIn) + ".scr";
+				var Bytes = File.ReadAllBytes(FileIn);
+				if (!File.Exists(FileOut))
+				{
+					var BytesOut = Decrypt.DecryptData(Bytes);
+					File.WriteAllBytes(FileOut, BytesOut);
+					Console.WriteLine("{0} -> {1}", FileIn, FileOut);
+				}
+			}
+
+			Console.WriteLine("Saves...");
+			foreach (var FileIn in Directory.EnumerateFiles(GameDirectory + @"\save", "*.sav"))
+			{
+				var FileOut = Path.GetDirectoryName(FileIn) + @"\" + Path.GetFileNameWithoutExtension(FileIn) + ".sav.u";
+				var Bytes = File.ReadAllBytes(FileIn);
+				if (!File.Exists(FileOut))
+				{
+					var BytesOut = Decrypt.DecryptData(Bytes);
+					File.WriteAllBytes(FileOut, BytesOut);
+					Console.WriteLine("{0} -> {1}", FileIn, FileOut);
+				}
+			}
+
+			Console.WriteLine("Maps...");
+			foreach (var FileIn in Directory.EnumerateFiles(GameDirectory + @"\map", "*.dat"))
+			{
+				var FileOut = Path.GetDirectoryName(FileIn) + @"\" + Path.GetFileNameWithoutExtension(FileIn) + ".map";
+				var FileOutPng = Path.GetDirectoryName(FileIn) + @"\" + Path.GetFileNameWithoutExtension(FileIn) + ".png";
+				Console.WriteLine("{0} -> {1}", FileIn, FileOut);
+				if (!File.Exists(FileOut))
+				{
+					var Bytes = File.ReadAllBytes(FileIn);
+					var BytesOut = Decrypt.DecryptData(Bytes);
+					File.WriteAllBytes(FileOut, BytesOut);
+				}
+				if (!File.Exists(FileOutPng))
+				{
+					var Map = new Map(PartsDirectory);
+					Map.Load(new MemoryStream(File.ReadAllBytes(FileOut)));
+					Map.Render().Save(FileOutPng);
+				}
+			}
+
 			Console.WriteLine("Sound...");
 			{
 				try { Directory.CreateDirectory(GameDirectory + @"\sound"); }
@@ -51,61 +128,6 @@ namespace Brave
 					{
 						File.WriteAllBytes(FileOut, Entry.GetWave().ToArray());
 					}
-				}
-			}
-
-#if true
-			Console.WriteLine("Script...");
-			foreach (var FileIn in Directory.EnumerateFiles(GameDirectory + @"\scenario", "*.dat"))
-			{
-				var FileOut = Path.GetDirectoryName(FileIn) + @"\" + Path.GetFileNameWithoutExtension(FileIn) + ".scr";
-				var Bytes = File.ReadAllBytes(FileIn);
-				if (!File.Exists(FileOut))
-				{
-					Decrypt.DecryptDataInplace(Bytes);
-					File.WriteAllBytes(FileOut, Bytes);
-					Console.WriteLine("{0} -> {1}", FileIn, FileOut);
-				}
-			}
-
-			Console.WriteLine("Base...");
-			foreach (var FileIn in Directory.EnumerateFiles(GameDirectory + @"\", "*.dat"))
-			{
-				var FileOut = Path.GetDirectoryName(FileIn) + @"\" + Path.GetFileNameWithoutExtension(FileIn) + ".scr";
-				var Bytes = File.ReadAllBytes(FileIn);
-				if (!File.Exists(FileOut))
-				{
-					Decrypt.DecryptDataInplace(Bytes);
-					File.WriteAllBytes(FileOut, Bytes);
-					Console.WriteLine("{0} -> {1}", FileIn, FileOut);
-				}
-			}
-
-			Console.WriteLine("Maps...");
-			foreach (var FileIn in Directory.EnumerateFiles(GameDirectory + @"\map", "*.dat"))
-			{
-				var FileOut = Path.GetDirectoryName(FileIn) + @"\" + Path.GetFileNameWithoutExtension(FileIn) + ".map";
-				var FileOutPng = Path.GetDirectoryName(FileIn) + @"\" + Path.GetFileNameWithoutExtension(FileIn) + ".png";
-				Console.WriteLine("{0} -> {1}", FileIn, FileOut);
-				if (!File.Exists(FileOut))
-				{
-					var Bytes = File.ReadAllBytes(FileIn);
-					Decrypt.DecryptDataInplace(Bytes);
-					File.WriteAllBytes(FileOut, Bytes);
-					var Map = new Map(PartsDirectory);
-					Map.Load(new MemoryStream(Bytes));
-					Map.Render().Save(FileOutPng);
-				}
-			}
-
-			Console.WriteLine("Images...");
-			foreach (var FileIn in Directory.EnumerateFiles(PartsDirectory, "*.crp"))
-			{
-				var FileOut = Path.GetDirectoryName(FileIn) + @"\" + Path.GetFileNameWithoutExtension(FileIn) + ".png";
-				Console.WriteLine("{0} -> {1}", FileIn, FileOut);
-				if (!File.Exists(FileOut))
-				{
-					BraveImage.DecodeImage(File.OpenRead(FileIn)).Save(FileOut);
 				}
 			}
 #endif

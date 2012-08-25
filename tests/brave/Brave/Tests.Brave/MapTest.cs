@@ -12,8 +12,10 @@ namespace Tests.Brave
 		public void TestMapLoad()
 		{
 			var Map = new Map(@"C:\Juegos\brave_s\parts");
-			//Map.Load(File.OpenRead(TestUtils.TestInput + @"\b_town2.map"));
-			Map.Load(File.OpenRead(TestUtils.TestInput + @"\a_wood0.map"));
+			//Map.Load(new MemoryStream(File.ReadAllBytes(TestUtils.TestInput + @"\b_town2.map")));
+			//Map.Load(new MemoryStream(File.ReadAllBytes(TestUtils.TestInput + @"\a_wood0.map")));
+			Map.Load(new MemoryStream(File.ReadAllBytes(TestUtils.TestInput + @"\s_room0.map")));
+			//Map.Load(new MemoryStream(File.ReadAllBytes(TestUtils.TestInput + @"\a_even0.map")));
 			var Img = Map.Render();
 			Img.Save(TestUtils.TestOutput + @"\test.png");
 			//Map.Load(File.OpenRead(TestUtils.TestInput + @"\a_base1.map"));

@@ -84,7 +84,7 @@ namespace Brave
 						//ff00ff
 
 						// FUCSIA -> Transparent
-						if ((r == 0xFF) && (b == 0xFF))
+						if ((r == 0xFF) && (g == 0x00) && (b == 0xFF))
 						{
 							Ptr[0] = 0;
 							Ptr[1] = 0;

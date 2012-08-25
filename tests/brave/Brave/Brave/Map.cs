@@ -69,7 +69,7 @@ namespace Brave
 			public CellLayer ObjectLayer;
 			public int V0;
 			public int V1;
-			public int V2;
+			public byte Info;
 			public byte V3;
 		}
 
@@ -117,15 +117,60 @@ namespace Brave
 					{
 						var TilesImage = Part.Bitmap;
 						int TileW = 40;
-						int TileH = 80;
+						int TileH = 0;
 
-						if (Cell.V2 != 0)
+						switch (Cell.Info)
 						{
-							TileH = 80;
+							// Sure
+							case 0xDE: TileH = 40; break;
+							// Sure
+							case 0x8F: TileH = 80; break;
+							// SURE
+							case 0x10: TileH = 40; break;
+							// SURE
+							case 0xCF: TileH = 80; break;
+
+							// SURE
+							case 0x01: TileH = 160; break;
+
+							// ???
+							case 0xFF: TileH = 80; break;
+							case 0x00: TileH = 40; break;
+
+							//case 0xFF: TileH = 160; break;
+							//case 0x00: TileH = 160; break;
+
+							//case 0xFF: TileH = TilesImage.Height; break;
+							//case 0x00: TileH = TilesImage.Height; break;
+
+							case 0x20: TileH = 120; break;
+							case 0x18: 
+							case 0x17: 
+							case 0x87: 
+							case 0x5E: 
+							case 0x5C: 
+							case 0x08: 
+							case 0x07: 
+							case 0x3E: 
+							case 0x1F: 
+							case 0x58: 
+							case 0x0F: 
+							case 0x1E:
+								TileH = 40;
+								Console.WriteLine("V2: ({0},{1}) : ({2},{3}) : {4:X2}", x, y, x * 40, y * 40, Cell.Info);
+								Console.WriteLine(" ---> {0} : ({1},{2})", Layer.Part.Name, Layer.X, Layer.Y);
+								Console.WriteLine(" ---> {0},{1},{2},{3}", Cell.V0, Cell.V1, Cell.Info, Cell.V3);
+								break;
+							default:
+								Console.WriteLine("{0:X2}", Cell.Info);
+								throw(new NotImplementedException());
 						}
-						else
+
+						if (TileH == 40)
 						{
-							TileH = 40;
+							Console.WriteLine("V2: ({0},{1}) : ({2},{3}) : {4:X2}", x, y, x * 40, y * 40, Cell.Info);
+							Console.WriteLine(" ---> {0} : ({1},{2})", Layer.Part.Name, Layer.X, Layer.Y);
+							Console.WriteLine(" ---> {0},{1},{2},{3}", Cell.V0, Cell.V1, Cell.Info, Cell.V3);
 						}
 
 						//TileH = TilesImage.Height;
@@ -195,7 +240,7 @@ namespace Brave
 				for (int x = 0; x < Width; x++)
 				{
 					int V0 = BinaryReader.ReadSByte();
-					if (V0 == 0)
+					if (V0 != -1)
 					{
 						var PartId = BinaryReader.ReadSByte();
 						int ImageX = BinaryReader.ReadInt16();
@@ -203,13 +248,9 @@ namespace Brave
 						//Console.WriteLine("A:{0:X8} : {1}, {2}", PartId, ImageX, ImageY);
 						Cells[x, y].BackgroundLayer = new CellLayer(Parts[PartId], ImageX, ImageY);
 					}
-					else
-					{
-						//throw(new NotImplementedException());
-					}
 
 					int V1 = BinaryReader.ReadSByte();
-					if (V1 == 0) // FAKE! It checks memory (0042E1D3)
+					if (V1 != -1) // FAKE! It checks memory (0042E1D3)
 					{
 						var PartId = BinaryReader.ReadSByte();
 						int ImageX = BinaryReader.ReadInt16();
@@ -218,12 +259,31 @@ namespace Brave
 						Cells[x, y].ObjectLayer = new CellLayer(Parts[PartId], ImageX, ImageY);
 					}
 
+					var V2 = BinaryReader.ReadByte();
+					var V3 = BinaryReader.ReadByte();
+
 					Cells[x, y].V0 = V0;
 					Cells[x, y].V1 = V1;
-					Cells[x, y].V2 = BinaryReader.ReadSByte();
-					Cells[x, y].V3 = BinaryReader.ReadByte();
+					Cells[x, y].Info = V2;
+					Cells[x, y].V3 = V3;
 
+					//if (V2 != 0xFF && V2 != 0x00)
+#if false
+					var ObjectLayer = Cells[x, y].ObjectLayer;
+					if (ObjectLayer.Part != null)
+					{
+						//if (V2 != 0x00)
+						{
+							Console.WriteLine("V2: ({0},{1}) : ({2},{3}) : {4}", x, y, x * 40, y * 40, V2);
+							if (ObjectLayer.Part != null)
+							{
+								Console.WriteLine(" ---> {0} : ({1},{2})", ObjectLayer.Part.Name, ObjectLayer.X, ObjectLayer.Y);
+								Console.WriteLine(" ---> {0},{1},{2},{3}", V0, V1, V2, V3);
+							}
+						}
+					}
 					//Console.WriteLine("{0}, {1}", V2, V3);
+#endif
 				}
 			}
 
