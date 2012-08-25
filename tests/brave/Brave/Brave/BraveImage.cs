@@ -58,8 +58,6 @@ namespace Brave
 
 			Stream.Seek(Skip, SeekOrigin.Current);
 
-
-
 			var Image = new Bitmap(Width, Height);
 			//var ImageData = BinaryReader.ReadBytes(Width * Height * 2);
 
@@ -82,11 +80,24 @@ namespace Brave
 						var b = (byte)ExtractScale(PixelData, 0, 5, 0xff);
 						var g = (byte)ExtractScale(PixelData, 5, 6, 0xff);
 						var r = (byte)ExtractScale(PixelData, 11, 5, 0xff);
+						
+						//ff00ff
 
-						Ptr[0] = b;
-						Ptr[1] = g;
-						Ptr[2] = r;
-						Ptr[3] = 0xFF;
+						// FUCSIA -> Transparent
+						if ((r == 0xFF) && (b == 0xFF))
+						{
+							Ptr[0] = 0;
+							Ptr[1] = 0;
+							Ptr[2] = 0;
+							Ptr[3] = 0x00;
+						}
+						else
+						{
+							Ptr[0] = b;
+							Ptr[1] = g;
+							Ptr[2] = r;
+							Ptr[3] = 0xFF;
+						}
 
 						Ptr += 4;
 						//Image.SetPixel(x, y, Color.FromArgb(0xFF, r, g, b));

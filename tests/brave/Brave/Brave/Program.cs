@@ -22,6 +22,8 @@ namespace Brave
 				GameDirectory = args[0];
 			}
 
+			var PartsDirectory = GameDirectory + @"\parts";
+
 			Console.WriteLine("Sound...");
 			{
 				try { Directory.CreateDirectory(GameDirectory + @"\sound"); }
@@ -83,17 +85,21 @@ namespace Brave
 			foreach (var FileIn in Directory.EnumerateFiles(GameDirectory + @"\map", "*.dat"))
 			{
 				var FileOut = Path.GetDirectoryName(FileIn) + @"\" + Path.GetFileNameWithoutExtension(FileIn) + ".map";
+				var FileOutPng = Path.GetDirectoryName(FileIn) + @"\" + Path.GetFileNameWithoutExtension(FileIn) + ".png";
 				Console.WriteLine("{0} -> {1}", FileIn, FileOut);
 				if (!File.Exists(FileOut))
 				{
 					var Bytes = File.ReadAllBytes(FileIn);
 					Decrypt.DecryptDataInplace(Bytes);
 					File.WriteAllBytes(FileOut, Bytes);
+					var Map = new Map(PartsDirectory);
+					Map.Load(new MemoryStream(Bytes));
+					Map.Render().Save(FileOutPng);
 				}
 			}
 
 			Console.WriteLine("Images...");
-			foreach (var FileIn in Directory.EnumerateFiles(GameDirectory + @"\parts", "*.crp"))
+			foreach (var FileIn in Directory.EnumerateFiles(PartsDirectory, "*.crp"))
 			{
 				var FileOut = Path.GetDirectoryName(FileIn) + @"\" + Path.GetFileNameWithoutExtension(FileIn) + ".png";
 				Console.WriteLine("{0} -> {1}", FileIn, FileOut);

@@ -55,6 +55,7 @@
     <Compile Include="BraveImageTest.cs" />
     <Compile Include="DescryptTest.cs" />
     <Compile Include="TestUtils.cs" />
+    <Compile Include="MapTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Brave\Brave.csproj">

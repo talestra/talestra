@@ -48,6 +48,7 @@
     <Compile Include="Decrypt.cs" />
     <Compile Include="BraveImage.cs" />
     <Compile Include="Lz.cs" />
+    <Compile Include="Map.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

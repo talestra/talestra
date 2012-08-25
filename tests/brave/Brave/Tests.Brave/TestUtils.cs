@@ -15,5 +15,13 @@ namespace Tests.Brave
 				return @"..\..\..\TestInput";
 			}
 		}
+
+		static public string TestOutput
+		{
+			get
+			{
+				return @"..\..\..\TestOutput";
+			}
+		}
 	}
 }
