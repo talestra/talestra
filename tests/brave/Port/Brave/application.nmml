@@ -3,13 +3,16 @@
 	<!-- NMML reference: https://gist.github.com/1763850 -->
 	
 	<!-- metadata, make sure 'package' is at least 3 segments (ie. com.mycompany.myproject) -->
-	<meta title="Brave" package="com.talestra.brave" version="1.0.0" company="soywiz" />
+	<meta title="Brave Soul" package="com.talestra.brave" version="1.0.0" company="soywiz" />
 	
 	<!-- output -->
 	<app main="Main" file="Brave" path="bin" />
 	
-	<window background="#000000" fps="60" />
+	<window background="#000000" fps="40" />
+	
 	<window width="800" height="600" unless="mobile" />
+	<!--<window width="640" height="480" unless="mobile" />-->
+	
 	<window orientation="landscape" vsync="true" antialiasing="0" if="cpp" />
 	
 	<!-- classpath, haxe libs -->

@@ -2,7 +2,14 @@ package ;
 
 import brave.BraveAssets;
 import brave.formats.BraveImage;
+import brave.GameState;
+import brave.map.Map;
+import brave.script.Script;
+import brave.script.ScriptThread;
 import brave.sound.SoundPack;
+import brave.sprites.GameSprite;
+import brave.sprites.map.Character;
+import brave.sprites.map.MapSprite;
 import haxe.Timer;
 import nme.events.SampleDataEvent;
 import nme.media.Sound;
@@ -57,7 +64,9 @@ class Main extends Sprite
 		this.x = Std.int((stage.stageWidth - usedWidth) / 2);
 		this.y = Std.int((stage.stageHeight - usedHeight) / 2);
 	}
-
+	
+	var gameSprite:GameSprite;
+	
 	private function init(e) 
 	{
 		resize(e);
@@ -66,31 +75,31 @@ class Main extends Sprite
 		Log.setColor(0xFF0000);
 #end
 
-		//var script:Script = new Script();
-		//script.setScriptWithName("op");
-		//script.execute();
+		addChild(gameSprite = new GameSprite());
 		
+		var woods:Map = Map.loadFromName("e_beac0");
+		var mapSprite:MapSprite = new MapSprite();
+		addChild(mapSprite);
+		mapSprite.setMap(woods);
 		/*
-		var soundPack:SoundPack = new SoundPack(2, File.read("assets/sound.pck"));
-		var voicePack:SoundPack = new SoundPack(1, File.read("assets/voice/voice.pck"));
-		voicePack.getSound("x001001h").play(0, 0, new SoundTransform(0.2));
+		mapSprite.moveCameraTo(500, 500, 2, function() {
+			mapSprite.moveCameraTo(200, 2000, 2);
+		});
 		*/
 		
-		//soundPack.getSound("a5_01001").play();
 		
-		//var morphedSound:Sound = new Sound();
-		//morphedSound.addEventListener(SampleDataEvent.SAMPLE_DATA, playSound);
-		//morphedSound.play();
-
-		//addChild(BraveAssets.getBitmap("X_ALIC11"));
+		mapSprite.addCharacter(new Character(0, "C_RUDY", 970, 340));
+		mapSprite.reorderEntities();
+		mapSprite.enableMoveWithKeyboard();
 		
-		Log.trace(BraveAssets.getCgDbEntry("A_DODR01"));
+		/*
+		var gameState:GameState = new GameState(gameSprite);
+		var scriptThread:ScriptThread = gameState.spawnThreadWithScript(Script.getScriptWithName("op"));
+		scriptThread.execute();
+		*/
 		
-		//BraveAssets.getVoice("x001001h").play();
-		
-		//Decrypt.decryptDataWithKey(output, Decrypt.key23);
-		// entry point
 	}
+
 	
 	static public function main() 
 	{

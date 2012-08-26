@@ -1,6 +1,10 @@
 package brave.script;
+import brave.BraveAssets;
+import brave.sprites.TextSprite;
 import haxe.Log;
+import haxe.Timer;
 import nme.errors.Error;
+import nme.media.SoundChannel;
 
 /**
  * ...
@@ -9,11 +13,11 @@ import nme.errors.Error;
 
 class ScriptInstructions 
 {
-	var script:Script;
+	var scriptThread:ScriptThread;
 
-	public function new(script:Script) 
+	public function new(scriptThread:ScriptThread) 
 	{
-		this.script = script;
+		this.scriptThread = scriptThread;
 	}
 
 	@Opcode(0x01, "SL")
@@ -32,6 +36,7 @@ class ScriptInstructions
 	 * @param	jumpOffset
 	 */
 	@Opcode(0x02, "PP9L")
+	@Unimplemented(1)
 	public function JUMP_IF(left:Int, right:Int, operation:Int, jumpOffset:Int):Void {
 		var result:Bool = false;
 		
@@ -46,7 +51,7 @@ class ScriptInstructions
 		}
 		
 		if (result) {
-			script.jump(jumpOffset);
+			scriptThread.jump(jumpOffset);
 		}
 	}
 
@@ -70,27 +75,50 @@ class ScriptInstructions
 		
 	}
 	
+	/**
+	 * 
+	 */
 	@Opcode(0x08, "")
+	@Unimplemented
 	public function DEBUG_MESSAGE() {
 		
 	}
-	
+
+	/**
+	 * 
+	 */
 	@Opcode(0x09, "")
+	@Unimplemented
 	public function OP_09() {
 		
 	}
 	
+	/**
+	 * 
+	 * @param	a
+	 */
 	@Opcode(0x0A, "P")
+	@Unimplemented
 	public function OP_0A(a) {
 		
 	}
 	
+	/**
+	 * 
+	 * @param	a
+	 */
 	@Opcode(0x0B, "P")
+	@Unimplemented
 	public function OP_0B(a) {
 		
 	}
 	
+	/**
+	 * 
+	 * @param	a
+	 */
 	@Opcode(0x0C, "P")
+	@Unimplemented
 	public function OP_0C(a) {
 		
 	}
@@ -101,6 +129,7 @@ class ScriptInstructions
 	 * @param	b
 	 */
 	@Opcode(0x0D, "PP")
+	@Unimplemented
 	public function OP_0D(a, b) {
 		
 	}
@@ -112,11 +141,16 @@ class ScriptInstructions
 	 * @param	rightValue
 	 */
 	@Opcode(0x0F, "v7P")
+	@Unimplemented
 	public function ARITMETIC_OP(variable:Variable, operator:Int, rightValue:Int) {
 		
 	}
 	
+	/**
+	 * 
+	 */
 	@Opcode(0x10, "11s")
+	@Unimplemented
 	public function OP_10() {
 		
 	}
@@ -126,6 +160,7 @@ class ScriptInstructions
 	 * @param	variable
 	 */
 	@Opcode(0x11, "v")
+	@Unimplemented
 	public function VAR_INCREMENT(variable:Variable):Void {
 		variable.setValue(variable.getValue() + 1);
 	}
@@ -134,7 +169,8 @@ class ScriptInstructions
 	 * 
 	 * @param	variable
 	 */
-	@Opcode(0x12, "VAR_DECREMENT", "v")
+	@Opcode(0x12, "v")
+	@Unimplemented
 	public function VAR_DECREMENT(variable:Variable):Void {
 		variable.setValue(variable.getValue() - 1);
 	}
@@ -144,7 +180,8 @@ class ScriptInstructions
 	 * @param	variable
 	 * @param	maxValue
 	 */
-	@Opcode(0x13, "RANDOM", "vP")
+	@Opcode(0x13, "vP")
+	@Unimplemented
 	public function RANDOM(variable:Variable, maxValue:Int) {
 		
 	}
@@ -154,7 +191,8 @@ class ScriptInstructions
 	 * @param	a
 	 * @param	b
 	 */
-	@Opcode(0x14, "OP_14", "PP")
+	@Opcode(0x14, "PP")
+	@Unimplemented
 	public function OP_14(a, b) {
 		
 	}
@@ -164,7 +202,8 @@ class ScriptInstructions
 	 * @param	a
 	 * @param	b
 	 */
-	@Opcode(0x15, "OP_15", "12")
+	@Opcode(0x15, "12")
+	@Unimplemented
 	public function OP_15(a, b) {
 		
 	}
@@ -173,27 +212,50 @@ class ScriptInstructions
 	 * 
 	 * @param	index
 	 */
-	@Opcode(0x17, "MUSIC_PLAY", "P")
+	@Opcode(0x17, "P")
+	@Unimplemented
 	public function MUSIC_PLAY(index:Int) {
 		
 	}
 	
-	@Opcode(0x18, "OP_18", "P")
+	/**
+	 * 
+	 * @param	a
+	 */
+	@Opcode(0x18, "P")
+	@Unimplemented
 	public function OP_18(a) {
 		
 	}
 	
-	@Opcode(0x19, "OP_19", "PP")
+	/**
+	 * 
+	 * @param	a
+	 * @param	b
+	 */
+	@Opcode(0x19, "PP")
+	@Unimplemented
 	public function OP_19(a, b) {
 		
 	}
 	
-	@Opcode(0x1A, "OP_1A", "P")
+	/**
+	 * 
+	 * @param	a
+	 */
+	@Opcode(0x1A, "P")
+	@Unimplemented
 	public function OP_1A(a) {
 		
 	}
 	
-	@Opcode(0x1B, "OP_1B", "PP")
+	/**
+	 * 
+	 * @param	a
+	 * @param	b
+	 */
+	@Opcode(0x1B, "PP")
+	@Unimplemented
 	public function OP_1B(a, b) {
 		
 	}
@@ -201,7 +263,8 @@ class ScriptInstructions
 	/**
 	 * 
 	 */
-	@Opcode(0x1C, "MUSIC_STOP", "")
+	@Opcode(0x1C, "")
+	@Unimplemented
 	public function MUSIC_STOP():Void {
 		
 	}
@@ -211,6 +274,7 @@ class ScriptInstructions
 	 * @param	text
 	 */
 	@Opcode(0x1D, "COMMENT", "s")
+	@Unimplemented
 	public function COMMENT(text:String) {
 		Log.trace(Std.format("COMMENT: '${text}'"));
 	}
@@ -220,7 +284,8 @@ class ScriptInstructions
 	 * @param	a
 	 * @param	b
 	 */
-	@Opcode(0x1E, "OP_1E", "sP")
+	@Opcode(0x1E, "sP")
+	@Unimplemented
 	public function OP_1E(a, b) {
 		
 	}
@@ -232,12 +297,14 @@ class ScriptInstructions
 		Log.trace(Std.format("SCRIPT('${scriptName}')"));
 	}
 	
-	@Opcode(0x22, "OP_22", "")
+	@Opcode(0x22, "")
+	@Unimplemented
 	public function OP_22() {
 		
 	}
 	
-	@Opcode(0x23, "OP_23", "")
+	@Opcode(0x23, "")
+	@Unimplemented
 	public function OP_23() {
 		
 	}
@@ -246,22 +313,26 @@ class ScriptInstructions
 	 * 
 	 * @param	mapName
 	 */
-	@Opcode(0x24, "MAP_SET", "s")
+	@Opcode(0x24, "s")
+	@Unimplemented
 	public function MAP_SET(mapName:String):Void {
 		
 	}
 	
-	@Opcode(0x25, "OP_25", "sP")
+	@Opcode(0x25, "sP")
+	@Unimplemented
 	public function OP_25(a, b) {
 		
 	}
 	
-	@Opcode(0x26, "OP_26", "PPPss")
+	@Opcode(0x26, "PPPss")
+	@Unimplemented
 	public function OP_26(a, b, c, d, e) {
 		
 	}
 	
-	@Opcode(0x27, "OP_27", "PPPPPss")
+	@Opcode(0x27, "PPPPPss")
+	@Unimplemented
 	public function OP_27(a, b, c, d, e, f, g) {
 		
 	}
@@ -270,37 +341,52 @@ class ScriptInstructions
 	 * 
 	 * @param	imageName
 	 */
-	@Opcode(0x28, "IMAGE_SET", "s")
-	public function IMAGE_SET(imageName:String):Void {
-		
+	@Opcode(0x28, "s")
+	public function BACKGROUND_SET_IMAGE(imageName:String):Void {
+		scriptThread.gameState.setBackgroundImage(imageName);
 	}
 	
-	@Opcode(0x29, "OP_29", "PPs")
+	/**
+	 * 
+	 * @param	a
+	 * @param	b
+	 * @param	c
+	 */
+	@Opcode(0x29, "PPs")
+	@Unimplemented
 	public function OP_29(a:Int, b:Int, c:String) {
 		
 	}
 	
-	@Opcode(0x2A, "FADE_OUT", "4")
-	public function FADE_OUT(time:Int) {
-		
+	/**
+	 * 
+	 * @param	color
+	 */
+	@Opcode(0x2A, "4")
+	public function BACKGROUND_SET_COLOR(color:Int) {
+		scriptThread.gameState.setBackgroundColor(color);
 	}
 	
-	@Opcode(0x2B, "OP_2B", "4")
+	@Opcode(0x2B, "4")
+	@Unimplemented
 	public function OP_2B(a:Int) {
 		
 	}
 	
-	@Opcode(0x2C, "OP_2C", "4")
+	@Opcode(0x2C, "4")
+	@Unimplemented
 	public function OP_2C(a:Int) {
 		
 	}
 	
-	@Opcode(0x2D, "OP_2D", "P") // Lot of stuff
+	@Opcode(0x2D, "P") // Lot of stuff
+	@Unimplemented
 	public function OP_2D(a) {
 		
 	}
 	
-	@Opcode(0x2E, "OP_2E", "-")
+	@Opcode(0x2E, "-")
+	@Unimplemented
 	public function OP_2E() {
 		
 	}
@@ -311,14 +397,37 @@ class ScriptInstructions
 	 * @param	title
 	 * @param	text
 	 */
-	@Opcode(0x2F, "TEXT_PUT", "sss")
-	public function TEXT_PUT(voice:String, title:String, text:String) {
-		Log.trace(Std.format("TEXT_PUT(${voice}, ${title}, ${text})"));
+	@Opcode(0x2F, "TEXT_PUT", "<sss")
+	public function TEXT_PUT(done:Void -> Void, voice:String, title:String, text:String) {
+		//Log.trace(Std.format("TEXT_PUT(${voice}, ${title}, ${text})"));
+		
+		var voiceChannel:SoundChannel = null;
+		if (voice != "") {
+			voiceChannel = BraveAssets.getVoice(voice).play();
+		}
+		var textSprite:TextSprite = scriptThread.gameState.rootClip.ui.textSprite;
+		
+		textSprite.setTextAndEnable(title, text, function() {
+			var onClick = null;
+
+			onClick = function(e) {
+				textSprite.stage.removeEventListener("click", onClick);
+				Timer.delay(function() {
+					textSprite.endText();
+					if (voiceChannel != null) voiceChannel.stop();
+					done();
+				}, 1);
+			};
+			
+			textSprite.stage.addEventListener("click", onClick);
+			//Timer.delay(function() { done(); }, 100);
+			
+		});
 	}
 	
-	@Opcode(0x30, "DELAY", "P") // Delay?
-	public function DELAY(time:Int) {
-		
+	@Opcode(0x30, "<P")
+	public function TRANSITION(done:Void -> Void, type:Int) {
+		scriptThread.gameState.transition(done, type);
 	}
 	
 	@Opcode(0x31, "P")
