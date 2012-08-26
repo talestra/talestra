@@ -104,7 +104,7 @@ namespace Brave
 				}
 				if (!File.Exists(FileOutPng))
 				{
-					var Map = new Map(PartsDirectory);
+					var Map = new Map(PartsDirectory, GameDirectory + @"\cgdb.dat");
 					Map.Load(new MemoryStream(File.ReadAllBytes(FileOut)));
 					Map.Render().Save(FileOutPng);
 				}

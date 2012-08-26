@@ -21,11 +21,14 @@ namespace Brave
 
 		private Part ReadEntry(BinaryReader BinaryReader)
 		{
-			int PartId = BinaryReader.ReadInt32();
-			string Name = "";
+			var PartId = BinaryReader.ReadInt32();
+			var Name = "";
+			var CgDbEntry = default(CgDb.Entry);
+
 			if (PartId >= 0)
 			{
 				Name = ReadStringz(BinaryReader);
+				CgDbEntry = CgDb.Entries[Name];
 			}
 #if false
 			Console.WriteLine("{0:X8} : {1}", PartId, Name);
@@ -34,6 +37,7 @@ namespace Brave
 			{
 				PartId = PartId,
 				Name = Name,
+				CgDbEntry = CgDbEntry,
 			};
 		}
 
@@ -47,6 +51,7 @@ namespace Brave
 			public int PartId;
 			public string Name;
 			public Bitmap Bitmap;
+			public CgDb.Entry CgDbEntry;
 		}
 
 		public struct CellLayer
@@ -74,14 +79,20 @@ namespace Brave
 		}
 
 		public string PartsPath;
+		public string CgDbPath;
+		public CgDb CgDb;
 		public int Unk1, Unk2;
 		public int Width, Height;
 		public Dictionary<int, Part> Parts = new Dictionary<int, Part>();
 		public Cell[,] Cells;
 
-		public Map(string PartsPath)
+		public Map(string PartsPath, string CgDbPath)
 		{
 			this.PartsPath = PartsPath;
+			this.CgDbPath = CgDbPath;
+			CgDb = new CgDb();
+			CgDb.Load(new MemoryStream(Decrypt.DecryptData(File.ReadAllBytes(CgDbPath))));
+
 		}
 
 		public Bitmap Render()
@@ -99,9 +110,11 @@ namespace Brave
 					if (Part != null)
 					{
 						var TilesImage = Part.Bitmap;
+						var TileW = Part.CgDbEntry.TileWidth;
+						var TileH = Part.CgDbEntry.TileHeight;
 						var DestinationPoint = new Point(x * 40, y * 40);
-						
-						BitmapGraphics.DrawImage(TilesImage, DestinationPoint.X, DestinationPoint.Y, new Rectangle(Layer.X, Layer.Y, 40, 40), GraphicsUnit.Pixel);
+
+						BitmapGraphics.DrawImage(TilesImage, DestinationPoint.X, DestinationPoint.Y, new Rectangle(Layer.X, Layer.Y, TileW, TileH), GraphicsUnit.Pixel);
 					}
 				}
 			}
@@ -116,75 +129,9 @@ namespace Brave
 					if (Part != null)
 					{
 						var TilesImage = Part.Bitmap;
-						int TileW = 40;
-						int TileH = 0;
-
-						switch (Cell.Info)
-						{
-							// Sure
-							case 0xDE: TileH = 40; break;
-							// Sure
-							case 0x8F: TileH = 80; break;
-							// SURE
-							case 0x10: TileH = 40; break;
-							// SURE
-							case 0xCF: TileH = 80; break;
-
-							// SURE
-							case 0x01: TileH = 160; break;
-
-							// ???
-							case 0xFF: TileH = 80; break;
-							case 0x00: TileH = 40; break;
-
-							//case 0xFF: TileH = 160; break;
-							//case 0x00: TileH = 160; break;
-
-							//case 0xFF: TileH = TilesImage.Height; break;
-							//case 0x00: TileH = TilesImage.Height; break;
-
-							case 0x20: TileH = 120; break;
-							case 0x18: 
-							case 0x17: 
-							case 0x87: 
-							case 0x5E: 
-							case 0x5C: 
-							case 0x08: 
-							case 0x07: 
-							case 0x3E: 
-							case 0x1F: 
-							case 0x58: 
-							case 0x0F: 
-							case 0x1E:
-								TileH = 40;
-								Console.WriteLine("V2: ({0},{1}) : ({2},{3}) : {4:X2}", x, y, x * 40, y * 40, Cell.Info);
-								Console.WriteLine(" ---> {0} : ({1},{2})", Layer.Part.Name, Layer.X, Layer.Y);
-								Console.WriteLine(" ---> {0},{1},{2},{3}", Cell.V0, Cell.V1, Cell.Info, Cell.V3);
-								break;
-							default:
-								Console.WriteLine("{0:X2}", Cell.Info);
-								throw(new NotImplementedException());
-						}
-
-						if (TileH == 40)
-						{
-							Console.WriteLine("V2: ({0},{1}) : ({2},{3}) : {4:X2}", x, y, x * 40, y * 40, Cell.Info);
-							Console.WriteLine(" ---> {0} : ({1},{2})", Layer.Part.Name, Layer.X, Layer.Y);
-							Console.WriteLine(" ---> {0},{1},{2},{3}", Cell.V0, Cell.V1, Cell.Info, Cell.V3);
-						}
-
-						//TileH = TilesImage.Height;
-						/*
-						if (Cell.LayerBHeight == 0xFF)
-						{
-							
-						}
-						else
-						{
-							TileH = Cell.LayerBHeight;
-						}
-						*/
-
+						var TileW = Part.CgDbEntry.TileWidth;
+						var TileH = Part.CgDbEntry.TileHeight;
+						
 						var DestinationPoint = new Point(x * 40, y * 40 + 40 - TileH);
 						BitmapGraphics.DrawImage(TilesImage, DestinationPoint.X, DestinationPoint.Y, new Rectangle(Layer.X, Layer.Y, TileW, TileH), GraphicsUnit.Pixel);
 					}
