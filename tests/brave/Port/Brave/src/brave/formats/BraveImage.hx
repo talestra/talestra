@@ -1,10 +1,10 @@
-package formats;
+package brave.formats;
+
 import nme.display.BitmapData;
 import nme.errors.Error;
 import nme.geom.Rectangle;
 import nme.utils.ByteArray;
 import nme.utils.Endian;
-import src.formats.LZ;
 
 /**
  * ...

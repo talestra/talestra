@@ -1,4 +1,4 @@
-package script;
+package brave.script;
 import haxe.Log;
 import nme.errors.Error;
 

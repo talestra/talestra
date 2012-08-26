@@ -1,4 +1,4 @@
-package formats;
+package brave.formats;
 import nme.utils.ByteArray;
 
 /**

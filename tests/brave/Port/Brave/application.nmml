@@ -18,7 +18,10 @@
 	
 	<!-- assets -->
 	<icon path="assets/nme.svg" />
+	<!--
 	<assets path="assets" rename="assets" include="*" exclude="nme.svg" />
+	-->
+	<assets path="assets/dummy" rename="assets" include="*" exclude="nme.svg" />
 	
 	<!-- DLLs -->
 	<ndll name="std" />

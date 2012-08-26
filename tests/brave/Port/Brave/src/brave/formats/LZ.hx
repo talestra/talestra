@@ -1,4 +1,5 @@
-package src.formats;
+package brave.formats;
+
 import haxe.io.BytesBuffer;
 import haxe.Log;
 import nme.errors.Error;

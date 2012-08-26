@@ -1,4 +1,5 @@
-package script;
+package brave.script;
+import brave.BraveAssets;
 import formats.Decrypt;
 import haxe.Log;
 import haxe.rtti.Meta;
@@ -47,7 +48,7 @@ class Script
 	private var data:ByteArray;
 
 	public function setScriptWithName(name:String):Void {
-		setScriptWithByteArray(Decrypt.decryptDataWithKey(Assets.getBytes(Std.format("assets/scenario/${name}.dat")), Decrypt.key23));
+		setScriptWithByteArray(Decrypt.decryptDataWithKey(BraveAssets.getBytes(Std.format("scenario/${name}.dat")), Decrypt.key23));
 	}
 
 	public function setScriptWithByteArray(data:ByteArray):Void {

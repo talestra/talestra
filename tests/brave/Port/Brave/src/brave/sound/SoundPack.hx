@@ -1,4 +1,4 @@
-package formats.sound;
+package brave.sound;
 //import haxe.io.Input;
 import haxe.Log;
 import nme.errors.Error;
@@ -55,5 +55,4 @@ class SoundPack
 			//Log.trace(entry.name);
 		}
 	}
-	
 }

@@ -1,11 +1,11 @@
-package script;
+package brave.script;
 
 /**
  * ...
  * @author 
  */
 
-class Variable implements IValue
+class Variable
 {
 	private var value:Dynamic;
 

@@ -1,4 +1,4 @@
-package formats.sound;
+package brave.sound;
 import haxe.io.BytesInput;
 import haxe.Log;
 import nme.events.Event;

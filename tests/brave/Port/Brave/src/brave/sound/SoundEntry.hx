@@ -1,8 +1,7 @@
-package formats.sound;
+package brave.sound;
 import haxe.io.Bytes;
 import nme.events.SampleDataEvent;
 import nme.media.Sound;
-import sys.io.FileSeek;
 
 /**
  * ...
@@ -27,7 +26,7 @@ class SoundEntry
 	
 	public function getSound():Sound {
 		if (bytes == null) {
-			soundPack.file.seek(this.offset, FileSeek.SeekBegin);
+			soundPack.file.seek(this.offset, sys.io.FileSeek.SeekBegin);
 			bytes = soundPack.file.read(this.length);
 		}
 		var soundInstance:SoundInstance = new SoundInstance(this);
