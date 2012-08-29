@@ -8,9 +8,10 @@
 	<!-- output -->
 	<app main="Main" file="Brave" path="bin" />
 	
-	<window background="#000000" fps="40" />
+	<window background="#000000" fps="60" />
 	
-	<window width="800" height="600" unless="mobile" />
+	<window width="1280" height="960" unless="mobile" />
+	<!--<window width="800" height="600" unless="mobile" />-->
 	<!--<window width="640" height="480" unless="mobile" />-->
 	
 	<window orientation="landscape" vsync="true" antialiasing="0" if="cpp" />

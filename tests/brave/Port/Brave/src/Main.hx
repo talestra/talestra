@@ -2,14 +2,17 @@ package ;
 
 import brave.BraveAssets;
 import brave.formats.BraveImage;
+import brave.GameInput;
 import brave.GameState;
 import brave.map.Map;
 import brave.script.Script;
+import brave.script.ScriptReader;
 import brave.script.ScriptThread;
 import brave.sound.SoundPack;
 import brave.sprites.GameSprite;
 import brave.sprites.map.Character;
 import brave.sprites.map.MapSprite;
+import brave.StringEx;
 import haxe.Timer;
 import nme.events.SampleDataEvent;
 import nme.media.Sound;
@@ -77,27 +80,37 @@ class Main extends Sprite
 
 		addChild(gameSprite = new GameSprite());
 		
-		var woods:Map = Map.loadFromName("e_beac0");
-		var mapSprite:MapSprite = new MapSprite();
-		addChild(mapSprite);
-		mapSprite.setMap(woods);
-		/*
-		mapSprite.moveCameraTo(500, 500, 2, function() {
-			mapSprite.moveCameraTo(200, 2000, 2);
-		});
-		*/
-		
-		
-		mapSprite.addCharacter(new Character(0, "C_RUDY", 970, 340));
-		mapSprite.reorderEntities();
-		mapSprite.enableMoveWithKeyboard();
+		GameInput.init();
 		
 		/*
-		var gameState:GameState = new GameState(gameSprite);
-		var scriptThread:ScriptThread = gameState.spawnThreadWithScript(Script.getScriptWithName("op"));
-		scriptThread.execute();
+		var faceId = 57;
+		Log.trace(StringEx.sprintf("Z_%02d_%02d", [Std.int(faceId / 100), Std.int(faceId % 100)]));
 		*/
 		
+		//new ScriptReader(Script.getScriptWithName("op")).readAllInstructions();
+		
+		if (false) {
+			var woods:Map = Map.loadFromName("a_wood0");
+			var mapSprite:MapSprite = new MapSprite();
+			addChild(mapSprite);
+			mapSprite.setMap(woods);
+			mapSprite.addCharacter(new Character(mapSprite, 0, "C_RUDY", 20 * 40, 71 * 40));
+			/*
+			if (false) {
+				mapSprite.moveCameraTo(500, 500, 2, function() {
+					mapSprite.moveCameraTo(200, 2000, 2);
+				});
+			} else {
+				mapSprite.addCharacter(new Character(0, "C_RUDY", 970, 340));
+				mapSprite.reorderEntities();
+				mapSprite.enableMoveWithKeyboard();
+			}
+			*/
+		} else {
+			var gameState:GameState = new GameState(gameSprite);
+			var scriptThread:ScriptThread = gameState.spawnThreadWithScript(Script.getScriptWithName("op"));
+			scriptThread.execute();
+		}
 	}
 
 	

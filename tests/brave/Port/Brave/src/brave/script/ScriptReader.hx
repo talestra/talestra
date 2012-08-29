@@ -1,5 +1,6 @@
 package brave.script;
 import brave.ByteArrayUtils;
+import haxe.Log;
 import nme.errors.Error;
 
 /**
@@ -18,8 +19,16 @@ class ScriptReader
 		this.position = 8;
 	}
 	
+	public function readAllInstructions():Void {
+		while (hasMoreInstructions()) {
+			var instruction:Instruction = readInstruction(null);
+			Log.trace(instruction);
+		}
+	}
+	
 	public function hasMoreInstructions():Bool {
-		return script.data.bytesAvailable > 0;
+		//return script.data.bytesAvailable > 0;
+		return script.data.position < script.data.length;
 	}
 	
 	public function readInstruction(scriptThread:IScriptThread):Instruction {
@@ -48,15 +57,18 @@ class ScriptReader
 	
 	private function readFormatChar(char:String, scriptThread:IScriptThread):Dynamic {
 		switch (char) {
-			case '<': return scriptThread.execute;
+			case '<': return (scriptThread != null) ? scriptThread.execute : null;
 			case 's': return readString();
 			case 'S': return readStringz();
 			case 'L': return read4();
 			case '4': return read4();
 			case 'v': {
 				var index = read2();
-				var variable = scriptThread.getVariable(index);
-				return variable;
+				if (scriptThread != null) {
+					return scriptThread.getVariable(index);
+				} else {
+					return Std.format("VARIABLE($index)");
+				}
 			}
 			case 'P': return readParam(scriptThread);
 			case '7': return read1();
@@ -75,8 +87,20 @@ class ScriptReader
 			case 0x10: return read1();
 			case 0x20: return read2();
 			case 0x40: return read4();
-			case 0x01: return scriptThread.getVariable(read2()).getValue();
-			case 0x02: return scriptThread.getSpecial(read2());
+			case 0x01:
+				var index = read2();
+				if (scriptThread != null) {
+					return scriptThread.getVariable(index).getValue();
+				} else {
+					return Std.format("VARIABLE($index)");
+				}
+			case 0x02:
+				var index = read2();
+				if (scriptThread != null) {
+					return scriptThread.getSpecial(index);
+				} else {
+					return Std.format("SPECIAL($index)");
+				}
 			default: throw(new Error(Std.format("Invalid format ${paramType}")));
 		}
 	}
@@ -99,7 +123,13 @@ class ScriptReader
 	}
 
 	private function read1Signed():Int {
-		return script.data.readByte();
+		//return script.data.readByte();
+		var byte:Int = script.data.readUnsignedByte();
+		if ((byte & 0x80) != 0) {
+			return byte | 0xFFFFFF00;
+		} else {
+			return byte;
+		}
 	}
 
 	private function read2():Int {

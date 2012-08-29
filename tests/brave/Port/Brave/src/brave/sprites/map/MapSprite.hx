@@ -1,5 +1,6 @@
 package brave.sprites.map;
 import brave.Animation;
+import brave.GameInput;
 import brave.LangUtils;
 import brave.map.Map;
 import brave.MathEx;
@@ -58,6 +59,9 @@ class MapSprite extends Sprite
 	
 	public function addCharacter(character:Character):Void {
 		this.characters.set(character.id, character);
+		if (character.id == 0) {
+			followCharacter(character);
+		}
 	}
 	
 	public function setMap(map:Map):Void {
@@ -65,7 +69,12 @@ class MapSprite extends Sprite
 		this.characters = new IntHash<Character>();
 		updateCamera();
 	}
-	
+
+	public function setCameraTo(destX:Float, destY:Float):Void {
+		this.cameraX = destX;
+		this.cameraY = destY;
+	}
+
 	public function moveCameraTo(destX:Float, destY:Float, time:Float, ?done:Void -> Void):Void {
 		destX = MathEx.clamp(destX, 0, map.width * 40 - 640);
 		destY = MathEx.clamp(destY, 0, map.height * 40 - 480);
@@ -74,6 +83,12 @@ class MapSprite extends Sprite
 			//Log.trace(Std.format("step! $cameraX, $cameraY"));
 			//updateCamera();
 		});
+	}
+	
+	private var followingCharacter:Character;
+	
+	public function followCharacter(character:Character):Void {
+		this.followingCharacter = character;
 	}
 	
 	public function enableMoveWithKeyboard():Void {
@@ -85,24 +100,11 @@ class MapSprite extends Sprite
 		var inc:Float = 0.7 * (multiplier * multiplier);
 		var mul:Float = 0.94 / Math.sqrt(Math.sqrt(multiplier));
 		
-		var pressing:IntHash<Bool> = new IntHash<Bool>();
-		
-		for (n in 0 ... 256) pressing.set(n, false);
-		
-		this.stage.addEventListener(KeyboardEvent.KEY_DOWN, function(e:KeyboardEvent) {
-			//Log.trace(Std.format("keypress: ${e.keyCode}"));
-			pressing.set(e.keyCode, true);
-		});
-		
-		this.stage.addEventListener(KeyboardEvent.KEY_UP, function(e:KeyboardEvent) {
-			pressing.set(e.keyCode, false);
-		});
-		
 		this.stage.addEventListener(Event.ENTER_FRAME, function(e:Event) {
-			if (pressing.get(37)) cameraVelX -= inc;
-			if (pressing.get(38)) cameraVelY -= inc;
-			if (pressing.get(39)) cameraVelX += inc;
-			if (pressing.get(40)) cameraVelY += inc;
+			if (GameInput.isPressing(Keys.Left)) cameraVelX -= inc;
+			if (GameInput.isPressing(Keys.Up)) cameraVelY -= inc;
+			if (GameInput.isPressing(Keys.Right)) cameraVelX += inc;
+			if (GameInput.isPressing(Keys.Down)) cameraVelY += inc;
 			
 			cameraX += cameraVelX;
 			cameraY += cameraVelY;
@@ -114,6 +116,14 @@ class MapSprite extends Sprite
 	
 	public function updateCamera():Void {
 		if (map == null) return;
+		
+		if (followingCharacter != null) {
+			var targetX = followingCharacter.x - 640 / 2;
+			var targetY = followingCharacter.y - 480 / 2;
+			
+			cameraX = (cameraX + targetX) / 2;
+			cameraY = (cameraY + targetY) / 2;
+		}
 		
 		cameraX = MathEx.clamp(cameraX, 0, map.width * 40 - 640);
 		cameraY = MathEx.clamp(cameraY, 0, map.height * 40 - 480 - 40);
@@ -141,9 +151,15 @@ class MapSprite extends Sprite
 	public function reorderEntities():Void {
 		SpriteUtils.extractSpriteChilds(foregroundSprite);
 		//for (row in 0...rowSprites.length) foregroundSprite.addChildAt(rowSprites[row], 0);
+		
+		var charactersSorted:Array<Character> = Lambda.array(characters);
+		charactersSorted.sort(function(a:Character, b:Character):Int {
+			return a.y - b.y;
+		});
+		
 		for (row in 0...rowSprites.length) {
 			var rowSprite = rowSprites[row];
-			for (character in characters.iterator()) {
+			for (character in charactersSorted) {
 				if ((character.y >= rowSprite.y - 40) && (character.y < rowSprite.y)) {
 					var sprite:Sprite = character.sprite;
 					sprite.x = character.x - cameraX;

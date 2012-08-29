@@ -77,7 +77,7 @@ namespace Brave
 
 			public override string ToString()
 			{
-				return String.Format("{0:X8}: {1}({2})", Position, Opcode.OpcodeName, String.Join(", ", Parameters.Select(Parameter => Serialize(Parameter))));
+				return String.Format("{0:X8}({1:X4}): {2}({3})", Position, Opcode.OpcodeNum, Opcode.OpcodeName, String.Join(", ", Parameters.Select(Parameter => Serialize(Parameter))));
 			}
 		}
 

@@ -1,5 +1,7 @@
 package brave.script;
 import brave.BraveAssets;
+import brave.GameState;
+import brave.sprites.map.Character;
 import brave.sprites.TextSprite;
 import haxe.Log;
 import haxe.Timer;
@@ -36,8 +38,8 @@ class ScriptInstructions
 	 * @param	jumpOffset
 	 */
 	@Opcode(0x02, "PP9L")
-	@Unimplemented(1)
-	public function JUMP_IF(left:Int, right:Int, operation:Int, jumpOffset:Int):Void {
+	//@Unimplemented(1)
+	public function BLOCK_IF(left:Int, right:Int, operation:Int, jumpOffset:Int):Void {
 		var result:Bool = false;
 		
 		switch (operation) {
@@ -49,37 +51,54 @@ class ScriptInstructions
 			case 5: result = (left < right);
 			default: throw(new Error("Invalid operation"));
 		}
-		
+
+		scriptThread.pushStack(jumpOffset);
+
+		// Skip block
 		if (result) {
-			scriptThread.jump(jumpOffset);
+			scriptThread.jump(scriptThread.popStack());
 		}
 	}
 
+	/**
+	 * 
+	 * @param	done
+	 * @param	value
+	 */
+	@Opcode(0x05, "<4") // Return?
+	public function BLOCK_ENDIF(done:Void -> Void, value:Int) {
+		scriptThread.jump(scriptThread.popStack());
+		//scriptThread.gameThreadState.eventId = -1;
+		ANIMATION_WAIT(done);
+	}
+
+	/**
+	 * 
+	 * @param	a
+	 * @param	b
+	 * @param	c
+	 * @param	d
+	 */
 	@Opcode(0x03, "ss1L")
 	public function OP_03(a, b, c, d) {
 		
 	}
 	
+	/**
+	 * 
+	 * @param	a
+	 */
 	@Opcode(0x04, "L")
 	public function OP_04(a) {
 		
 	}
 	
-	@Opcode(0x05, "4") // Return?
-	public function RETURN(a) {
-		
-	}
-	
-	@Opcode(0x07, "") // FLOW. Return?
-	public function OP_07() {
-		
-	}
-	
+
 	/**
 	 * 
 	 */
 	@Opcode(0x08, "")
-	@Unimplemented
+	@Unimplemented(1)
 	public function DEBUG_MESSAGE() {
 		
 	}
@@ -88,7 +107,7 @@ class ScriptInstructions
 	 * 
 	 */
 	@Opcode(0x09, "")
-	@Unimplemented
+	@Unimplemented(1)
 	public function OP_09() {
 		
 	}
@@ -98,7 +117,7 @@ class ScriptInstructions
 	 * @param	a
 	 */
 	@Opcode(0x0A, "P")
-	@Unimplemented
+	@Unimplemented(1)
 	public function OP_0A(a) {
 		
 	}
@@ -108,7 +127,7 @@ class ScriptInstructions
 	 * @param	a
 	 */
 	@Opcode(0x0B, "P")
-	@Unimplemented
+	@Unimplemented(1)
 	public function OP_0B(a) {
 		
 	}
@@ -118,7 +137,7 @@ class ScriptInstructions
 	 * @param	a
 	 */
 	@Opcode(0x0C, "P")
-	@Unimplemented
+	@Unimplemented(1)
 	public function OP_0C(a) {
 		
 	}
@@ -129,7 +148,7 @@ class ScriptInstructions
 	 * @param	b
 	 */
 	@Opcode(0x0D, "PP")
-	@Unimplemented
+	@Unimplemented(1)
 	public function OP_0D(a, b) {
 		
 	}
@@ -141,7 +160,7 @@ class ScriptInstructions
 	 * @param	rightValue
 	 */
 	@Opcode(0x0F, "v7P")
-	@Unimplemented
+	@Unimplemented(1)
 	public function ARITMETIC_OP(variable:Variable, operator:Int, rightValue:Int) {
 		
 	}
@@ -150,7 +169,7 @@ class ScriptInstructions
 	 * 
 	 */
 	@Opcode(0x10, "11s")
-	@Unimplemented
+	@Unimplemented(1)
 	public function OP_10() {
 		
 	}
@@ -160,7 +179,7 @@ class ScriptInstructions
 	 * @param	variable
 	 */
 	@Opcode(0x11, "v")
-	@Unimplemented
+	@Unimplemented(1)
 	public function VAR_INCREMENT(variable:Variable):Void {
 		variable.setValue(variable.getValue() + 1);
 	}
@@ -170,7 +189,7 @@ class ScriptInstructions
 	 * @param	variable
 	 */
 	@Opcode(0x12, "v")
-	@Unimplemented
+	@Unimplemented(1)
 	public function VAR_DECREMENT(variable:Variable):Void {
 		variable.setValue(variable.getValue() - 1);
 	}
@@ -181,7 +200,7 @@ class ScriptInstructions
 	 * @param	maxValue
 	 */
 	@Opcode(0x13, "vP")
-	@Unimplemented
+	@Unimplemented(1)
 	public function RANDOM(variable:Variable, maxValue:Int) {
 		
 	}
@@ -192,7 +211,7 @@ class ScriptInstructions
 	 * @param	b
 	 */
 	@Opcode(0x14, "PP")
-	@Unimplemented
+	@Unimplemented(1)
 	public function OP_14(a, b) {
 		
 	}
@@ -203,7 +222,7 @@ class ScriptInstructions
 	 * @param	b
 	 */
 	@Opcode(0x15, "12")
-	@Unimplemented
+	@Unimplemented(1)
 	public function OP_15(a, b) {
 		
 	}
@@ -213,7 +232,7 @@ class ScriptInstructions
 	 * @param	index
 	 */
 	@Opcode(0x17, "P")
-	@Unimplemented
+	@Unimplemented(1)
 	public function MUSIC_PLAY(index:Int) {
 		
 	}
@@ -223,7 +242,7 @@ class ScriptInstructions
 	 * @param	a
 	 */
 	@Opcode(0x18, "P")
-	@Unimplemented
+	@Unimplemented(1)
 	public function OP_18(a) {
 		
 	}
@@ -234,7 +253,7 @@ class ScriptInstructions
 	 * @param	b
 	 */
 	@Opcode(0x19, "PP")
-	@Unimplemented
+	@Unimplemented(1)
 	public function OP_19(a, b) {
 		
 	}
@@ -244,7 +263,7 @@ class ScriptInstructions
 	 * @param	a
 	 */
 	@Opcode(0x1A, "P")
-	@Unimplemented
+	@Unimplemented(1)
 	public function OP_1A(a) {
 		
 	}
@@ -255,7 +274,7 @@ class ScriptInstructions
 	 * @param	b
 	 */
 	@Opcode(0x1B, "PP")
-	@Unimplemented
+	@Unimplemented(1)
 	public function OP_1B(a, b) {
 		
 	}
@@ -264,7 +283,7 @@ class ScriptInstructions
 	 * 
 	 */
 	@Opcode(0x1C, "")
-	@Unimplemented
+	@Unimplemented(1)
 	public function MUSIC_STOP():Void {
 		
 	}
@@ -273,8 +292,8 @@ class ScriptInstructions
 	 * 
 	 * @param	text
 	 */
-	@Opcode(0x1D, "COMMENT", "s")
-	@Unimplemented
+	@Opcode(0x1D, "s")
+	@Unimplemented(1)
 	public function COMMENT(text:String) {
 		Log.trace(Std.format("COMMENT: '${text}'"));
 	}
@@ -285,7 +304,7 @@ class ScriptInstructions
 	 * @param	b
 	 */
 	@Opcode(0x1E, "sP")
-	@Unimplemented
+	@Unimplemented(1)
 	public function OP_1E(a, b) {
 		
 	}
@@ -295,6 +314,7 @@ class ScriptInstructions
 	@Opcode(0x21, "s") // Delay?
 	public function SCRIPT(scriptName:String) {
 		Log.trace(Std.format("SCRIPT('${scriptName}')"));
+		scriptThread.setScript(Script.getScriptWithName(scriptName));
 	}
 	
 	@Opcode(0x22, "")
@@ -316,7 +336,7 @@ class ScriptInstructions
 	@Opcode(0x24, "s")
 	@Unimplemented
 	public function MAP_SET(mapName:String):Void {
-		
+		scriptThread.gameState.setMap(mapName);
 	}
 	
 	@Opcode(0x25, "sP")
@@ -367,24 +387,39 @@ class ScriptInstructions
 		scriptThread.gameState.setBackgroundColor(color);
 	}
 	
+	/**
+	 * 
+	 * @param	a
+	 */
 	@Opcode(0x2B, "4")
 	@Unimplemented
 	public function OP_2B(a:Int) {
 		
 	}
 	
+	/**
+	 * 
+	 * @param	a
+	 */
 	@Opcode(0x2C, "4")
 	@Unimplemented
 	public function OP_2C(a:Int) {
 		
 	}
 	
-	@Opcode(0x2D, "P") // Lot of stuff
+	/**
+	 * 
+	 * @param	effectType
+	 */
+	@Opcode(0x2D, "P")
 	@Unimplemented
-	public function OP_2D(a) {
-		
+	public function SET_BACKGROUND_EFFECT(effectType:Int) {
+		scriptThread.gameState.setBackgroundEffect(effectType);
 	}
 	
+	/**
+	 * 
+	 */
 	@Opcode(0x2E, "-")
 	@Unimplemented
 	public function OP_2E() {
@@ -397,92 +432,136 @@ class ScriptInstructions
 	 * @param	title
 	 * @param	text
 	 */
-	@Opcode(0x2F, "TEXT_PUT", "<sss")
+	@Opcode(0x2F, "<sss")
 	public function TEXT_PUT(done:Void -> Void, voice:String, title:String, text:String) {
 		//Log.trace(Std.format("TEXT_PUT(${voice}, ${title}, ${text})"));
 		
+		this.TEXT_PUT_WITH_FACE(done, -2, voice, title, text);
+	}
+	
+	/**
+	 * 
+	 * @param	done
+	 * @param	type
+	 */
+	@Opcode(0x30, "<P")
+	public function TRANSITION(done:Void -> Void, type:Int) {
+		scriptThread.gameState.transition(done, type);
+	}
+	
+	/**
+	 * 
+	 * @param	done
+	 * @param	time
+	 */
+	@Opcode(0x31, "<P")
+	public function FADE_TO_MAP(done:Void -> Void, time:Int) {
+		scriptThread.gameState.fadeToMap(done, time);
+	}
+	
+
+	// 34-42
+	@Opcode(0x35, "s")
+	@Unimplemented
+	public function TITLE_SET(title:String) {
+		
+	}
+	
+	@Opcode(0x36, "s")
+	@Unimplemented
+	public function OP_36(text:String) {
+		
+	}
+	
+	@Opcode(0x37, "")
+	@Unimplemented
+	public function OP_37() {
+		
+	}
+	
+	@Opcode(0x38, "Psss")
+	@Unimplemented
+	public function OP_38(a, b, c, d) {
+		
+	}
+	
+	@Opcode(0x39, "<Psss")
+	public function TEXT_PUT_WITH_FACE(done:Void -> Void, faceId:Int, voice:String, title:String, text:String) {
+
 		var voiceChannel:SoundChannel = null;
 		if (voice != "") {
 			voiceChannel = BraveAssets.getVoice(voice).play();
 		}
 		var textSprite:TextSprite = scriptThread.gameState.rootClip.ui.textSprite;
 		
-		textSprite.setTextAndEnable(title, text, function() {
-			var onClick = null;
-
-			onClick = function(e) {
-				textSprite.stage.removeEventListener("click", onClick);
-				Timer.delay(function() {
-					textSprite.endText();
-					if (voiceChannel != null) voiceChannel.stop();
-					done();
-				}, 1);
-			};
-			
-			textSprite.stage.addEventListener("click", onClick);
-			//Timer.delay(function() { done(); }, 100);
-			
+		textSprite.setTextAndEnable(faceId, title, text, function() {
+			GameState.waitClickOrKeyPress(function() {
+				textSprite.endText();
+				if (voiceChannel != null) voiceChannel.stop();
+				done();
+			});
 		});
 	}
 	
-	@Opcode(0x30, "<P")
-	public function TRANSITION(done:Void -> Void, type:Int) {
-		scriptThread.gameState.transition(done, type);
-	}
-	
-	@Opcode(0x31, "P")
-	public function FADE_TO_MAP(time:Int) {
-		
-	}
-	
-
-	// 34-42
-	@Opcode(0x35, "s")
-	public function TITLE_SET(title:String) {
-		
-	}
-	
-	@Opcode(0x36, "s")
-	public function OP_36(text:String) {
-		
-	}
-	
-	@Opcode(0x37, "")
-	public function OP_37() {
-		
-	}
-	
-	@Opcode(0x38, "Psss")
-	public function OP_38(a, b, c, d) {
-		
-	}
-	
-	@Opcode(0x39, "Psss")
-	public function TEXT_PUT_WITH_FACE(faceId:Int, voice:String, title:String, text:String) {
-		
-	}
-	
 	@Opcode(0x3A, "PPPsss")
+	@Unimplemented
 	public function OP_3A(v0, v1, v2, v3, v4, v5) {
 		
 	}
 	
 	@Opcode(0x3B, "")
+	@Unimplemented
 	public function OP_3B() {
 		
 	}
 	
 	@Opcode(0x3C, "")
+	@Unimplemented
 	public function OP_3C() {
 		
+	}
+
+	/**
+	 * 
+	 */
+	@Opcode(0x92, "")
+	@Unimplemented
+	public function END():Int {
+		return -2;
+	}
+
+	@Opcode(0x07, "") // FLOW. Return?
+	@Unimplemented
+	public function ENABLE_PLAY() {
+		scriptThread.gameState.rootClip.ui.textSprite.disable(function() {
+			
+		});
+		scriptThread.gameState.getCharacter(0).enableMovement = true;
+		return -2;
 	}
 	
 	/**
 	 * 
 	 */
-	@Opcode(0x3D, "")
-	public function ANIMATION_WAIT() {
-		
+	@Opcode(0x3D, "<")
+	@Unimplemented
+	public function ANIMATION_WAIT(done:Void -> Void) {
+		scriptThread.gameState.rootClip.ui.textSprite.disable(function() {
+			var count = 0;
+			
+			for (character in scriptThread.gameState.getAllCharacters()) {
+				count++;
+			}
+			for (character in scriptThread.gameState.getAllCharacters()) {
+				character.actionDone(function() {
+					count--;
+					if (count == 0) {
+						Log.trace("ANIMATION_WAIT.Done!");
+						done();
+					}
+				});
+			}
+		});
 	}
 	
 	/**
@@ -491,6 +570,7 @@ class ScriptInstructions
 	 * @param	title
 	 */
 	@Opcode(0x3E, "Ps")
+	@Unimplemented
 	public function OPTION_START(unk:Int, title:String) {
 		
 	}
@@ -500,6 +580,7 @@ class ScriptInstructions
 	 * @param	text
 	 */
 	@Opcode(0x3F, "s")
+	@Unimplemented
 	public function OPTION_ITEM(text:String) {
 		
 	}
@@ -508,11 +589,16 @@ class ScriptInstructions
 	 * 
 	 */
 	@Opcode(0x40, "")
+	@Unimplemented
 	public function OPTION_SHOW() {
-		
+		scriptThread.gameState.variables[0].setValue(1);
 	}
 	
-	@Opcode(0x41, "OP_41", "PP")
+	/**
+	 * 
+	 */
+	@Opcode(0x41, "PP")
+	@Unimplemented
 	public function OP_41() {
 		
 	}
@@ -524,7 +610,8 @@ class ScriptInstructions
 	 * 
 	 * @param	text
 	 */
-	@Opcode(0x44, "TEXT_PUT_44", "s") // X40 = 0
+	@Opcode(0x44, "s") // X40 = 0
+	@Unimplemented
 	public function TEXT_PUT_44(text:String) {
 		
 	}
@@ -532,7 +619,8 @@ class ScriptInstructions
 	/**
 	 * 
 	 */
-	@Opcode(0x45, "OP_45", "") // X40 = 1
+	@Opcode(0x45, "") // X40 = 1
+	@Unimplemented
 	public function OP_45() {
 		
 	}
@@ -541,7 +629,8 @@ class ScriptInstructions
 	 * 
 	 * @param	text
 	 */
-	@Opcode(0x46, "OP_46", "s") // X40 = 2
+	@Opcode(0x46, "s") // X40 = 2
+	@Unimplemented
 	public function OP_46(text:String) {
 		
 	}
@@ -549,7 +638,8 @@ class ScriptInstructions
 	/**
 	 * 
 	 */
-	@Opcode(0x47, "OP_47", "")
+	@Opcode(0x47, "")
+	@Unimplemented
 	public function OP_47() {
 		
 	}
@@ -558,7 +648,8 @@ class ScriptInstructions
 	 * 
 	 * @param	title
 	 */
-	@Opcode(0x48, "TITLE_SHOW", "s")
+	@Opcode(0x48, "s")
+	@Unimplemented
 	public function TITLE_SHOW(title:String) {
 		
 	}
@@ -572,7 +663,7 @@ class ScriptInstructions
 	 * @param	v4
 	 * @param	v5
 	 */
-	@Opcode(0x49, "OP_49", "PPPPPP")
+	@Opcode(0x49, "PPPPPP")
 	public function OP_49(v0, v1, v2, v3, v4, v5) {
 		
 	}
@@ -582,24 +673,25 @@ class ScriptInstructions
 		
 	}
 	
-	@Opcode(0x4B, "OP_4B", "PPPPPP")
+	@Opcode(0x4B, "PPPPPP")
 	public function OP_4B(a, b, c, d, e, f) {
 		
 	}
 	
-	@Opcode(0x4C, "OP_4C", "PPPP")
+	@Opcode(0x4C, "PPPP")
 	public function OP_4C(a, b, c, d) {
 		
 	}
 	
-	@Opcode(0x4D, "OP_4D", "PPPP")
+	@Opcode(0x4D, "PPPP")
 	public function OP_4D(a, b, c, d) {
 		
 	}
 	
-	@Opcode(0x4E, "TRIGGER_SET", "PPPP")
+	@Opcode(0x4E, "PPPP")
 	public function TRIGGER_SET(charaId:Int, x:Int, y:Int, eventId:Int) {
-		
+		var chara:Character = scriptThread.gameState.getCharacter(charaId);
+		chara.setEvent(scriptThread, x, y, eventId);
 	}
 	
 
@@ -614,11 +706,6 @@ class ScriptInstructions
 		
 	}
 	
-	@Opcode(0x53, "PPPPP") // Id, 0, X, Y, Direction
-	public function PLAYER_SPAWN(charaId:Int, unk:Int, x:Int, y:Int, direction:Int) {
-		
-	}
-	
 	@Opcode(0x54, "vP")
 	public function UNK_54(variable:Variable, value:Int) {
 		
@@ -629,271 +716,200 @@ class ScriptInstructions
 		
 	}
 	
-	@Opcode(0x56, "UNK_56", "v")
+	@Opcode(0x56, "v")
 	public function UNK_56(variable:Variable) {
 		
 	}
 	
-	@Opcode(0x57, "CHARA_SPAWN", "PPPPP") // Id, 0, X, Y, Direction
-	public function CHARA_SPAWN(charaId:Int, type:Int, x:Int, y:Int, direction:Int) {
-		
+	@Opcode(0x53, "PPPPP") // Id, 0, X, Y, Direction
+	public function PLAYER_SPAWN(charaId:Int, unk:Int, x:Int, y:Int, direction:Int) {
+		scriptThread.gameState.charaSpawn(charaId, 0, unk, x, y, direction);
 	}
 	
-	@Opcode(0x58, "UNK_58", "")
+	@Opcode(0x57, "PPPPP") // Id, 0, X, Y, Direction
+	public function CHARA_SPAWN(charaId:Int, unk:Int, x:Int, y:Int, direction:Int) {
+		scriptThread.gameState.charaSpawn(charaId, 0, unk, x, y, direction);
+	}
+	
+	@Opcode(0x67, "PPPPPP") // Id, ???, 0, X, Y, Direction
+	public function ENEMY_SPAWN(charaId:Int, type:Int, unk:Int, x:Int, y:Int, direction:Int) {
+		scriptThread.gameState.charaSpawn(charaId, type, unk, x, y, direction);
+	}
+	
+	@Opcode(0x58, "")
 	public function UNK_58() {
 		
 	}
 	
-	@Opcode(0x59, "GROUP_MOVE", "PPP") // X, Y, Direction
+	@Opcode(0x59, "PPP") // X, Y, Direction
 	public function GROUP_MOVE(x:Int, y:Int, direction:Int) {
 		
 	}
 	
-	@Opcode(0x5A, "UNK_5A", "vP")
+	@Opcode(0x5A, "vP")
 	public function UNK_5A(variable:Variable, a:Int) {
 		
 	}
 	
-	@Opcode(0x5B, "UNK_5B", "P")
+	@Opcode(0x5B, "P")
 	public function UNK_5B(a) {
 		
 	}
 	
-	@Opcode(0x5C, "UNK_5C", "PP")
+	@Opcode(0x5C, "PP")
 	public function UNK_5C(a, b) {
 		
 	}
 	
-	@Opcode(0x5D, "UNK_5D", "PP")
+	@Opcode(0x5D, "PP")
 	public function UNK_5D(a, b) {
 		
 	}
 	
-	@Opcode(0x5E, "UNK_5E", "PP")
+	@Opcode(0x5E, "PP")
 	public function UNK_5E(a, b) {
 		
 	}
 	
-	@Opcode(0x5F, "UNK_5F", "PP")
+	@Opcode(0x5F, "PP")
 	public function UNK_5F(a, b) {
 		
 	}
 	
-	@Opcode(0x60, "UNK_60", "P")
+	@Opcode(0x60, "P")
 	public function UNK_60(a) {
 		
 	}
 	
-	@Opcode(0x61, "UNK_61", "P") // Increment up to 999999999?
+	@Opcode(0x61, "P") // Increment up to 999999999?
 	public function UNK_61(a) {
 		
 	}
 	
-	@Opcode(0x62, "UNK_62", "P")
+	@Opcode(0x62, "P")
 	public function UNK_62(a) {
 		
 	}
 	
-	@Opcode(0x63, "UNK_63", "P")
+	@Opcode(0x63, "P")
 	public function UNK_63(a) {
 		
 	}
 	
-	@Opcode(0x64, "UNK_64", "P")
+	@Opcode(0x64, "P")
 	public function UNK_64(a) {
 		
 	}
 	
-	@Opcode(0x65, "UNK_65", "") // memset(byte_518558, 0x1010101u, 40u);
+	@Opcode(0x65, "") // memset(byte_518558, 0x1010101u, 40u);
 	public function UNK_65() {
 		
 	}
 	
-	@Opcode(0x66, "UNK_66", "PPPPP")
+	@Opcode(0x66, "PPPPP")
 	public function UNK_66(a, b, c, d, e) {
 		
 	}
 	
-	@Opcode(0x67, "ENEMY_SPAWN", "PPPPPP") // Id, ???, 0, X, Y, Direction
-	public function ENEMY_SPAWN(charId:Int, unk:Int, unk2:Int, x:Int, y:Int, direction:Int) {
-		
-	}
-	
-	@Opcode(0x68, "UNK_68", "PPPPPPPP")
+	@Opcode(0x68, "PPPPPPPP")
 	public function UNK_68(v0, v1, v2, v3, v4, v5, v6, v7) {
 		
 	}
 	
-	@Opcode(0x69, "UNK_69", "PP")
+	@Opcode(0x69, "PP")
 	public function UNK_69(a, b) {
 		
 	}
 	
-	@Opcode(0x6A, "UNK_6A", "P")
+	@Opcode(0x6A, "P")
 	public function UNK_6A(a) {
 		
 	}
 	
-	@Opcode(0x6B, "UNK_6B", "PP")
+	@Opcode(0x6B, "PP")
 	public function UNK_6B(a, b) {
 		
 	}
 	
-	@Opcode(0x6C, "UNK_6C", "") // = 2
+	@Opcode(0x6C, "") // = 2
 	public function UNK_6C() {
 		
 	}
 	
-	@Opcode(0x6D, "UNK_6D", "") // = 4
+	@Opcode(0x6D, "") // = 4
 	public function UNK_6D() {
 		
 	}
 	
-	@Opcode(0x6E, "UNK_6E", "") // = 0
+	@Opcode(0x6E, "") // = 0
 	public function UNK_6E() {
 		
 	}
 	
-	@Opcode(0x6F, "UNK_6F", "P")
+	@Opcode(0x6F, "P")
 	public function UNK_6F(a) {
 		
 	}
 	
-	@Opcode(0x70, "UNK_70", "PP")
+	@Opcode(0x70, "PP")
 	public function UNK_70(a, b) {
 		
 	}
 	
-	@Opcode(0x71, "UNK_71", "PPPPPPPPP")
-	public function UNK_71(a, b, c, d, e, f, g, h, i) {
-		
+	@Opcode(0x71, "PPPPPPPPP")
+	public function ENEMY_TRIGGER_ON_KILL(charaId:Int, eventId:Int, c:Int, d:Int, e:Int, f:Int, g:Int, h:Int, i:Int) {
+		var chara:Character = scriptThread.gameState.getCharacter(charaId);
+		chara.setKillEventId(scriptThread, eventId);
 	}
 	
-	@Opcode(0x72, "UNK_72", "PP")
+	@Opcode(0x72, "PP")
 	public function UNK_72(a, b) {
 		
 	}
 	
-	@Opcode(0x73, "UNK_73", "PP")
+	@Opcode(0x73, "PP")
 	public function UNK_73(a, b) {
 		
 	}
 	
-	@Opcode(0x74, "UNK_74", "PPP")
+	@Opcode(0x74, "PPP")
+	@Unimplemented
 	public function UNK_74(a, b, c) {
 		
 	}
 	
-	@Opcode(0x75, "CHARA_START", "P")
+	@Opcode(0x75, "P")
 	public function CHARA_START(charaId:Int) {
+		var chara:Character = scriptThread.gameState.getCharacter(charaId);
+		chara.actionStart();
+	}
+	
+	@Opcode(0x80, "PP")
+	@Unimplemented
+	public function CHARA_SET_SPECIAL_ANIMATION(charaId:Int, specialAnimationId:Int) {
 		
 	}
 	
-	@Opcode(0x76, "CHARA_MOVE_TO", "PPP")
+	@Opcode(0x90, "P")
+	public function CHARA_DONE(charaId:Int):Void {
+		var chara:Character = scriptThread.gameState.getCharacter(charaId);
+		chara.actionDone(function() {
+			
+		});
+	}
+	
+	@Opcode(0x76, "PPP")
 	public function CHARA_MOVE_TO(charaId:Int, x:Int, y:Int) {
-		
+		var chara:Character = scriptThread.gameState.getCharacter(charaId);
+		chara.actionMoveTo(x * 40, y * 40);
 	}
 	
-	@Opcode(0x77, "CHARA_FACE_TO", "PP")
+	@Opcode(0x77, "PP")
 	public function CHARA_FACE_TO(charaId:Int, direction:Int) {
-		
+		var chara:Character = scriptThread.gameState.getCharacter(charaId);
+		chara.actionFaceTo(direction);
 	}
-	
-	@Opcode(0x78, "UNK_78", "PP")
-	public function UNK_78(a, b) {
-		
-	}
-	
-	@Opcode(0x79, "UNK_79", "P")
-	public function UNK_79(a) {
-		
-	}
-	
-	@Opcode(0x7A, "UNK_7A", "PPP")
-	public function UNK_7A(a, b, c) {
-		
-	}
-	
-	@Opcode(0x7B, "UNK_7B", "PPPP")
-	public function UNK_7B(a, b, c, d) {
-		
-	}
-	
-	@Opcode(0x7C, "UNK_7C", "PP")
-	public function UNK_7C(a, b) {
-		
-	}
-	
-	@Opcode(0x7D, "UNK_7D", "PP")
-	public function UNK_7D(a, b) {
-		
-	}
-	
-	@Opcode(0x7E, "UNK_7E", "PPP")
-	public function UNK_7E(a, b, c) {
-		
-	}
-	
-	@Opcode(0x7F, "UNK_7F", "PPPP")
-	public function UNK_7F(a, b, c, d) {
-		
-	}
-	
-	@Opcode(0x80, "UNK_80", "PP")
-	public function UNK_80(a, b) {
-		
-	}
-	
-	@Opcode(0x81, "UNK_81", "P")
-	public function UNK_81(a) {
-		
-	}
-	
-	@Opcode(0x82, "UNK_82", "P")
-	public function UNK_82(a) {
-		
-	}
-	
-	@Opcode(0x83, "UNK_83", "PP")
-	public function UNK_83(a, b) {
-		
-	}
-	
-	@Opcode(0x84, "UNK_84", "PP")
-	public function UNK_84(a, b) {
-		
-	}
-	
-	@Opcode(0x85, "UNK_85", "P")
-	public function UNK_85(a) {
-		
-	}
-	
-	@Opcode(0x86, "CHARA_EVENT_SET", "PP")
-	public function CHARA_EVENT_SET(charId:Int, eventId:Int) {
-		
-	}
-	
-	@Opcode(0x87, "UNK_87", "PP")
-	public function UNK_87(a, b) {
-		
-	}
-	
-	@Opcode(0x88, "UNK_88", "PPP")
-	public function UNK_88(a, b, c) {
-		
-	}
-	
-	@Opcode(0x89, "UNK_89", "P")
-	public function UNK_89(a) {
-		
-	}
-	
-	@Opcode(0x8A, "P")
-	public function UNK_8A() {
-		
-	}
-	
+
 	/**
 	 * 
 	 * @param	charaId
@@ -901,7 +917,111 @@ class ScriptInstructions
 	 * @param	emoji       PG_MAIN
 	 */
 	@Opcode(0x8B, "PPP")
+	@Unimplemented
 	public function CHARA_EMOJI(charaId:Int, direction:Int, emoji:Int) {
+		
+	}
+	
+	@Opcode(0x86, "PP")
+	public function CHARA_EVENT_SET(charaId:Int, eventId:Int) {
+		var chara:Character = scriptThread.gameState.getCharacter(charaId);
+		chara.actionEventSet(scriptThread.gameThreadState, eventId);
+	}
+	
+	@Opcode(0x8F, "P")
+	@Unimplemented
+	public function CHARA_STOP(charaId:Int):Void {
+		
+	}
+	
+
+	@Opcode(0x78, "PP")
+	@Unimplemented
+	public function UNK_78(a, b) {
+		
+	}
+	
+	@Opcode(0x79, "P")
+	@Unimplemented
+	public function UNK_79(a) {
+		
+	}
+	
+	@Opcode(0x7A, "PPP")
+	@Unimplemented
+	public function UNK_7A(a, b, c) {
+		
+	}
+	
+	@Opcode(0x7B, "PPPP")
+	@Unimplemented
+	public function UNK_7B(a, b, c, d) {
+		
+	}
+	
+	@Opcode(0x7C, "PP")
+	@Unimplemented
+	public function UNK_7C(a, b) {
+		
+	}
+	
+	@Opcode(0x7D, "PP")
+	public function UNK_7D(a, b) {
+		
+	}
+	
+	@Opcode(0x7E, "PPP")
+	public function UNK_7E(a, b, c) {
+		
+	}
+	
+	@Opcode(0x7F, "PPPP")
+	public function UNK_7F(a, b, c, d) {
+		
+	}
+	
+	@Opcode(0x81, "P")
+	public function UNK_81(a) {
+		
+	}
+	
+	@Opcode(0x82, "P")
+	public function UNK_82(a) {
+		
+	}
+	
+	@Opcode(0x83, "PP")
+	public function UNK_83(a, b) {
+		
+	}
+	
+	@Opcode(0x84, "PP")
+	public function UNK_84(a, b) {
+		
+	}
+	
+	@Opcode(0x85, "P")
+	public function UNK_85(a) {
+		
+	}
+	
+	@Opcode(0x87, "PP")
+	public function UNK_87(a, b) {
+		
+	}
+	
+	@Opcode(0x88, "PPP")
+	public function UNK_88(a, b, c) {
+		
+	}
+	
+	@Opcode(0x89, "P")
+	public function UNK_89(a) {
+		
+	}
+	
+	@Opcode(0x8A, "P")
+	public function UNK_8A() {
 		
 	}
 	
@@ -919,22 +1039,4 @@ class ScriptInstructions
 	public function UNK_8E(a, b) {
 		
 	}
-	
-	@Opcode(0x8F, "P")
-	public function CHARA_STOP(charaId:Int):Void {
-		
-	}
-	
-	@Opcode(0x90, "P")
-	public function CHARA_DONE(charaId:Int):Void {
-		
-	}
-	
-
-	// 92
-	@Opcode(0x92, "")
-	public function END() {
-		
-	}
-	
 }

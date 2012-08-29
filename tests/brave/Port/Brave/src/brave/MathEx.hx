@@ -13,6 +13,10 @@ class MathEx
 		
 	}
 
+	static public function length(x:Float, y:Float):Float {
+		return Math.sqrt(x * x + y * y);
+	}
+
 	static public function clamp(v:Float, min:Float, max:Float):Float {
 		if (v < min) return min;
 		if (v > max) return max;

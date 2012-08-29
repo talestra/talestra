@@ -9,6 +9,7 @@ import nme.Assets;
 import nme.display.Bitmap;
 import nme.display.BitmapData;
 import nme.display.PixelSnapping;
+import nme.geom.Rectangle;
 import nme.media.Sound;
 import nme.utils.ByteArray;
 import nme.utils.Endian;
@@ -39,6 +40,27 @@ class BraveAssets
 	
 	static public function getBitmap(name:String):Bitmap {
 		return new Bitmap(getBitmapData(name), PixelSnapping.AUTO, true);
+	}
+
+	static public function getBitmapDataWithAlphaCombined(name:String):BitmapData {
+		var mixed:BitmapData = getBitmapData(name);
+		var width:Int = mixed.width;
+		var hwidth:Int = Std.int(width / 2);
+		var height:Int = mixed.height;
+		var out:BitmapData = new BitmapData(hwidth, height, true);
+		var color:ByteArray = mixed.getPixels(new Rectangle(0, 0, hwidth, height));
+		var alpha:ByteArray = mixed.getPixels(new Rectangle(hwidth, 0, hwidth, height));
+		
+		color.position = 0;
+		alpha.position = 0;
+		
+		for (n in 0 ... Std.int(color.length / 4)) {
+			color[n * 4 + 0] = alpha[n * 4 +1];
+		}
+		
+		out.setPixels(out.rect, color);
+		
+		return out;
 	}
 
 	static public function getBitmapData(name:String):BitmapData {

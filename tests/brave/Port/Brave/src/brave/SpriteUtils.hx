@@ -11,6 +11,12 @@ import nme.display.Sprite;
 
 class SpriteUtils 
 {
+	static public function center<T : (DisplayObject)>(sprite:T, cx:Float, cy:Float):T {
+		sprite.x = -sprite.width * cx;
+		sprite.y = -sprite.height * cy;
+		return sprite;
+	}
+	
 	static public function extractSpriteChilds(container:Sprite):Array<DisplayObject> {
 		var children:Array<DisplayObject> = new Array<DisplayObject>();
 		while (container.numChildren > 0) {

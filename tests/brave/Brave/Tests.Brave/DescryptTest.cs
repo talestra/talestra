@@ -13,7 +13,8 @@ namespace Tests.Brave
 		{
 			var Input = File.ReadAllBytes(TestUtils.TestInput + @"\op.dat");
 			var Expected = File.ReadAllBytes(TestUtils.TestInput + @"\op.scr.expected");
-			var Output = Decrypt.DecryptData(Input);
+			var Output = Decrypt.DecryptDataWithKey(Input, Decrypt.Key23);
+			File.WriteAllBytes(TestUtils.TestOutput + @"\op.scr.c", Decrypt.DecryptDataWithKey(File.ReadAllBytes(TestUtils.TestOutput + @"\op.txt"), Decrypt.Key23));
 			CollectionAssert.AreEqual(Expected, Output);
 		}
 	}
