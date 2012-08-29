@@ -67,6 +67,9 @@ class GameState
 	}
 
 	public function getAllCharacters():Iterator<Character> {
+		if (rootClip == null) throw(new Error("rootClip is null"));
+		if (rootClip.mapSprite == null) throw(new Error("rootClip.mapSprite is null"));
+		if (rootClip.mapSprite.characters == null) throw(new Error("rootClip.mapSprite.characters is null"));
 		return rootClip.mapSprite.characters.iterator();
 	}
 

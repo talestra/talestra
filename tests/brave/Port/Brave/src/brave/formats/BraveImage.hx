@@ -1,5 +1,7 @@
 package brave.formats;
 
+import brave.ByteUtils;
+import haxe.io.Bytes;
 import nme.display.BitmapData;
 import nme.errors.Error;
 import nme.geom.Rectangle;
@@ -41,14 +43,26 @@ class BraveImage
 	static private inline function extractScale(v:Int, offset:Int, count:Int, to:Int):Int
 	{
 		var mask:Int = ((1 << count) - 1);
-		return Std.int((((v >> offset) & mask) * to) / mask);
+		return cast((((v >> offset) & mask) * to) / mask);
+	}
+	
+	static private function decryptChunk(input:ByteArray, key:Bytes):ByteArray {
+		var output:ByteArray = new ByteArray();
+		output.endian = Endian.LITTLE_ENDIAN;
+		
+		for (n in 0 ... input.length) {
+			output.writeByte(Decrypt.decryptPrimitive(input.readByte(), key.get(n % key.length)));
+		}
+		
+		output.position = 0;
+		return output;
 	}
 	
 	/**
 	 * 
 	 * @param	data
 	 */
-	public function load(dataCompressed:ByteArray):Void
+	@:noStack public function load(dataCompressed:ByteArray):Void
 	{
 		var data:ByteArray = LZ.decode(dataCompressed);
 		if (data.readUTFBytes(13) != "(C)CROWD ARPG") throw (new Error("Invalid file"));
@@ -65,15 +79,10 @@ class BraveImage
 		data.readBytes(key, 0, 8);
 		data.readBytes(header, 0, 16);
 		
-		// STEP 1
-		for (n in 0 ... 0x10) {
-			header[n] = Decrypt.decryptPrimitive(header[n], decodeImageKey[n]);
-		}
-		
-		// STEP 2
-		for (n in 0 ... 0x10) {
-			header[n] = Decrypt.decryptPrimitive(header[n], key[n % 8]);
-		}
+		header = decryptChunk(header, ByteUtils.ArrayToByteArray(decodeImageKey));
+		header = decryptChunk(header, ByteUtils.ByteArrayToBytes(key));
+		//for (n in 0 ... 0x10) header[n] = Decrypt.decryptPrimitive(header[n], decodeImageKey[n]);
+		//for (n in 0 ... 0x10) header[n] = Decrypt.decryptPrimitive(header[n], key[n % 8]);
 		
 		var width:Int = header.readInt();
 		var height:Int = header.readInt();
@@ -104,12 +113,6 @@ class BraveImage
 				rgba.writeByte(r);
 				rgba.writeByte(g);
 				rgba.writeByte(b);
-				/*
-				rgba[n++] = a;
-				rgba[n++] = r;
-				rgba[n++] = g;
-				rgba[n++] = b;
-				*/
 			}
 		}
 		

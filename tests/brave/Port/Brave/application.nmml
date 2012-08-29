@@ -6,7 +6,7 @@
 	<meta title="Brave Soul" package="com.talestra.brave" version="1.0.0" company="soywiz" />
 	
 	<!-- output -->
-	<app main="Main" file="Brave" path="bin" />
+	<app main="Main" file="Brave" path="bin" swf-version="11" />
 	
 	<window background="#000000" fps="60" />
 	
@@ -22,10 +22,8 @@
 	
 	<!-- assets -->
 	<icon path="assets/nme.svg" />
-	<!--
-	<assets path="assets" rename="assets" include="*" exclude="nme.svg" />
-	-->
-	<assets path="assets/dummy" rename="assets" include="*" exclude="nme.svg" />
+	<assets path="assets" rename="assets" include="*" exclude="nme.svg|voice" unless="cpp" />
+	<assets path="assets/dummy" rename="assets" include="*" exclude="nme.svg" if="flash" />
 	
 	<!-- DLLs -->
 	<ndll name="std" />

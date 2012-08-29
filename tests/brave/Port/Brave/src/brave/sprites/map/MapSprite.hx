@@ -49,7 +49,9 @@ class MapSprite extends Sprite
 		addChild(foregroundSprite = new Sprite());
 
 		rowSprites = LangUtils.createArray(function() { return new RowSprite(0, new Sprite()); }, tilesHeight);
-		
+
+		this.characters = new IntHash<Character>();
+
 		this.addEventListener(Event.ADDED_TO_STAGE, function(e:Event) {
 			this.stage.addEventListener(Event.ENTER_FRAME, function(e:Event) {
 				updateCamera();

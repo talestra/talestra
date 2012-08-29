@@ -1,6 +1,5 @@
 package brave.sound;
 import haxe.io.Bytes;
-import nme.events.SampleDataEvent;
 import nme.media.Sound;
 
 /**

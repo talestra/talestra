@@ -25,7 +25,8 @@ class CgDb
 		var startPosition:Int = data.position;
 		var type:Int = data.readInt();
 		data.readByte();
-		var name:String = data.readMultiByte(11, "shift-jis");
+		//var name:String = data.readMultiByte(11, "shift-jis");
+		var name:String = data.readUTFBytes(11);
 		var imageId:Int = data.readInt();
 		var tileWidth:Int = data.readInt();
 		var tileHeight:Int = data.readInt();

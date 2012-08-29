@@ -4,7 +4,6 @@ import haxe.io.BytesData;
 import haxe.io.BytesInput;
 import haxe.Log;
 import nme.events.Event;
-import nme.events.SampleDataEvent;
 import nme.media.Sound;
 import nme.utils.ByteArray;
 import nme.utils.Endian;

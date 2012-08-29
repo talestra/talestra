@@ -14,7 +14,6 @@ import brave.sprites.map.Character;
 import brave.sprites.map.MapSprite;
 import brave.StringEx;
 import haxe.Timer;
-import nme.events.SampleDataEvent;
 import nme.media.Sound;
 import nme.media.SoundChannel;
 import nme.media.SoundLoaderContext;
@@ -26,9 +25,6 @@ import nme.display.Sprite;
 import nme.events.Event;
 import nme.Lib;
 import nme.media.SoundTransform;
-#if !flash
-import sys.io.File;
-#end
 
 /**
  * ...
@@ -107,8 +103,16 @@ class Main extends Sprite
 			}
 			*/
 		} else {
+			var startScriptName:String = "start";
+			//var startScriptName:String = "op";
+			//var startScriptName:String = "op_2";
+			//var startScriptName:String = "a_bar";
+			//var startScriptName:String = "end_3";
+			//var startScriptName:String = "e_m20";
+			//var startScriptName:String = "e_k99";
+			//var startScriptName:String = "e_m99";
 			var gameState:GameState = new GameState(gameSprite);
-			var scriptThread:ScriptThread = gameState.spawnThreadWithScript(Script.getScriptWithName("op"));
+			var scriptThread:ScriptThread = gameState.spawnThreadWithScript(Script.getScriptWithName(startScriptName));
 			scriptThread.execute();
 		}
 	}

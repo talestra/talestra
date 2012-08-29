@@ -46,17 +46,20 @@ class Decrypt
 	 * @param	key
 	 * @return
 	 */
-	static public function decryptDataWithKey(data:ByteArray, key:Array<Int>):ByteArray
+	@:noStack static public function decryptDataWithKey(data:ByteArray, key:Array<Int>):ByteArray
 	{
 		var out:ByteArray = new ByteArray();
 		
 		var bl = 0;
 		var dt = 0;
+		
+		data.position = 0;
 
 		for (n in 0 ... data.length)
 		{
 			var keyOffset = ((n + bl) % key.length);
-			var dataByte = data[n];
+			//var dataByte = data[n];
+			var dataByte = data.readByte();
 			var cryptByte = (key[keyOffset] | (bl & dt)) & 0xFF;
 
 			out.writeByte(decryptPrimitive(dataByte, cryptByte));

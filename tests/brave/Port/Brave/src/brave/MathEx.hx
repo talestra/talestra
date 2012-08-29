@@ -13,7 +13,7 @@ class MathEx
 		
 	}
 
-	static public function length(x:Float, y:Float):Float {
+	static public function _length(x:Float, y:Float):Float {
 		return Math.sqrt(x * x + y * y);
 	}
 

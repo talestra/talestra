@@ -27,7 +27,7 @@ class LZ
 	 * @param	input
 	 * @return
 	 */
-	static public function decode(input:ByteArray):ByteArray
+	@:noStack static public function decode(input:ByteArray):ByteArray
 	{
 		var output = new ByteArray();
 		output.endian = Endian.LITTLE_ENDIAN;

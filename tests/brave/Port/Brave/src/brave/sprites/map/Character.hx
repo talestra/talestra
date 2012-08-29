@@ -125,7 +125,7 @@ class Character
 	}
 	
 	static public function distance(c1:Character, c2:Character):Float {
-		return MathEx.length(c1.x - c2.x, c1.y - c2.y);
+		return MathEx._length(c1.x - c2.x, c1.y - c2.y);
 	}
 	
 	private function tryMoveTo(x:Int, y:Int):Bool {

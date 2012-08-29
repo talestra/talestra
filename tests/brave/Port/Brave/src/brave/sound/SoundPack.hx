@@ -4,6 +4,8 @@ import haxe.Log;
 import nme.errors.Error;
 import nme.media.Sound;
 
+#if cpp
+
 typedef Input = sys.io.FileInput;
 
 /**
@@ -56,3 +58,12 @@ class SoundPack
 		}
 	}
 }
+
+#else
+class SoundPack 
+{
+	public function getSound(soundFile:String):Sound {
+		return new Sound();
+	}
+}
+#end
