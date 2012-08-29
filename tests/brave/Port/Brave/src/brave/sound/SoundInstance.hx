@@ -1,4 +1,6 @@
 package brave.sound;
+import haxe.io.Bytes;
+import haxe.io.BytesData;
 import haxe.io.BytesInput;
 import haxe.Log;
 import nme.events.Event;
@@ -16,31 +18,35 @@ class SoundInstance
 {
 	var soundEntry:SoundEntry;
 	var bytesInput:BytesInput;
-	var offset:Int;
+	//var offset:Int;
 	var fromChannels:Int;
 	var sound:Sound;
-	var completed:Bool = false;
+	//var completed:Bool = false;
 	
 	static public inline var FromRate:Int = 11025;
+	/*
 	static public inline var ToRate:Int = 44100;
 	static public inline var GeneratedSamples:Int = Std.int(ToRate / FromRate);
 	
 	static public inline var toChannels:Int = 2;
+	*/
 
 	public function new(soundEntry:SoundEntry) 
 	{
 		this.soundEntry = soundEntry;
 		this.bytesInput = new BytesInput(soundEntry.bytes);
 		this.bytesInput.bigEndian = false;
-		this.offset = 0;
+		//this.offset = 0;
 		this.fromChannels = soundEntry.soundPack.numberOfChannels;
 
+		/*
 		this.lastSamples = new Array<Float>();
 		this.lastSamples.push(0);
 		this.lastSamples.push(0);
 		this.currentSamples = new Array<Float>();
 		this.currentSamples.push(0);
 		this.currentSamples.push(0);
+		*/
 	}
 	
 	public function getSound():Sound {
@@ -87,9 +93,11 @@ class SoundInstance
 	*/
 	
 	private function loadData():Void  {
-		sound.addEventListener(SampleDataEvent.SAMPLE_DATA, playSound);
+		sound.loadPCMFromByteArray(ByteArray.fromBytes(soundEntry.bytes), Std.int(soundEntry.bytes.length / 2 / fromChannels), "short", (fromChannels == 2) ? true : false, FromRate);
+		//sound.addEventListener(SampleDataEvent.SAMPLE_DATA, playSound);
 	}
 	
+	/*
 	private function hasMoreSamples():Bool {
 		return offset < soundEntry.bytes.length;
 	}
@@ -141,4 +149,5 @@ class SoundInstance
 		}
 		//soundOutput.
 	}
+	*/
 }

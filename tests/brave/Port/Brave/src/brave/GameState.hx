@@ -17,6 +17,7 @@ import nme.events.KeyboardEvent;
 import nme.events.MouseEvent;
 import nme.geom.ColorTransform;
 import nme.Lib;
+import nme.media.SoundChannel;
 import nme.utils.ByteArray;
 
 /**
@@ -28,6 +29,7 @@ class GameState
 {
 	public var variables:Array<Variable>;
 	public var rootClip:GameSprite;
+	public var musicChannel:SoundChannel;
 	
 	public function new(rootClip:GameSprite) 
 	{

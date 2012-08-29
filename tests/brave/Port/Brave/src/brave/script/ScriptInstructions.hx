@@ -3,9 +3,11 @@ import brave.BraveAssets;
 import brave.GameState;
 import brave.sprites.map.Character;
 import brave.sprites.TextSprite;
+import brave.StringEx;
 import haxe.Log;
 import haxe.Timer;
 import nme.errors.Error;
+import nme.media.Sound;
 import nme.media.SoundChannel;
 
 /**
@@ -239,7 +241,14 @@ class ScriptInstructions
 	@Opcode(0x17, "P")
 	@Unimplemented(1)
 	public function MUSIC_PLAY(index:Int) {
-		
+		MUSIC_STOP();
+		var fileName:String = StringEx.sprintf('bgm%02dgm', [index]);
+		//if (fileName == "bgm14gm")
+		{
+			var music:Sound = BraveAssets.getMusic(fileName);
+			Log.trace("MUSIC_PLAY:" + fileName);
+			scriptThread.gameState.musicChannel = music.play();
+		}
 	}
 	
 	/**
@@ -290,7 +299,9 @@ class ScriptInstructions
 	@Opcode(0x1C, "")
 	@Unimplemented(1)
 	public function MUSIC_STOP():Void {
-		
+		if (scriptThread.gameState.musicChannel != null) {
+			scriptThread.gameState.musicChannel.stop();
+		}		
 	}
 	
 	/**

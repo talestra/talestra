@@ -82,6 +82,14 @@ class BraveAssets
 		}
 		return voicePack.getSound(name);
 	}
+	
+	static public function getMusic(name:String):Sound {
+		var sound:Sound = new Sound();
+		var bytes:ByteArray = getBytes("/midi/" + name + ".mid");
+		//sound.loadPCMFromByteArray(
+		sound.loadCompressedDataFromByteArray(bytes, bytes.length, true);
+		return sound;
+	}
 
 	static private function getBasePath():String
 	{
