@@ -25,9 +25,10 @@ class ScriptThread implements IScriptThread
 	}
 	
 	public function setScript(script:Script):Void {
-		stack = [];
+		clearStack();
 		this.scriptReader = new ScriptReader(script);
 		this.scriptReader.position = 8;
+		this.gameThreadState.eventId = 0;
 		executing = false;
 		waitingAsync = false;
 	}
@@ -81,6 +82,11 @@ class ScriptThread implements IScriptThread
 	public function popStack():Int {
 		return stack.pop();
 	}
+	
+	public function clearStack():Void {
+		stack = [];
+	}
+
 
 	public function jump(offset:Int):Void {
 		scriptReader.position = offset;

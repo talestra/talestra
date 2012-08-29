@@ -39,7 +39,7 @@ class ScriptInstructions
 	 */
 	@Opcode(0x02, "PP9L")
 	//@Unimplemented(1)
-	public function BLOCK_IF(left:Int, right:Int, operation:Int, jumpOffset:Int):Void {
+	public function JUMP_IF(left:Int, right:Int, operation:Int, jumpOffset:Int):Void {
 		var result:Bool = false;
 		
 		switch (operation) {
@@ -52,12 +52,26 @@ class ScriptInstructions
 			default: throw(new Error("Invalid operation"));
 		}
 
-		scriptThread.pushStack(jumpOffset);
+		
 
 		// Skip block
 		if (result) {
-			scriptThread.jump(scriptThread.popStack());
+			scriptThread.jump(jumpOffset);
 		}
+		/*
+		else {
+			scriptThread.pushStack(jumpOffset);
+		}
+		*/
+	}
+
+	/**
+	 * 
+	 * @param	a
+	 */
+	@Opcode(0x04, "L")
+	public function JUMP_ALWAYS(jumpOffset:Int):Void {
+		scriptThread.jump(jumpOffset);
 	}
 
 	/**
@@ -67,8 +81,9 @@ class ScriptInstructions
 	 */
 	@Opcode(0x05, "<4") // Return?
 	public function BLOCK_ENDIF(done:Void -> Void, value:Int) {
-		scriptThread.jump(scriptThread.popStack());
-		//scriptThread.gameThreadState.eventId = -1;
+		//scriptThread.jump(scriptThread.popStack());
+		//scriptThread.jump(8);
+
 		ANIMATION_WAIT(done);
 	}
 
@@ -84,16 +99,6 @@ class ScriptInstructions
 		
 	}
 	
-	/**
-	 * 
-	 * @param	a
-	 */
-	@Opcode(0x04, "L")
-	public function OP_04(a) {
-		
-	}
-	
-
 	/**
 	 * 
 	 */
@@ -527,6 +532,7 @@ class ScriptInstructions
 	@Opcode(0x92, "")
 	@Unimplemented
 	public function END():Int {
+		scriptThread.clearStack();
 		return -2;
 	}
 
@@ -695,9 +701,15 @@ class ScriptInstructions
 	}
 	
 
+	/**
+	 * Adds a character to the party.
+	 * 
+	 * @param	partyId
+	 * @param	charaId
+	 */
 	// 50-91
 	@Opcode(0x51, "PP")
-	public function CHARA_UNK_51(charaID:Int, b) {
+	public function PARTY_SET_CHARA(partyComponentId:Int, charaId:Int) {
 		
 	}
 	
@@ -970,8 +982,19 @@ class ScriptInstructions
 		
 	}
 	
+	/**
+	 * 
+	 * @param	charaId
+	 * @param	animationId
+	 * @param	unknown
+	 * 
+	 * @example
+	 *    CHARA_ATTACK_EFFECT(1, 904, 0)
+	 *    Shell performs a fire attack with the animation at "DEXP"
+	 */
 	@Opcode(0x7E, "PPP")
-	public function UNK_7E(a, b, c) {
+	@Unimplemented
+	public function CHARA_ATTACK_EFFECT(charaId:Int, animationId:Int, unknown:Int) {
 		
 	}
 	

@@ -37,7 +37,7 @@ class TextSprite extends Sprite
 		textBackground = new Sprite();
 		textTextField = new TextField();
 		picture = new Sprite();
-		picture.x = 0;
+		picture.x = -30;
 		picture.y = 480;
 		
 		textContainer.addChild(textBackground);
@@ -59,7 +59,7 @@ class TextSprite extends Sprite
 	}
 	
 	private function setTextSize(withFace:Bool):Void {
-		var faceWidth:Int = withFace ? 200 : 0;
+		var faceWidth:Int = withFace ? 155 : 0;
 		
 		SpriteUtils.extractSpriteChilds(textBackground);
 		textBackground.addChild(SpriteUtils.createSolidRect(0x000000, 0.5, boxWidth - faceWidth, boxHeight));
