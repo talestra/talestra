@@ -4,3 +4,6 @@
 /tests/brave/Brave/TestResults
 /tests/brave/brave/Tests.Brave/obj
 /tests/brave/brave/Tests.Brave/bin
+.DS_Store
+tests/brave/Port/Brave/.build
+*.userprefs

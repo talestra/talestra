@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="3.5" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">Android</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{28F711DD-70D0-4163-8604-3039DCAB9E65}</ProjectGuid>
+    <TargetNMMLFile>application.nmml</TargetNMMLFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|Android' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>.</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|BlackBerry' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>.</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|Flash' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>.</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|HTML5' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>.</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iOS' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>.</OutputPath>
+    <AdditionalArguments>-simulator</AdditionalArguments>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|Linux' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>.</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|Mac' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>.</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|webOS' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>.</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|Windows' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>.</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|Android' ">
+    <OutputPath>.</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|BlackBerry' ">
+    <OutputPath>.</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|Flash' ">
+    <OutputPath>.</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|HTML5' ">
+    <OutputPath>.</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iOS' ">
+    <OutputPath>.</OutputPath>
+    <AdditionalArguments>-simulator</AdditionalArguments>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|Linux' ">
+    <OutputPath>.</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|Mac' ">
+    <OutputPath>.</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|webOS' ">
+    <OutputPath>.</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|Windows' ">
+    <OutputPath>.</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="application.nmml" />
+    <Compile Include="src\Main.hx" />
+    <Compile Include="src\brave\Animation.hx" />
+    <Compile Include="src\brave\AsyncList.hx" />
+    <Compile Include="src\brave\BraveAssets.hx" />
+    <Compile Include="src\brave\BraveLog.hx" />
+    <Compile Include="src\brave\ByteArrayUtils.hx" />
+    <Compile Include="src\brave\ByteUtils.hx" />
+    <Compile Include="src\brave\GameInput.hx" />
+    <Compile Include="src\brave\GameState.hx" />
+    <Compile Include="src\brave\GameThreadState.hx" />
+    <Compile Include="src\brave\GraphicUtils.hx" />
+    <Compile Include="src\brave\Keys.hx" />
+    <Compile Include="src\brave\LangUtils.hx" />
+    <Compile Include="src\brave\MathEx.hx" />
+    <Compile Include="src\brave\SpriteUtils.hx" />
+    <Compile Include="src\brave\StringEx.hx" />
+    <Compile Include="src\brave\cgdb\CgDb.hx" />
+    <Compile Include="src\brave\cgdb\CgDbEntry.hx" />
+    <Compile Include="src\brave\formats\BraveImage.hx" />
+    <Compile Include="src\brave\formats\Decrypt.hx" />
+    <Compile Include="src\brave\formats\LZ.hx" />
+    <Compile Include="src\brave\map\Cell.hx" />
+    <Compile Include="src\brave\map\CellLayer.hx" />
+    <Compile Include="src\brave\map\Map.hx" />
+    <Compile Include="src\brave\map\Tileset.hx" />
+    <Compile Include="src\brave\script\IScriptThread.hx" />
+    <Compile Include="src\brave\script\Instruction.hx" />
+    <Compile Include="src\brave\script\Opcode.hx" />
+    <Compile Include="src\brave\script\Script.hx" />
+    <Compile Include="src\brave\script\ScriptInstructions.hx" />
+    <Compile Include="src\brave\script\ScriptOpcodes.hx" />
+    <Compile Include="src\brave\script\ScriptReader.hx" />
+    <Compile Include="src\brave\script\ScriptThread.hx" />
+    <Compile Include="src\brave\script\Variable.hx" />
+    <Compile Include="src\brave\sound\SoundEntry.hx" />
+    <Compile Include="src\brave\sound\SoundInstance.hx" />
+    <Compile Include="src\brave\sound\SoundPack.hx" />
+    <Compile Include="src\brave\sprites\GameSprite.hx" />
+    <Compile Include="src\brave\sprites\TextSprite.hx" />
+    <Compile Include="src\brave\sprites\UISprite.hx" />
+    <Compile Include="src\brave\sprites\map\Character.hx" />
+    <Compile Include="src\brave\sprites\map\MapSprite.hx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="src\" />
+  </ItemGroup>
+</Project>

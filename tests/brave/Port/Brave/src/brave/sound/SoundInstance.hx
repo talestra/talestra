@@ -92,7 +92,9 @@ class SoundInstance
 	*/
 	
 	private function loadData():Void  {
+	#if !ios
 		sound.loadPCMFromByteArray(ByteArray.fromBytes(soundEntry.bytes), Std.int(soundEntry.bytes.length / 2 / fromChannels), "short", (fromChannels == 2) ? true : false, FromRate);
+	#end
 		//sound.addEventListener(SampleDataEvent.SAMPLE_DATA, playSound);
 	}
 	
