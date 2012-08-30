@@ -118,6 +118,7 @@ class MapSprite extends Sprite
 	
 	public function updateCamera():Void {
 		if (map == null) return;
+		if (!visible) return;
 		
 		if (followingCharacter != null) {
 			var targetX = followingCharacter.x - 640 / 2;

@@ -35,7 +35,7 @@ class GameState
 	public function new(rootClip:GameSprite) 
 	{
 		this.rootClip = rootClip;
-		
+		this.rootClip.mapSprite.visible = false;
 		this.variables = new Array<Variable>();
 		for (n in 0 ... 10000) this.variables.push(new Variable(0));
 		Lib.stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
@@ -118,12 +118,17 @@ class GameState
 	}
 	
 	public function setBackgroundColor(color:Int):Void {
+		rootClip.backgroundBack.visible = true;
+		
 		SpriteUtils.extractSpriteChilds(rootClip.backgroundBack);
 		rootClip.backgroundBack.addChild(SpriteUtils.createSolidRect(color));
 	}
 
 	public function setBackgroundEffect(effectType:Int):Void {
 		var out:BitmapData = new BitmapData(640, 480);
+		
+		rootClip.backgroundBack.visible = true;
+		
 		out.draw(rootClip.backgroundBack);
 		//rootClip.backgroundBack
 		var pixels:ByteArray = out.getPixels(out.rect);
@@ -148,6 +153,9 @@ class GameState
 
 	public function setBackgroundImageAsync(imageName:String, done:Void -> Void):Void {
 		rootClip.background.alpha = 1;
+		
+		rootClip.backgroundBack.visible = true;
+		
 		SpriteUtils.extractSpriteChilds(rootClip.backgroundBack);
 		BraveAssets.getBitmapAsync(imageName, function(image:Bitmap) {
 			if (image != null) {
@@ -163,6 +171,9 @@ class GameState
 		//rootClip.backgroundFront.alpha
 		var time:Float = 0.5;
 		
+		rootClip.mapSprite.visible = false;
+		rootClip.backgroundBack.visible = true;
+		
 		//rootClip.backgroundBack.transform.colorTransform = new ColorTransform(1, 0.6, 0.3, 1.0, 0, 0, 0, 0);
 		
 		Animation.animate(function() {
@@ -174,6 +185,9 @@ class GameState
 	
 	public function fadeToMap(done:Void -> Void, time:Int):Void {
 		var time:Float = 0.5;
+		
+		rootClip.mapSprite.visible = true;
+		rootClip.backgroundBack.visible = false;
 		
 		Animation.animate(function() {
 			done();

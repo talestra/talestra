@@ -12,7 +12,8 @@
 	
 	<!--<window width="1280" height="960" unless="mobile" />-->
 	<!--<window width="800" height="600" unless="mobile" />-->
-	<window width="640" height="480" unless="mobile" />
+	<!--<window width="640" height="480" unless="mobile" />-->
+	<window width="960" height="640" unless="mobile" />
 	
 	<window orientation="landscape" vsync="true" antialiasing="0" if="cpp" />
 	

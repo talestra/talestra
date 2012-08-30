@@ -4,6 +4,7 @@ import brave.BraveAssets;
 import brave.formats.BraveImage;
 import brave.GameInput;
 import brave.GameState;
+import brave.GraphicUtils;
 import brave.map.Map;
 import brave.script.Script;
 import brave.script.ScriptReader;
@@ -14,6 +15,7 @@ import brave.sprites.map.Character;
 import brave.sprites.map.MapSprite;
 import brave.StringEx;
 import haxe.Timer;
+import nme.geom.Rectangle;
 import nme.media.Sound;
 import nme.media.SoundChannel;
 import nme.media.SoundLoaderContext;
@@ -55,23 +57,46 @@ class Main extends Sprite
 		var usedWidth, usedHeight;
 		
 		if (propX < propY) {
-			scaleY = scaleX = propX;
+			gameSprite.scaleY = gameSprite.scaleX = propX;
 		} else {
-			scaleY = scaleX = propY;
+			gameSprite.scaleY = gameSprite.scaleX = propY;
 		}
 		
-		usedWidth = 640 * scaleX;
-		usedHeight = 480 * scaleY;
+		usedWidth = 640 * gameSprite.scaleX;
+		usedHeight = 480 * gameSprite.scaleY;
 
-		this.x = Std.int((stage.stageWidth - usedWidth) / 2);
-		this.y = Std.int((stage.stageHeight - usedHeight) / 2);
+		gameSprite.x = Std.int((stage.stageWidth - usedWidth) / 2);
+		gameSprite.y = Std.int((stage.stageHeight - usedHeight) / 2);
+		
+		gameSpriteRectangle = new Rectangle(gameSprite.x, gameSprite.y, usedWidth, usedHeight);
+		
+		{
+			blackBorder.graphics.clear();
+			GraphicUtils.drawSolidFilledRectWithBounds(blackBorder.graphics, 0, 0, gameSpriteRectangle.left, stage.stageHeight);
+			GraphicUtils.drawSolidFilledRectWithBounds(blackBorder.graphics, gameSpriteRectangle.right, 0, stage.stageWidth, stage.stageHeight);
+
+			GraphicUtils.drawSolidFilledRectWithBounds(blackBorder.graphics, 0, 0, stage.stageWidth, gameSpriteRectangle.top);
+			GraphicUtils.drawSolidFilledRectWithBounds(blackBorder.graphics, 0, gameSpriteRectangle.bottom, stage.stageWidth, stage.stageHeight);
+
+			//GraphicUtils.drawSolidFilledRect(blackBorder.graphics, 0, -this.y, 640, this.y / scaleY);
+			//GraphicUtils.drawSolidFilledRect(blackBorder.graphics, 0, 480, 640, this.y / scaleY);
+		}
 	}
 	
+	var gameSpriteRectangle:Rectangle;
 	var gameSprite:GameSprite;
+	var blackBorder:Sprite;
 	
 	var initialized:Bool = false;
 	
 	private function init0(e) {
+		if (!initialized) {
+			gameSprite = new GameSprite();
+			blackBorder = new Sprite();
+			addChild(gameSprite);
+			addChild(blackBorder);
+
+		}
 		resize(e);
 		if (!initialized) {
 			initialized = true;
@@ -86,8 +111,6 @@ class Main extends Sprite
 #if flash
 		Log.setColor(0xFF0000);
 #end
-
-		addChild(gameSprite = new GameSprite());
 		
 		GameInput.init();
 		
