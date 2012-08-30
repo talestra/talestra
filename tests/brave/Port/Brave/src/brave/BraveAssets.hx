@@ -4,6 +4,7 @@ import brave.cgdb.CgDbEntry;
 import brave.formats.BraveImage;
 import brave.formats.Decrypt;
 import brave.sound.SoundPack;
+import brave.BraveLog;
 import haxe.io.Bytes;
 import nme.Assets;
 import nme.display.Bitmap;
@@ -19,6 +20,7 @@ import nme.net.URLRequest;
 import nme.utils.ByteArray;
 import nme.utils.Endian;
 import sys.FileSystem;
+import nme.filesystem.File;
 
 #if cpp
 import sys.io.FileInput;
@@ -103,12 +105,14 @@ class BraveAssets
 		byteArray.writeFloat(0);
 		byteArray.writeFloat(0);
 		byteArray.position = 0;
+		#if !ios
 		sound.loadPCMFromByteArray(byteArray, 1);
+		#end
 		return sound;
 	}
 
 	static public function getSoundAsync(name:String, done:Sound -> Void):Void {
-		#if !cpp
+		#if !cpp || ios
 			done(getDummySound());
 		#else
 			if (soundPack == null) {
@@ -119,7 +123,7 @@ class BraveAssets
 	}
 
 	static public function getVoiceAsync(name:String, done:Sound -> Void):Void {
-		#if !cpp
+		#if !cpp || ios
 			/*
 			BraveAssets.getBytesAsync(Std.format("voice/$name.wav"), function(voiceArray:ByteArray):Void {
 				var sound:Sound = new Sound();
@@ -137,13 +141,17 @@ class BraveAssets
 	}
 	
 	static public function getMusicAsync(name:String, done:Sound -> Void):Void {
-		#if !cpp
+		#if !cpp || ios
 			done(getDummySound());
 		#else
-			BraveAssets.getBytesAsync("/midi/" + name + ".mid", function(bytes:ByteArray) {
+			BraveAssets.getBytesAsync("midi/" + name + ".mid", function(bytes:ByteArray) {
 				var sound:Sound = new Sound();
 				//sound.loadPCMFromByteArray(
-				sound.loadCompressedDataFromByteArray(bytes, bytes.length, true);
+				try {
+					sound.loadCompressedDataFromByteArray(bytes, bytes.length, true);
+				} catch (e:Error) {
+					BraveLog.trace(e);
+				}
 				done(sound);
 			});
 		#end
@@ -175,7 +183,7 @@ class BraveAssets
 		static private function getBasePath():String
 		{
 			if (cachedBasePath == null) {
-				for (tryPath in ["assets", "../assets", "../../assets", "../../../assets", "../../../../assets"]) {
+				for (tryPath in [File.applicationDirectory.nativePath + "/assets", "assets", "../assets", "../../assets", "../../../assets", "../../../../assets"]) {
 					if (FileSystem.isDirectory(tryPath)) {
 						cachedBasePath = FileSystem.fullPath(tryPath);
 						break;
@@ -186,12 +194,22 @@ class BraveAssets
 			if (cachedBasePath != null) {
 				return cachedBasePath;
 			} else {
+				
+				BraveLog.trace(FileSystem.fullPath('.'));
+				BraveLog.trace(File.applicationDirectory.nativePath);
+				BraveLog.trace(File.applicationStorageDirectory.nativePath);
+				BraveLog.trace(File.desktopDirectory.nativePath);
+				BraveLog.trace(File.documentsDirectory.nativePath);
+				BraveLog.trace(File.userDirectory.nativePath);
 				throw(new Error("Can't find assets path"));
 			}
 		}
 
 		static public function getBytesAsync(name:String, done:ByteArray -> Void):Void {
-			var bytes:ByteArray = ByteUtils.BytesToByteArray(sys.io.File.getBytes(getBasePath() + "/" + name));
+			var filePath:String = getBasePath() + "/" + name;
+			var filePath2:String = getBasePath() + "/assets_" + StringTools.replace(StringTools.replace(name, '/', '_'), '.', '_');
+			if (!sys.FileSystem.exists(filePath)) filePath = filePath2;
+			var bytes:ByteArray = ByteUtils.BytesToByteArray(sys.io.File.getBytes(filePath));
 			done(bytes);
 		}
 

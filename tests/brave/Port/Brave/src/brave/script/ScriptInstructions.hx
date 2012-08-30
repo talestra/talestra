@@ -241,6 +241,9 @@ class ScriptInstructions
 	@Opcode(0x17, "<P")
 	@Unimplemented(1)
 	public function MUSIC_PLAY(done:Void -> Void, index:Int) {
+		#if ios
+			done();
+		#else
 		MUSIC_STOP();
 		var fileName:String = StringEx.sprintf('bgm%02dgm', [index]);
 		BraveAssets.getMusicAsync(fileName, function(music:Sound) {
@@ -248,6 +251,7 @@ class ScriptInstructions
 			scriptThread.gameState.musicChannel = music.play();
 			done();
 		});
+		#end
 	}
 	
 	/**
@@ -526,10 +530,14 @@ class ScriptInstructions
 		};
 
 		if (voiceName != "") {
-			BraveAssets.getVoiceAsync(voiceName, function(voice:Sound) {
-				voiceChannel = voice.play();
+			#if ios
 				internal();
-			});
+			#else
+				BraveAssets.getVoiceAsync(voiceName, function(voice:Sound) {
+					voiceChannel = voice.play();
+					internal();
+				});
+			#end
 		} else {
 			internal();
 		}

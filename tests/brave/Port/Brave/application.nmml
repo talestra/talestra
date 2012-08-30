@@ -26,6 +26,9 @@
 	<assets path="assets" rename="assets" include="*" exclude="nme.svg|voice" unless="cpp" />
 	<assets path="assets/dummy" rename="assets" include="*" exclude="nme.svg" if="flash" />
 	-->
+	<section if="ios">
+		<assets path="assets" rename="assets" include="*" exclude="nme.svg" />
+	</section>
 	
 	<!-- DLLs -->
 	<ndll name="std" />
