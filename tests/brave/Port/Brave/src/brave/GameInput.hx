@@ -30,12 +30,20 @@ class GameInput
 		return pressing.exists(keyCode);
 	}
 	
+	static private function setKey(key:Int, set:Bool):Void {
+		if (set) {
+			pressing.set(key, null);
+		} else {
+			pressing.remove(key);
+		}
+	}
+	
 	static private function onKeyDown(e:KeyboardEvent):Void  {
-		pressing.set(e.keyCode, null);
+		setKey(e.keyCode, true);
 	}
 	
 	static private function onKeyUp(e:KeyboardEvent):Void  {
-		pressing.remove(e.keyCode);
+		setKey(e.keyCode, false);
 	}
 	
 	static private var mouseCurrent:Point;
@@ -51,11 +59,13 @@ class GameInput
 
 	static private function onMouseUp(e:MouseEvent):Void {
 		BraveLog.trace(Std.format("onMouseUp : ${e.stageX}, ${e.stageY}"));
-		Lib.stage.dispatchEvent(new KeyboardEvent(KeyboardEvent.KEY_UP, true, true, 0, Keys.Left));
-		Lib.stage.dispatchEvent(new KeyboardEvent(KeyboardEvent.KEY_UP, true, true, 0, Keys.Right));
-		Lib.stage.dispatchEvent(new KeyboardEvent(KeyboardEvent.KEY_UP, true, true, 0, Keys.Up));
-		Lib.stage.dispatchEvent(new KeyboardEvent(KeyboardEvent.KEY_UP, true, true, 0, Keys.Down));
+		setKey(Keys.Left, false);
+		setKey(Keys.Right, false);
+		setKey(Keys.Up, false);
+		setKey(Keys.Down, false);
 	}
+	
+	static private inline var deltaThresold:Int = 40;
 
 	static private function onMouseMove(e:MouseEvent):Void {
 		if (e.buttonDown) {
@@ -65,10 +75,10 @@ class GameInput
 			
 			BraveLog.trace(Std.format("--> ${offset.x}, ${offset.y}"));
 			
-			if (offset.x < -64) Lib.stage.dispatchEvent(new KeyboardEvent(KeyboardEvent.KEY_DOWN, true, true, 0, Keys.Left));
-			if (offset.x > 64) Lib.stage.dispatchEvent(new KeyboardEvent(KeyboardEvent.KEY_DOWN, true, true, 0, Keys.Right));
-			if (offset.y < -64) Lib.stage.dispatchEvent(new KeyboardEvent(KeyboardEvent.KEY_DOWN, true, true, 0, Keys.Up));
-			if (offset.y > 64) Lib.stage.dispatchEvent(new KeyboardEvent(KeyboardEvent.KEY_DOWN, true, true, 0, Keys.Down));
+			setKey(Keys.Left, (offset.x < -deltaThresold));
+			setKey(Keys.Right, (offset.x > deltaThresold));
+			setKey(Keys.Up, (offset.y < -deltaThresold));
+			setKey(Keys.Down, (offset.y > deltaThresold));
 		}
 	}
 }
