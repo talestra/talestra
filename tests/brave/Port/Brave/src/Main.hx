@@ -19,6 +19,7 @@ import nme.media.SoundChannel;
 import nme.media.SoundLoaderContext;
 import haxe.Log;
 import nme.Assets;
+import nme.display.Stage;
 import nme.display.Bitmap;
 import nme.display.PixelSnapping;
 import nme.display.Sprite;
@@ -37,7 +38,9 @@ class Main extends Sprite
 	public function new() 
 	{
 		super();
+		
 		#if iphone
+		Stage.setFixedOrientation(Stage.OrientationLandscapeRight);
 		Lib.current.stage.addEventListener(Event.RESIZE, init0);
 		#else
 		addEventListener(Event.ADDED_TO_STAGE, init0);
