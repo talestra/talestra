@@ -9,6 +9,7 @@ import haxe.Log;
 import haxe.Timer;
 import nme.display.Bitmap;
 import nme.display.BitmapData;
+import nme.display.PixelSnapping;
 import nme.display.DisplayObject;
 import nme.display.Sprite;
 import nme.display.Stage;
@@ -142,7 +143,7 @@ class GameState
 		out.setPixels(out.rect, pixels);
 		
 		SpriteUtils.extractSpriteChilds(rootClip.backgroundBack);
-		rootClip.backgroundBack.addChild(new Bitmap(out));
+		rootClip.backgroundBack.addChild(new Bitmap(out, PixelSnapping.AUTO, true));
 	}
 
 	public function setBackgroundImageAsync(imageName:String, done:Void -> Void):Void {

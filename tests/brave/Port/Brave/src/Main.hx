@@ -38,9 +38,9 @@ class Main extends Sprite
 	{
 		super();
 		#if iphone
-		Lib.current.stage.addEventListener(Event.RESIZE, init);
+		Lib.current.stage.addEventListener(Event.RESIZE, init0);
 		#else
-		addEventListener(Event.ADDED_TO_STAGE, init);
+		addEventListener(Event.ADDED_TO_STAGE, init0);
 		Lib.current.stage.addEventListener(Event.RESIZE, resize);
 		#end
 	}
@@ -65,6 +65,16 @@ class Main extends Sprite
 	}
 	
 	var gameSprite:GameSprite;
+	
+	var initialized:Bool = false;
+	
+	private function init0(e) {
+		resize(e);
+		if (!initialized) {
+			initialized = true;
+			init(e);
+		}
+	}
 	
 	private function init(e) 
 	{

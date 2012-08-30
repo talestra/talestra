@@ -207,7 +207,7 @@ class BraveAssets
 
 		static public function getBytesAsync(name:String, done:ByteArray -> Void):Void {
 			var filePath:String = getBasePath() + "/" + name;
-			var filePath2:String = getBasePath() + "/assets_" + StringTools.replace(StringTools.replace(name, '/', '_'), '.', '_');
+			var filePath2:String = getBasePath() + ("/assets_" + StringTools.replace(StringTools.replace(name, '/', '_'), '.', '_')).toLowerCase();
 			if (!sys.FileSystem.exists(filePath)) filePath = filePath2;
 			var bytes:ByteArray = ByteUtils.BytesToByteArray(sys.io.File.getBytes(filePath));
 			done(bytes);
