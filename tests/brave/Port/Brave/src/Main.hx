@@ -42,7 +42,7 @@ class Main extends Sprite
 		super();
 		
 		#if iphone
-		Stage.setFixedOrientation(Stage.OrientationLandscapeRight);
+		Stage.setFixedOrientation(Stage.OrientationLandscapeLeft);
 		Lib.current.stage.addEventListener(Event.RESIZE, init0);
 		#else
 		addEventListener(Event.ADDED_TO_STAGE, init0);
@@ -113,6 +113,21 @@ class Main extends Sprite
 #end
 		
 		GameInput.init();
+		
+		/*
+		Log.trace('before_voice_get');
+		BraveAssets.getVoiceAsync("a00003h", function(voice:Sound) {
+			Log.trace('before_voice_play');
+			voice.play();
+			Log.trace('after_voice_play');
+			//internal();
+		});
+		*/
+		/*
+		var sound:Sound = new Sound();
+		sound.loadPCMFromByteArray(new nme.utils.ByteArray(), 0, "short", true, 44100);
+		sound.play();
+		*/
 		
 		/*
 		var faceId = 57;

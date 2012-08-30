@@ -105,14 +105,12 @@ class BraveAssets
 		byteArray.writeFloat(0);
 		byteArray.writeFloat(0);
 		byteArray.position = 0;
-		#if !ios
 		sound.loadPCMFromByteArray(byteArray, 1);
-		#end
 		return sound;
 	}
 
 	static public function getSoundAsync(name:String, done:Sound -> Void):Void {
-		#if !cpp || ios
+		#if !cpp
 			done(getDummySound());
 		#else
 			if (soundPack == null) {
@@ -123,7 +121,7 @@ class BraveAssets
 	}
 
 	static public function getVoiceAsync(name:String, done:Sound -> Void):Void {
-		#if !cpp || ios
+		#if !cpp
 			/*
 			BraveAssets.getBytesAsync(Std.format("voice/$name.wav"), function(voiceArray:ByteArray):Void {
 				var sound:Sound = new Sound();
@@ -141,7 +139,7 @@ class BraveAssets
 	}
 	
 	static public function getMusicAsync(name:String, done:Sound -> Void):Void {
-		#if !cpp || ios
+		#if !cpp
 			done(getDummySound());
 		#else
 			BraveAssets.getBytesAsync("midi/" + name + ".mid", function(bytes:ByteArray) {
@@ -204,17 +202,21 @@ class BraveAssets
 				throw(new Error("Can't find assets path"));
 			}
 		}
-
-		static public function getBytesAsync(name:String, done:ByteArray -> Void):Void {
+		
+		static private function getFinalFileName(name:String):String {
 			var filePath:String = getBasePath() + "/" + name;
 			var filePath2:String = getBasePath() + ("/assets_" + StringTools.replace(StringTools.replace(name, '/', '_'), '.', '_')).toLowerCase();
 			if (!sys.FileSystem.exists(filePath)) filePath = filePath2;
-			var bytes:ByteArray = ByteUtils.BytesToByteArray(sys.io.File.getBytes(filePath));
+			return filePath;		
+		}
+
+		static public function getBytesAsync(name:String, done:ByteArray -> Void):Void {
+			var bytes:ByteArray = ByteUtils.BytesToByteArray(sys.io.File.getBytes(getFinalFileName(name)));
 			done(bytes);
 		}
 
 		static private function getStream(name:String):FileInput {
-			return sys.io.File.read(getBasePath() + "/" + name);
+			return sys.io.File.read(getFinalFileName(name));
 		}
 	#end
 }

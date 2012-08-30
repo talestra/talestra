@@ -41,4 +41,6 @@
 	<haxeflag name="--dead-code-elimination" if="html5" />
 	<haxeflag name="--js-modern" if="html5" />
 	
+	<ios deployment="5.1" binaries="fat" devices="universal" />
+	
 </project>
