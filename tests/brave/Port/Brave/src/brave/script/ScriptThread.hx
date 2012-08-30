@@ -35,22 +35,22 @@ class ScriptThread implements IScriptThread
 	
 	public function execute():Void {
 		//if (!executing || waitingAsync)
-		Log.trace(Std.format("execute at ${scriptReader.position}"));
+		BraveLog.trace(Std.format("execute at ${scriptReader.position}"));
 		{
 			while (scriptReader.hasMoreInstructions()) {
 				executing = true;
 				waitingAsync = false;
 				
 				switch (executeNextInstruction()) {
-					case -2: executing = false; Log.trace("/execute(-2)"); return;
-					case -3: waitingAsync = true; Log.trace("/execute(-3)"); return;
+					case -2: executing = false; BraveLog.trace("/execute(-2)"); return;
+					case -3: waitingAsync = true; BraveLog.trace("/execute(-3)"); return;
 				}
 			}
 			
 			executing = false;
 			waitingAsync = false;
 		}
-		Log.trace("/execute(0)");
+		BraveLog.trace("/execute(0)");
 	}
 	
 	private function executeNextInstruction():Int {
@@ -59,14 +59,14 @@ class ScriptThread implements IScriptThread
 		
 		// End Script
 		if (result == -1) {
-			Log.trace("End Executing");
+			BraveLog.trace("End Executing");
 			this.scriptReader.position = 8;
 			return -1;
 		}
 		
 		// Enable play
 		if (result == -2) {
-			Log.trace("Enable play");
+			BraveLog.trace("Enable play");
 			return -2;
 		}
 		
@@ -104,7 +104,7 @@ class ScriptThread implements IScriptThread
 			//case 4: return 1;
 			case 4: return 0;
 			default:
-				Log.trace(Std.format("getSpecial($index)"));
+				BraveLog.trace(Std.format("getSpecial($index)"));
 				return 0;
 		}
 	}

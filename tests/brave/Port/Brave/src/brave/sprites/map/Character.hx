@@ -25,6 +25,7 @@ import nme.Lib;
 class Character 
 {
 	public var id:Int;
+	public var imageName:String;
 	public var tileset:Tileset;
 	public var x:Int;
 	public var y:Int;
@@ -41,6 +42,7 @@ class Character
 	{
 		this.mapSprite = mapSprite;
 		this.id = id;
+		this.imageName = imageName;
 		this.tileset = new Tileset(1, imageName);
 		this.x = x;
 		this.y = y;
@@ -56,10 +58,14 @@ class Character
 		//moveTest();
 	}
 	
+	public function loadImageAsync(done:Void -> Void):Void {
+		tileset.loadDataAsync(done);
+	}
+	
 	private var events:IntHash<Dynamic>;
 	
 	public function kill():Void {
-		Log.trace("killed!");
+		BraveLog.trace("killed!");
 		this.alive = false;
 		this.direction = 5;
 		checkEventWithKey(-1);
@@ -88,7 +94,7 @@ class Character
 		var cy = Std.int(y / 40);
 		var cell:Cell = mapSprite.map.get(cx, cy);
 		if (cell.info1 != 0) {
-			Log.trace(Std.format("Can't move because: ${cell.info1}"));
+			BraveLog.trace(Std.format("Can't move because: ${cell.info1}"));
 			if (cell.info1 != 8) {
 				return false;
 			}

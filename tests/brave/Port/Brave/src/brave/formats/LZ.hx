@@ -33,7 +33,7 @@ class LZ
 		output.endian = Endian.LITTLE_ENDIAN;
 		input.endian = Endian.LITTLE_ENDIAN;
 		input.position = 0;
-		//Log.trace(input.bytesAvailable);
+		//BraveLog.trace(input.bytesAvailable);
 		if (input.readUTFBytes(4) != "SZDD") throw(new Error("Not a LZ stream"));
 		input.readUnsignedInt();
 		input.readUnsignedShort();
@@ -45,14 +45,14 @@ class LZ
 		while (input.bytesAvailable > 0) {
 			var bits = (input.readUnsignedByte()) | 0x100;
 			
-			//Log.trace(bits);
+			//BraveLog.trace(bits);
 			
 			while (bits != 1)
 			{
 				var currentBit = ((bits & 1) != 0);
 				bits >>= 1;
 				
-				//Log.trace("Current: " + bits + ":" + currentBit);
+				//BraveLog.trace("Current: " + bits + ":" + currentBit);
 
 				if (currentBit)
 				{

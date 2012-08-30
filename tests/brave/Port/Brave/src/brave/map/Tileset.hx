@@ -19,10 +19,19 @@ class Tileset
 	{
 		this.partId = partId;
 		this.name = name;
-		if ((partId >= 0) && (name != "")) {
-			this.bitmapData = BraveAssets.getBitmapData(name);
-			this.cgDbEntry = BraveAssets.getCgDbEntry(name);
-		}
 	}
 	
+	public function loadDataAsync(done:Void -> Void):Void {
+		if ((partId >= 0) && (name != "")) {
+			BraveAssets.getBitmapDataAsync(name, function(bitmapData:BitmapData) {
+				this.bitmapData = bitmapData;
+				BraveAssets.getCgDbEntryAsync(name, function(cgDbEntry:CgDbEntry) {
+					this.cgDbEntry = cgDbEntry;
+					done();
+				});
+			});
+		} else {
+			done();
+		}
+	}
 }

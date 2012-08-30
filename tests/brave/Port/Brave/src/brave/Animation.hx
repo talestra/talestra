@@ -64,7 +64,7 @@ class Animation
 					var initialValue = Reflect.getProperty(initialProperties, property);
 					var finalValue = Reflect.getProperty(finalProperties, property);
 					var interpolatedValue = MathEx.interpolate(easing(elapsedPercentage), 0, 1, initialValue, finalValue);
-					//Log.trace("value : " + property + " : " + interpolatedValue);
+					//BraveLog.trace("value : " + property + " : " + interpolatedValue);
 					Reflect.setProperty(object, property, interpolatedValue);
 				}
 

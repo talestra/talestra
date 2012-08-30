@@ -34,21 +34,21 @@ class SpriteUtils
 	}
 	
 	static public function dumpSpriteChildren(name:String, sprite:Sprite):Void {
-		for (n in 0 ... sprite.numChildren) Log.trace(name + ":" + sprite.getChildAt(n));
+		for (n in 0 ... sprite.numChildren) BraveLog.trace(name + ":" + sprite.getChildAt(n));
 	}
 
 	static public function swapSpriteChildren(sprite1:Sprite, sprite2:Sprite):Void {
-		//Log.trace("-------------------------");
+		//BraveLog.trace("-------------------------");
 		//dumpSpriteChildren("sprite1", sprite1);
 		//dumpSpriteChildren("sprite2", sprite2);
-		//Log.trace("->");
+		//BraveLog.trace("->");
 		var sprite1Children:Array<DisplayObject> = extractSpriteChilds(sprite1);
 		var sprite2Children:Array<DisplayObject> = extractSpriteChilds(sprite2);
 		insertSpriteChilds(sprite2, sprite1Children);
 		insertSpriteChilds(sprite1, sprite2Children);
 		//dumpSpriteChildren("sprite1", sprite1);
 		//dumpSpriteChildren("sprite2", sprite2);
-		//Log.trace("-------------------------");
+		//BraveLog.trace("-------------------------");
 	}
 	
 	static public function createSolidRect(color:Int = 0x000000, alpha:Float = 1, width:Int = 640, height:Int = 480):Sprite {

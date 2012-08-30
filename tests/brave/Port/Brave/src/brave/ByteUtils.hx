@@ -25,7 +25,13 @@ class ByteUtils
 		for (n in 0 ... array.length) byteArray.writeByte(array[n]);
 		return byteArray;
 	}
-	
+
+	@:nostack static public function ArrayToBytes(array:Array<Int>):Bytes {
+		var bytes:Bytes = Bytes.alloc(array.length);
+		for (n in 0 ... bytes.length) bytes.set(n, array[n]);
+		return bytes;
+	}
+
 	@:nostack static public function ByteArrayToBytes(byteArray:ByteArray):Bytes {
 		var bytes:Bytes = Bytes.alloc(byteArray.length);
 		byteArray.position = 0;

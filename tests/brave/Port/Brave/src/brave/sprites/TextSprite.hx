@@ -86,18 +86,24 @@ class TextSprite extends Sprite
 		}
 	}
 
+	public function _setTextAndEnable(faceId:Int, title:String, text:String, done:Void -> Void):Void {
+		enable(function() {
+			setText(faceId, title, text, done);
+		});
+	}
+
 	public function setTextAndEnable(faceId:Int, title:String, text:String, done:Void -> Void):Void {
 		SpriteUtils.extractSpriteChilds(picture);
 		setTextSize(faceId >= -1);
 		if (faceId >= 0) {
-			var bitmapData:BitmapData = BraveAssets.getBitmapDataWithAlphaCombined(StringEx.sprintf("Z_%02d_%02d", [Std.int(faceId / 100), Std.int(faceId % 100)]));
-			var bmp:Bitmap = new Bitmap(bitmapData).center(0, 1);
-			picture.addChild(bmp);
+			BraveAssets.getBitmapDataWithAlphaCombinedAsync(StringEx.sprintf("Z_%02d_%02d", [Std.int(faceId / 100), Std.int(faceId % 100)]), function(bitmapData:BitmapData) {
+				var bmp:Bitmap = new Bitmap(bitmapData).center(0, 1);
+				picture.addChild(bmp);
+				_setTextAndEnable(faceId, title, text, done);
+			});
+		} else {
+			_setTextAndEnable(faceId, title, text, done);
 		}
-
-		enable(function() {
-			setText(faceId, title, text, done);
-		});
 	}
 
 	public function enable(done:Void -> Void):Void {

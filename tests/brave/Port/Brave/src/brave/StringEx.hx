@@ -49,7 +49,7 @@ class StringEx
 			} else {
 				out = StringTools.rpad(out, padChar, padCount);
 			}
-			//Log.trace(Std.format("$minus, $zero, $numbers, $format"));
+			//BraveLog.trace(Std.format("$minus, $zero, $numbers, $format"));
 			return out;
 		});
 	}

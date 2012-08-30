@@ -48,7 +48,7 @@ class GameState
 	public function onKeyDown(e:KeyboardEvent):Void {
 		//pressingControl = e.ctrlKey;
 		keyPress.set(e.keyCode, null);
-		//Log.trace(e.keyCode);
+		//BraveLog.trace(e.keyCode);
 	}
 
 	public function onKeyUp(e:KeyboardEvent):Void {
@@ -62,8 +62,11 @@ class GameState
 		return scriptThread;
 	}
 	
-	public function setMap(mapName:String):Void {
-		rootClip.mapSprite.setMap(Map.loadFromName(mapName));
+	public function setMapAsync(mapName:String, done:Void -> Void):Void {
+		Map.loadFromNameAsync(mapName, function(map:Map) {
+			rootClip.mapSprite.setMap(map);
+			done();
+		});
 	}
 
 	public function getAllCharacters():Iterator<Character> {
@@ -79,14 +82,18 @@ class GameState
 		return chara;
 	}
 
-	public function charaSpawn(charaId:Int, face:Int, unk:Int, x:Int, y:Int, direction:Int):Void {
+	public function charaSpawnAsync(charaId:Int, face:Int, unk:Int, x:Int, y:Int, direction:Int, done:Void -> Void):Void {
 		var partName:String = switch (charaId) {
 			case 0: "C_RUDY";
 			case 1: "C_SCHELL";
 			case 3: "C_ALICIA";
 			default: "C_GOBL01";
 		};
-		rootClip.mapSprite.addCharacter(new Character(rootClip.mapSprite, charaId, partName, x * 40, y * 40, direction));
+		var character:Character = new Character(rootClip.mapSprite, charaId, partName, x * 40, y * 40, direction);
+		character.loadImageAsync(function() {
+			rootClip.mapSprite.addCharacter(character);
+			done();
+		});
 	}
 	
 	static public function waitClickOrKeyPress(done:Void -> Void):Void {
@@ -138,15 +145,17 @@ class GameState
 		rootClip.backgroundBack.addChild(new Bitmap(out));
 	}
 
-	public function setBackgroundImage(imageName:String):Void {
+	public function setBackgroundImageAsync(imageName:String, done:Void -> Void):Void {
 		rootClip.background.alpha = 1;
 		SpriteUtils.extractSpriteChilds(rootClip.backgroundBack);
-		var image:Bitmap = BraveAssets.getBitmap(imageName);
-		if (image != null) {
-			rootClip.backgroundBack.addChild(image);
-		} else {
-			throw(new Error(Std.format("Can't load image '$imageName'")));
-		}
+		BraveAssets.getBitmapAsync(imageName, function(image:Bitmap) {
+			if (image != null) {
+				rootClip.backgroundBack.addChild(image);
+				done();
+			} else {
+				throw(new Error(Std.format("Can't load image '$imageName'")));
+			}
+		});
 	}
 	
 	public function transition(done:Void -> Void, type:Int):Void {

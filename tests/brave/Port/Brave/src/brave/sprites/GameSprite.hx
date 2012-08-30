@@ -23,7 +23,7 @@ class GameSprite extends Sprite
 	{
 		super();
 		
-		BraveAssets.getBitmapData("PG_MAIN");
+		//BraveAssets.getBitmapData("PG_MAIN");
 		
 		addChild(mapSprite = new MapSprite());
 		addChild(background = new Sprite());

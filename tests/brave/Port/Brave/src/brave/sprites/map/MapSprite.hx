@@ -82,7 +82,7 @@ class MapSprite extends Sprite
 		destY = MathEx.clamp(destY, 0, map.height * 40 - 480);
 		
 		Animation.animate(done, time, this, { cameraX : destX, cameraY : destY }, Animation.Sin, function(step) {
-			//Log.trace(Std.format("step! $cameraX, $cameraY"));
+			//BraveLog.trace(Std.format("step! $cameraX, $cameraY"));
 			//updateCamera();
 		});
 	}

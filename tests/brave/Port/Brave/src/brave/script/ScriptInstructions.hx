@@ -26,7 +26,7 @@ class ScriptInstructions
 
 	@Opcode(0x01, "SL")
 	public function FUNCTION_DEF(functionName:String, nextFunctionOffset:Int):Void {
-		Log.trace(Std.format("FUNCTION_DEF: $functionName, $nextFunctionOffset"));
+		BraveLog.trace(Std.format("FUNCTION_DEF: $functionName, $nextFunctionOffset"));
 	}
 	
 	
@@ -238,17 +238,16 @@ class ScriptInstructions
 	 * 
 	 * @param	index
 	 */
-	@Opcode(0x17, "P")
+	@Opcode(0x17, "<P")
 	@Unimplemented(1)
-	public function MUSIC_PLAY(index:Int) {
+	public function MUSIC_PLAY(done:Void -> Void, index:Int) {
 		MUSIC_STOP();
 		var fileName:String = StringEx.sprintf('bgm%02dgm', [index]);
-		//if (fileName == "bgm14gm")
-		{
-			var music:Sound = BraveAssets.getMusic(fileName);
-			Log.trace("MUSIC_PLAY:" + fileName);
+		BraveAssets.getMusicAsync(fileName, function(music:Sound) {
+			BraveLog.trace("MUSIC_PLAY:" + fileName);
 			scriptThread.gameState.musicChannel = music.play();
-		}
+			done();
+		});
 	}
 	
 	/**
@@ -311,7 +310,7 @@ class ScriptInstructions
 	@Opcode(0x1D, "s")
 	@Unimplemented(1)
 	public function COMMENT(text:String) {
-		Log.trace(Std.format("COMMENT: '${text}'"));
+		BraveLog.trace(Std.format("COMMENT: '${text}'"));
 	}
 	
 	/**
@@ -327,10 +326,13 @@ class ScriptInstructions
 	
 
 	// 20-33
-	@Opcode(0x21, "s") // Delay?
-	public function SCRIPT(scriptName:String) {
-		Log.trace(Std.format("SCRIPT('${scriptName}')"));
-		scriptThread.setScript(Script.getScriptWithName(scriptName));
+	@Opcode(0x21, "<s") // Delay?
+	public function SCRIPT(done:Void -> Void, scriptName:String) {
+		BraveLog.trace(Std.format("SCRIPT('${scriptName}')"));
+		Script.getScriptWithNameAsync(scriptName, function(script:Script) {
+			scriptThread.setScript(script);
+			done();
+		});
 	}
 	
 	@Opcode(0x22, "")
@@ -349,12 +351,17 @@ class ScriptInstructions
 	 * 
 	 * @param	mapName
 	 */
-	@Opcode(0x24, "s")
+	@Opcode(0x24, "<s")
 	@Unimplemented
-	public function MAP_SET(mapName:String):Void {
-		scriptThread.gameState.setMap(mapName);
+	public function MAP_SET(done:Void -> Void, mapName:String):Void {
+		scriptThread.gameState.setMapAsync(mapName, done);
 	}
 	
+	/**
+	 * 
+	 * @param	a
+	 * @param	b
+	 */
 	@Opcode(0x25, "sP")
 	@Unimplemented
 	public function OP_25(a, b) {
@@ -377,9 +384,9 @@ class ScriptInstructions
 	 * 
 	 * @param	imageName
 	 */
-	@Opcode(0x28, "s")
-	public function BACKGROUND_SET_IMAGE(imageName:String):Void {
-		scriptThread.gameState.setBackgroundImage(imageName);
+	@Opcode(0x28, "<s")
+	public function BACKGROUND_SET_IMAGE(done:Void -> Void, imageName:String):Void {
+		scriptThread.gameState.setBackgroundImageAsync(imageName, done);
 	}
 	
 	/**
@@ -450,7 +457,7 @@ class ScriptInstructions
 	 */
 	@Opcode(0x2F, "<sss")
 	public function TEXT_PUT(done:Void -> Void, voice:String, title:String, text:String) {
-		//Log.trace(Std.format("TEXT_PUT(${voice}, ${title}, ${text})"));
+		//BraveLog.trace(Std.format("TEXT_PUT(${voice}, ${title}, ${text})"));
 		
 		this.TEXT_PUT_WITH_FACE(done, -2, voice, title, text);
 	}
@@ -500,23 +507,32 @@ class ScriptInstructions
 	public function OP_38(a, b, c, d) {
 		
 	}
-	
+
 	@Opcode(0x39, "<Psss")
-	public function TEXT_PUT_WITH_FACE(done:Void -> Void, faceId:Int, voice:String, title:String, text:String) {
+	public function TEXT_PUT_WITH_FACE(done:Void -> Void, faceId:Int, voiceName:String, title:String, text:String) {
 
 		var voiceChannel:SoundChannel = null;
-		if (voice != "") {
-			voiceChannel = BraveAssets.getVoice(voice).play();
-		}
-		var textSprite:TextSprite = scriptThread.gameState.rootClip.ui.textSprite;
 		
-		textSprite.setTextAndEnable(faceId, title, text, function() {
-			GameState.waitClickOrKeyPress(function() {
-				textSprite.endText();
-				if (voiceChannel != null) voiceChannel.stop();
-				done();
+		function internal() {
+			var textSprite:TextSprite = scriptThread.gameState.rootClip.ui.textSprite;
+			
+			textSprite.setTextAndEnable(faceId, title, text, function() {
+				GameState.waitClickOrKeyPress(function() {
+					textSprite.endText();
+					if (voiceChannel != null) voiceChannel.stop();
+					done();
+				});
 			});
-		});
+		};
+
+		if (voiceName != "") {
+			BraveAssets.getVoiceAsync(voiceName, function(voice:Sound) {
+				voiceChannel = voice.play();
+				internal();
+			});
+		} else {
+			internal();
+		}
 	}
 	
 	@Opcode(0x3A, "PPPsss")
@@ -573,7 +589,7 @@ class ScriptInstructions
 				character.actionDone(function() {
 					count--;
 					if (count == 0) {
-						Log.trace("ANIMATION_WAIT.Done!");
+						BraveLog.trace("ANIMATION_WAIT.Done!");
 						done();
 					}
 				});
@@ -744,19 +760,19 @@ class ScriptInstructions
 		
 	}
 	
-	@Opcode(0x53, "PPPPP") // Id, 0, X, Y, Direction
-	public function PLAYER_SPAWN(charaId:Int, unk:Int, x:Int, y:Int, direction:Int) {
-		scriptThread.gameState.charaSpawn(charaId, 0, unk, x, y, direction);
+	@Opcode(0x53, "<PPPPP") // Id, 0, X, Y, Direction
+	public function PLAYER_SPAWN(done:Void -> Void, charaId:Int, unk:Int, x:Int, y:Int, direction:Int) {
+		scriptThread.gameState.charaSpawnAsync(charaId, 0, unk, x, y, direction, done);
 	}
 	
-	@Opcode(0x57, "PPPPP") // Id, 0, X, Y, Direction
-	public function CHARA_SPAWN(charaId:Int, unk:Int, x:Int, y:Int, direction:Int) {
-		scriptThread.gameState.charaSpawn(charaId, 0, unk, x, y, direction);
+	@Opcode(0x57, "<PPPPP") // Id, 0, X, Y, Direction
+	public function CHARA_SPAWN(done:Void -> Void, charaId:Int, unk:Int, x:Int, y:Int, direction:Int) {
+		scriptThread.gameState.charaSpawnAsync(charaId, 0, unk, x, y, direction, done);
 	}
 	
-	@Opcode(0x67, "PPPPPP") // Id, ???, 0, X, Y, Direction
-	public function ENEMY_SPAWN(charaId:Int, type:Int, unk:Int, x:Int, y:Int, direction:Int) {
-		scriptThread.gameState.charaSpawn(charaId, type, unk, x, y, direction);
+	@Opcode(0x67, "<PPPPPP") // Id, ???, 0, X, Y, Direction
+	public function ENEMY_SPAWN(done:Void -> Void, charaId:Int, type:Int, unk:Int, x:Int, y:Int, direction:Int) {
+		scriptThread.gameState.charaSpawnAsync(charaId, type, unk, x, y, direction, done);
 	}
 	
 	@Opcode(0x58, "")

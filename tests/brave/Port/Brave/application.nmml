@@ -22,8 +22,10 @@
 	
 	<!-- assets -->
 	<icon path="assets/nme.svg" />
+	<!--
 	<assets path="assets" rename="assets" include="*" exclude="nme.svg|voice" unless="cpp" />
 	<assets path="assets/dummy" rename="assets" include="*" exclude="nme.svg" if="flash" />
+	-->
 	
 	<!-- DLLs -->
 	<ndll name="std" />

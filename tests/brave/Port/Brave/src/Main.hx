@@ -80,28 +80,21 @@ class Main extends Sprite
 		
 		/*
 		var faceId = 57;
-		Log.trace(StringEx.sprintf("Z_%02d_%02d", [Std.int(faceId / 100), Std.int(faceId % 100)]));
+		BraveLog.trace(StringEx.sprintf("Z_%02d_%02d", [Std.int(faceId / 100), Std.int(faceId % 100)]));
 		*/
 		
 		//new ScriptReader(Script.getScriptWithName("op")).readAllInstructions();
 		
 		if (false) {
-			var woods:Map = Map.loadFromName("a_wood0");
-			var mapSprite:MapSprite = new MapSprite();
-			addChild(mapSprite);
-			mapSprite.setMap(woods);
-			mapSprite.addCharacter(new Character(mapSprite, 0, "C_RUDY", 20 * 40, 71 * 40));
-			/*
-			if (false) {
-				mapSprite.moveCameraTo(500, 500, 2, function() {
-					mapSprite.moveCameraTo(200, 2000, 2);
+			Map.loadFromNameAsync("a_wood0", function(woods:Map):Void {
+				var mapSprite:MapSprite = new MapSprite();
+				addChild(mapSprite);
+				mapSprite.setMap(woods);
+				var character:Character = new Character(mapSprite, 0, "C_RUDY", 20 * 40, 71 * 40);
+				character.loadImageAsync(function() {
+					mapSprite.addCharacter(character);
 				});
-			} else {
-				mapSprite.addCharacter(new Character(0, "C_RUDY", 970, 340));
-				mapSprite.reorderEntities();
-				mapSprite.enableMoveWithKeyboard();
-			}
-			*/
+			});
 		} else {
 			var startScriptName:String = "start";
 			//var startScriptName:String = "op";
@@ -112,8 +105,10 @@ class Main extends Sprite
 			//var startScriptName:String = "e_k99";
 			//var startScriptName:String = "e_m99";
 			var gameState:GameState = new GameState(gameSprite);
-			var scriptThread:ScriptThread = gameState.spawnThreadWithScript(Script.getScriptWithName(startScriptName));
-			scriptThread.execute();
+			Script.getScriptWithNameAsync(startScriptName, function(script:Script) {
+				var scriptThread:ScriptThread = gameState.spawnThreadWithScript(script);
+				scriptThread.execute();
+			});
 		}
 	}
 

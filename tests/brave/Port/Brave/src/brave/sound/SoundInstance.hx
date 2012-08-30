@@ -49,7 +49,7 @@ class SoundInstance
 	}
 	
 	public function getSound():Sound {
-		//Log.trace("getSound");
+		//BraveLog.trace("getSound");
 		sound = new Sound();
 		loadData();
 		return sound;
@@ -115,7 +115,7 @@ class SoundInstance
 	
 	private function playSound(soundOutput:SampleDataEvent):Void
 	{
-		//Log.trace("playSound");
+		//BraveLog.trace("playSound");
 		for (n in 0 ... Std.int(8192 / GeneratedSamples))
 		{
 			if (!hasMoreSamples()) {

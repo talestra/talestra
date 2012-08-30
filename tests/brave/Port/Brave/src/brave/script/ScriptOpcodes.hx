@@ -14,7 +14,7 @@ class ScriptOpcodes
 	static private function initializeOpcodesById() {
 		if (opcodesById == null) {
 			var metas = Meta.getFields(ScriptInstructions);
-			//Log.trace(metas.JUMP_IF);
+			//BraveLog.trace(metas.JUMP_IF);
 			
 			opcodesById = new IntHash<Opcode>();
 			

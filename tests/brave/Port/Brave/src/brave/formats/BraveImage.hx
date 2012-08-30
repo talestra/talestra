@@ -79,7 +79,7 @@ class BraveImage
 		data.readBytes(key, 0, 8);
 		data.readBytes(header, 0, 16);
 		
-		header = decryptChunk(header, ByteUtils.ArrayToByteArray(decodeImageKey));
+		header = decryptChunk(header, ByteUtils.ArrayToBytes(decodeImageKey));
 		header = decryptChunk(header, ByteUtils.ByteArrayToBytes(key));
 		//for (n in 0 ... 0x10) header[n] = Decrypt.decryptPrimitive(header[n], decodeImageKey[n]);
 		//for (n in 0 ... 0x10) header[n] = Decrypt.decryptPrimitive(header[n], key[n % 8]);

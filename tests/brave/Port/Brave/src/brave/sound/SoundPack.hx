@@ -54,7 +54,7 @@ class SoundPack
 		for (n in 0 ... entryCount) {
 			var entry:SoundEntry = readEntry();
 			entries.set(entry.name, entry);
-			//Log.trace(entry.name);
+			//BraveLog.trace(entry.name);
 		}
 	}
 }

@@ -20,9 +20,9 @@ class Instruction {
 	
 	public function call(object:Dynamic):Dynamic {
 		if (opcode.unimplemented) {
-			Log.trace(Std.format("Unimplemented: $this"));
+			BraveLog.trace(Std.format("Unimplemented: $this"));
 		} else {
-			Log.trace(Std.format("Executing... $this"));
+			BraveLog.trace(Std.format("Executing... $this"));
 		}
 		return Reflect.callMethod(object, Reflect.field(object, opcode.methodName), parameters);
 	}

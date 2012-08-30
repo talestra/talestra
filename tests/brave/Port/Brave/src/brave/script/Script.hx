@@ -22,8 +22,10 @@ class Script
 	{
 	}
 
-	static public function getScriptWithName(name:String):Script {
-		return getScriptWithByteArray(Decrypt.decryptDataWithKey(BraveAssets.getBytes(Std.format("scenario/${name}.dat")), Decrypt.key23));
+	static public function getScriptWithNameAsync(name:String, done:Script -> Void):Void {
+		BraveAssets.getBytesAsync(Std.format("scenario/${name}.dat"), function(bytes:ByteArray) {
+			done(getScriptWithByteArray(Decrypt.decryptDataWithKey(bytes, Decrypt.key23)));
+		});
 	}
 
 	static public function getScriptWithByteArray(data:ByteArray):Script {
