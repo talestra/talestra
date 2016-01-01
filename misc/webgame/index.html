@@ -1,0 +1,275 @@
+<html>
+	<head>
+		<title>Tales of Eternia</title>
+		
+		<!--[if IE]><script type="text/javascript" src="excanvas.js"></script><![endif]-->
+
+		<script src="js/common.js"    type="text/javascript" language="JavaScript"></script>
+		<script src="js/geometry.js"  type="text/javascript" language="JavaScript"></script>
+		<script src="js/exmath.js"    type="text/javascript" language="JavaScript"></script>
+		<script src="js/cookies.js"   type="text/javascript" language="JavaScript"></script>
+		<script src="js/xml.js"       type="text/javascript" language="JavaScript"></script>
+		<script src="js/animation.js" type="text/javascript" language="JavaScript"></script>
+		<script src="js/character.js" type="text/javascript" language="JavaScript"></script>
+
+		<script src="scripts/test001.js" type="text/javascript" language="JavaScript"></script>
+
+		<link rel="stylesheet" href="styles.css" type="text/css">
+<script>
+	
+var charUser = undefined;
+
+Character.setUser = function(chara) {
+	charUser = chara;
+	camera.centerAt(charUser.px, charUser.py);
+};
+
+var mx = 0, my = 0;
+var angle = 270, moving = 0;
+var running = 0;
+var animid;
+var tick = 0;
+
+var camera = { x : 0, y : 0, width : 480, height : 340 };
+
+camera.update = function() {
+	$('content').style.backgroundPosition = parseInt(-camera.x) + 'px ' + parseInt(-camera.y) + 'px';
+	Sprite.updateAll();
+	$('canvas').style.left = -camera.x + 'px';
+	$('canvas').style.top  = -camera.y + 'px';
+	$('tempcanvas').style.left = -camera.x + 'px';
+	$('tempcanvas').style.top  = -camera.y + 'px';
+	
+	for (var n = 0; n < overlays.length; n++) {
+		var ol = overlays[n];
+		ol.style.left = parseInt(ol.px - camera.x) + 'px';
+		ol.style.top  = parseInt(ol.py - camera.y) + 'px';
+		ol.style.visibility = 'visible';
+	}	
+};
+
+camera.centerAt = function(x, y) {
+	camera.x2 = Math.min(Math.max(0, parseInt(x - 240)), camera.width - 480);
+	camera.y2 = Math.min(Math.max(0, parseInt(y - 170)), camera.height - 340);
+	
+	if (camera.x2 == camera.x && camera.y2 == camera.y) return;
+	
+	camera.x = camera.x2;
+	camera.y = camera.y2;
+	
+	camera.update();
+};
+
+function updateCharacterPosition() {
+	moving = 1;
+
+	switch (mx) {
+		case -1: switch (my) { case -1: angle = 135; break; case 0: angle  = 180; break; case +1: angle = 225; break; } break;
+		case  0: switch (my) { case -1: angle = 90 ; break; case 0: moving = 0  ; break; case +1: angle = 270; break; } break;
+		case +1: switch (my) { case -1: angle = 45 ; break; case 0: angle  = 0  ; break; case +1: angle = 315; break; } break;
+	}	
+
+	if (!charUser) return;
+
+	if (charUser.py < 100) {
+		if ((tick++ % 4) == 0 && moving) charUser.sprite.nextFrame();
+		animid = 'climb';
+	} else {
+		if ((tick++ % 2) == 0) charUser.sprite.nextFrame();
+		animid = AnimationAngle(moving ? (running ? 'run' : 'walk') : 'stop', angle);
+	}
+
+	//$('zout').innerHTML = mx + ',<br />' + my + ',<br />' + animid + ',<br />' + moving;
+
+	charUser.sprite.setAnimation(animid);
+
+	if (!moving) return;
+
+	var mult = running ? 7 : 4;
+	var arad = (angle * (Math.PI * 2)) / 360;
+	var px = charUser.px, py = charUser.py;
+	var d = { 'x' : Math.cos(arad) * mult, 'y' : -Math.sin(arad) * mult};
+
+	var rd = geometry.checkCollision(charUser.getBoundRect(px, py), d);
+
+	if (rd) {
+		charUser.moveTo(px + rd.x, py + rd.y);
+		camera.centerAt(charUser.px, charUser.py);
+	}
+}
+
+portableAttachEvent('load', updateCharacterPosition);
+
+function keySetEvent(k) {
+	switch (k.keyCode) {
+		case 37: mx = -1; break; case 38: my = -1; break;
+		case 39: mx = +1; break; case 40: my = +1; break;
+	}
+	running = (k.ctrlKey);
+}
+
+function keyUnsetEvent(k) {
+	switch (k.keyCode) {
+		case 37: mx = 0; break; case 38: my = 0; break;
+		case 39: mx = 0; break; case 40: my = 0; break;
+	}
+	updateCharacterPosition();
+}
+
+// Actualizamos la dirección cada 30 milisegundos
+setInterval(function() { updateCharacterPosition(); }, 30);
+
+portableAttachEvent('keypress', function(k) {
+	switch (k.charCode) {
+		case 116: // toggle
+			if ($('canvas').style.visibility != 'hidden') {
+				$('canvas').style.visibility = 'hidden';
+				$('tempcanvas').style.visibility = 'hidden';
+			} else {
+				$('canvas').style.visibility = 'visible';
+				$('tempcanvas').style.visibility = 'visible';
+			}
+		break;
+		case 101: // erase
+			geometry.lines.length = 0;
+			updateLines();
+		break;
+	}
+});
+
+portableAttachEvent('keypress', keySetEvent);
+portableAttachEvent('keydown',  keySetEvent);
+portableAttachEvent('keyup',    keyUnsetEvent);
+
+portableAttachEvent(
+	'load',
+	function(k) {
+		if (onLoadRoom) onLoadRoom();
+	}
+);
+
+var geometry = new Geometry();
+
+geometry.lines = [ ];
+
+function updateLines() {
+	var ctx = $('canvas').getContext('2d');
+
+	ctx.strokeStyle = 'red';
+	ctx.lineWidth = 1;
+
+	ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+
+	for (var n = 0; n < geometry.lines.length; n++) {
+		var line = geometry.lines[n];
+		ctx.beginPath();
+		ctx.moveTo(line.x1, line.y1);
+		ctx.lineTo(line.x2, line.y2);
+		ctx.closePath();
+		ctx.stroke();
+	}
+}
+
+portableAttachEvent(
+	'load',
+	function(k) {
+		updateLines();
+	}
+);
+
+var newLineX1, newLineY1;
+
+portableAttachEvent(
+	'mousemove',
+	function(k) {
+		if (!newLineX1) return;
+		if ($('tempcanvas').style.visibility == 'hidden') return;
+		var cx = parseInt(k.clientX) + parseInt(camera.x), cy = parseInt(k.clientY) + parseInt(camera.y);				
+		var ctx = $('tempcanvas').getContext('2d');
+		ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+		ctx.strokeStyle = 'blue';
+		ctx.lineWidth = 2;
+		ctx.beginPath();
+		ctx.moveTo(newLineX1, newLineY1);
+		ctx.lineTo(cx, cy);
+		ctx.closePath();
+		ctx.stroke();
+	}
+);
+
+portableAttachEvent(
+	'load',
+	function(k) {
+		$('content').onclick = function(k) {
+			if ($('tempcanvas').style.visibility == 'hidden') return;
+			
+			var cx = parseInt(k.clientX) + parseInt(camera.x), cy = parseInt(k.clientY) + parseInt(camera.y);
+			
+			if (k.button > 0) {
+				newLineX1 = undefined;
+				var ctx = $('tempcanvas').getContext('2d');
+				ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+				return false;
+			}
+					
+			if (newLineX1 == undefined) {
+				newLineX1 = cx;
+				newLineY1 = cy;
+			} else {
+				var line = { 'x1' : newLineX1, 'y1' : newLineY1, 'x2' : cx, 'y2' : cy };
+				geometry.lines[geometry.lines.length] = line;
+				newLineY1 = cy;
+				newLineX1 = cx;
+				updateLines();
+				var ctx = $('tempcanvas').getContext('2d');
+				ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+				
+				var linetext = '';
+				
+				for (var n = 0; n < geometry.lines.length; n++) {
+					var line = geometry.lines[n];			
+					linetext += 'Background.addLine(' + line.x1 + ', ' + line.y1 + ', ' + line.x2 + ', ' + line.y2 + ');<br />';
+				}
+				
+				$('zout').innerHTML = linetext;
+			}
+		};
+	}
+);
+
+document.onclick = function(k) {
+	if (k.button > 0) {
+		newLineX1 = undefined;
+		var ctx = $('tempcanvas').getContext('2d');
+		ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+		return false;	
+	}
+	
+	return false;
+};
+/*
+portableAttachEvent(
+	'click',
+	
+);*/
+
+</script>
+
+	</head>
+	<body>
+		<div id="content">
+			<canvas id="tempcanvas" width="1024" height="1024" style="visibility:visible;width:1024px;height:1024px;left:0;top:0;position:absolute;z-index:1000;"></canvas>
+			<canvas id="canvas" width="1024" height="1024" style="visibility:visible;width:1024px;height:1024px;left:0;top:0;position:absolute;z-index:999;"></canvas>
+		</div>
+		<div id="zout"></div>
+		<div id="help">
+			<h1>Explicación:</h1>
+			<p><strong>Teclas del cursor</strong> para mover al personaje.</p>
+			<p><strong>Control</strong> para correr.</p>
+			<p><strong>Click izquierdo</strong> para añadir nuevas líneas a las colisiones de líneas.</p>
+			<p><strong>Click derecho</strong> para terminar de hacer líneas de colisiones.</p>
+			<p>Tecla `<strong>T</strong>` para habilitar/deshabilitar el visionado de las geometrías.</p>
+			<p>Tecla `<strong>E</strong>` para borrar todas las líneas.</p>
+		</div>
+	</body>
+</html>

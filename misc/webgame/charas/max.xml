@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<agroup>
+	<image id="chara" file="charas/max.png" width="372" height="360" />
+	<image id="shadow" file="images/shadow.png" width="36" height="28" />
+
+	<cut id="shadow_1" imageid="shadow" x="0" y="0" width="36" height="28" centerx="18" centery="14" />
+
+	<cut id="dead_1" imageid="chara" x="36*8" y="72*4" width="36*2" height="72" centerx="18*2" centery="52" />
+
+	<cut id="climb_1" imageid="chara" x="36*6" y="72*4" width="36" height="72" centerx="18" centery="62" />
+	<cut id="climb_2" imageid="chara" x="36*7" y="72*4" width="36" height="72" centerx="18" centery="62" />
+	<cut id="climb_3" imageid="chara" x="36*9" y="72*3" width="36" height="72" centerx="18" centery="62" />
+
+	<cut id="run_270_1" imageid="chara" x="36*0" y="72*3" width="36" height="72" centerx="18" centery="62" />
+	<cut id="run_270_2" imageid="chara" x="36*1" y="72*3" width="36" height="72" centerx="18" centery="62" />
+	<cut id="run_270_3" imageid="chara" x="36*2" y="72*3" width="36" height="72" centerx="18" centery="62" />
+
+	<cut id="run_225_1" imageid="chara" x="36*3" y="72*3" width="36" height="72" centerx="18" centery="62" />
+	<cut id="run_225_2" imageid="chara" x="36*4" y="72*3" width="36" height="72" centerx="18" centery="62" />
+	<cut id="run_225_3" imageid="chara" x="36*5" y="72*3" width="36" height="72" centerx="18" centery="62" />
+
+	<cut id="run_180_1" imageid="chara" x="36*6" y="72*3" width="36" height="72" centerx="18" centery="62" />
+	<cut id="run_180_2" imageid="chara" x="36*7" y="72*3" width="36" height="72" centerx="18" centery="62" />
+	<cut id="run_180_3" imageid="chara" x="36*8" y="72*3" width="36" height="72" centerx="18" centery="62" />
+
+	<cut id="run_090_1" imageid="chara" x="36*0" y="72*4" width="36" height="72" centerx="18" centery="62" />
+	<cut id="run_090_2" imageid="chara" x="36*1" y="72*4" width="36" height="72" centerx="18" centery="62" />
+	<cut id="run_090_3" imageid="chara" x="36*2" y="72*4" width="36" height="72" centerx="18" centery="62" />
+
+	<cut id="run_135_1" imageid="chara" x="36*3" y="72*4" width="36" height="72" centerx="18" centery="62" />
+	<cut id="run_135_2" imageid="chara" x="36*4" y="72*4" width="36" height="72" centerx="18" centery="62" />
+	<cut id="run_135_3" imageid="chara" x="36*5" y="72*4" width="36" height="72" centerx="18" centery="62" />
+
+	<cut id="run_315_1" imageid="chara" x="36*10" y="72*3" width="36" height="72" centerx="18" centery="62" />
+	<cut id="run_315_2" imageid="chara" x="36*11" y="72*3" width="36" height="72" centerx="18" centery="62" />
+	<cut id="run_315_3" imageid="chara" x="36*12" y="72*3" width="36" height="72" centerx="18" centery="62" />
+
+	<cut id="run_000_1" imageid="chara" x="36*13" y="72*3" width="36" height="72" centerx="18" centery="62" />
+	<cut id="run_000_2" imageid="chara" x="36*14" y="72*3" width="36" height="72" centerx="18" centery="62" />
+	<cut id="run_000_3" imageid="chara" x="36*15" y="72*3" width="36" height="72" centerx="18" centery="62" />
+
+	<cut id="run_045_1" imageid="chara" x="36*10" y="72*4" width="36" height="72" centerx="18" centery="62" />
+	<cut id="run_045_2" imageid="chara" x="36*11" y="72*4" width="36" height="72" centerx="18" centery="62" />
+	<cut id="run_045_3" imageid="chara" x="36*12" y="72*4" width="36" height="72" centerx="18" centery="62" />
+
+
+	<cut id="walk_270_1" imageid="chara" x="36*0" y="72*0" width="36" height="72" centerx="18" centery="62" />
+	<cut id="walk_270_2" imageid="chara" x="36*1" y="72*0" width="36" height="72" centerx="18" centery="62" />
+	<cut id="walk_270_3" imageid="chara" x="36*2" y="72*0" width="36" height="72" centerx="18" centery="62" />
+	<cut id="walk_270_4" imageid="chara" x="36*3" y="72*0" width="36" height="72" centerx="18" centery="62" />
+	<cut id="walk_270_5" imageid="chara" x="36*4" y="72*0" width="36" height="72" centerx="18" centery="62" />
+
+	<cut id="walk_225_1" imageid="chara" x="36*5" y="72*0" width="36" height="72" centerx="18" centery="62" />
+	<cut id="walk_225_2" imageid="chara" x="36*6" y="72*0" width="36" height="72" centerx="18" centery="62" />
+	<cut id="walk_225_3" imageid="chara" x="36*7" y="72*0" width="36" height="72" centerx="18" centery="62" />
+	<cut id="walk_225_4" imageid="chara" x="36*8" y="72*0" width="36" height="72" centerx="18" centery="62" />
+	<cut id="walk_225_5" imageid="chara" x="36*9" y="72*0" width="36" height="72" centerx="18" centery="62" />
+
+	<cut id="walk_315_1" imageid="chara" x="36*10" y="72*0" width="36" height="72" centerx="18" centery="62" />
+	<cut id="walk_315_2" imageid="chara" x="36*11" y="72*0" width="36" height="72" centerx="18" centery="62" />
+	<cut id="walk_315_3" imageid="chara" x="36*12" y="72*0" width="36" height="72" centerx="18" centery="62" />
+	<cut id="walk_315_4" imageid="chara" x="36*13" y="72*0" width="36" height="72" centerx="18" centery="62" />
+	<cut id="walk_315_5" imageid="chara" x="36*14" y="72*0" width="36" height="72" centerx="18" centery="62" />
+
+	<cut id="walk_090_1" imageid="chara" x="36*0" y="72*1" width="36" height="72" centerx="18" centery="62" />
+	<cut id="walk_090_2" imageid="chara" x="36*1" y="72*1" width="36" height="72" centerx="18" centery="62" />
+	<cut id="walk_090_3" imageid="chara" x="36*2" y="72*1" width="36" height="72" centerx="18" centery="62" />
+	<cut id="walk_090_4" imageid="chara" x="36*3" y="72*1" width="36" height="72" centerx="18" centery="62" />
+	<cut id="walk_090_5" imageid="chara" x="36*4" y="72*1" width="36" height="72" centerx="18" centery="62" />
+
+	<cut id="walk_135_1" imageid="chara" x="36*5" y="72*1" width="36" height="72" centerx="18" centery="62" />
+	<cut id="walk_135_2" imageid="chara" x="36*6" y="72*1" width="36" height="72" centerx="18" centery="62" />
+	<cut id="walk_135_3" imageid="chara" x="36*7" y="72*1" width="36" height="72" centerx="18" centery="62" />
+	<cut id="walk_135_4" imageid="chara" x="36*8" y="72*1" width="36" height="72" centerx="18" centery="62" />
+	<cut id="walk_135_5" imageid="chara" x="36*9" y="72*1" width="36" height="72" centerx="18" centery="62" />
+
+	<cut id="walk_180_1" imageid="chara" x="36*5" y="72*2" width="36" height="72" centerx="18" centery="62" />
+	<cut id="walk_180_2" imageid="chara" x="36*6" y="72*2" width="36" height="72" centerx="18" centery="62" />
+	<cut id="walk_180_3" imageid="chara" x="36*7" y="72*2" width="36" height="72" centerx="18" centery="62" />
+	<cut id="walk_180_4" imageid="chara" x="36*8" y="72*2" width="36" height="72" centerx="18" centery="62" />
+	<cut id="walk_180_5" imageid="chara" x="36*9" y="72*2" width="36" height="72" centerx="18" centery="62" />
+
+	<cut id="walk_045_1" imageid="chara" x="36*10" y="72*1" width="36" height="72" centerx="18" centery="62" />
+	<cut id="walk_045_2" imageid="chara" x="36*11" y="72*1" width="36" height="72" centerx="18" centery="62" />
+	<cut id="walk_045_3" imageid="chara" x="36*12" y="72*1" width="36" height="72" centerx="18" centery="62" />
+	<cut id="walk_045_4" imageid="chara" x="36*13" y="72*1" width="36" height="72" centerx="18" centery="62" />
+	<cut id="walk_045_5" imageid="chara" x="36*14" y="72*1" width="36" height="72" centerx="18" centery="62" />
+
+	<cut id="walk_000_1" imageid="chara" x="36*10" y="72*2" width="36" height="72" centerx="18" centery="62" />
+	<cut id="walk_000_2" imageid="chara" x="36*11" y="72*2" width="36" height="72" centerx="18" centery="62" />
+	<cut id="walk_000_3" imageid="chara" x="36*12" y="72*2" width="36" height="72" centerx="18" centery="62" />
+	<cut id="walk_000_4" imageid="chara" x="36*13" y="72*2" width="36" height="72" centerx="18" centery="62" />
+	<cut id="walk_000_5" imageid="chara" x="36*14" y="72*2" width="36" height="72" centerx="18" centery="62" />
+
+	<cut id="stop_000_1" imageid="chara" x="36*16" y="72*2" width="36" height="72" centerx="18" centery="62" />
+	<cut id="stop_045_1" imageid="chara" x="36*17" y="72*2" width="36" height="72" centerx="18" centery="62" />
+	<cut id="stop_090_1" imageid="chara" x="36*4" y="72*2" width="36" height="72" centerx="18" centery="62" />
+	<cut id="stop_135_1" imageid="chara" x="36*3" y="72*2" width="36" height="72" centerx="18" centery="62" />
+	<cut id="stop_180_1" imageid="chara" x="36*2" y="72*2" width="36" height="72" centerx="18" centery="62" />
+	<cut id="stop_225_1" imageid="chara" x="36*1" y="72*2" width="36" height="72" centerx="18" centery="62" />
+	<cut id="stop_270_1" imageid="chara" x="36*0" y="72*2" width="36" height="72" centerx="18" centery="62" />
+	<cut id="stop_315_1" imageid="chara" x="36*15" y="72*2" width="36" height="72" centerx="18" centery="62" />
+
+	<animation id="stop000"><frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="stop_000_1" x="0" y="0" /></frame></animation>
+	<animation id="stop045"><frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="stop_045_1" x="0" y="0" /></frame></animation>
+	<animation id="stop090"><frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="stop_090_1" x="0" y="0" /></frame></animation>
+	<animation id="stop135"><frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="stop_135_1" x="0" y="0" /></frame></animation>
+	<animation id="stop180"><frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="stop_180_1" x="0" y="0" /></frame></animation>
+	<animation id="stop225"><frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="stop_225_1" x="0" y="0" /></frame></animation>
+	<animation id="stop270"><frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="stop_270_1" x="0" y="0" /></frame></animation>
+	<animation id="stop315"><frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="stop_315_1" x="0" y="0" /></frame></animation>
+
+	<animation id="walk000">
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="walk_000_1" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="walk_000_2" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="walk_000_3" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="walk_000_4" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="walk_000_5" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="walk_000_4" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="walk_000_3" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="walk_000_2" x="0" y="0" /></frame>
+	</animation>
+
+	<animation id="walk045">
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="walk_045_1" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="walk_045_2" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="walk_045_3" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="walk_045_4" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="walk_045_5" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="walk_045_4" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="walk_045_3" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="walk_045_2" x="0" y="0" /></frame>
+	</animation>
+
+	<animation id="walk090">
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="walk_090_1" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="walk_090_2" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="walk_090_3" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="walk_090_4" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="walk_090_5" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="walk_090_4" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="walk_090_3" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="walk_090_2" x="0" y="0" /></frame>
+	</animation>
+
+	<animation id="walk135">
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="walk_135_1" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="walk_135_2" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="walk_135_3" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="walk_135_4" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="walk_135_5" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="walk_135_4" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="walk_135_3" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="walk_135_2" x="0" y="0" /></frame>
+	</animation>
+
+	<animation id="walk180">
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="walk_180_1" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="walk_180_2" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="walk_180_3" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="walk_180_4" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="walk_180_5" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="walk_180_4" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="walk_180_3" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="walk_180_2" x="0" y="0" /></frame>
+	</animation>
+
+	<animation id="walk225">
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="walk_225_1" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="walk_225_2" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="walk_225_3" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="walk_225_4" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="walk_225_5" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="walk_225_4" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="walk_225_3" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="walk_225_2" x="0" y="0" /></frame>
+	</animation>
+
+	<animation id="walk270">
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="walk_270_1" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="walk_270_2" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="walk_270_3" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="walk_270_4" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="walk_270_5" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="walk_270_4" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="walk_270_3" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="walk_270_2" x="0" y="0" /></frame>
+	</animation>
+
+	<animation id="walk315">
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="walk_315_1" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="walk_315_2" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="walk_315_3" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="walk_315_4" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="walk_315_5" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="walk_315_4" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="walk_315_3" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="walk_315_2" x="0" y="0" /></frame>
+	</animation>
+
+	<animation id="run000">
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="run_000_1" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="run_000_2" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="run_000_3" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="run_000_2" x="0" y="0" /></frame>
+	</animation>
+
+	<animation id="run045">
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="run_045_1" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="run_045_2" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="run_045_3" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="run_045_2" x="0" y="0" /></frame>
+	</animation>
+
+	<animation id="run090">
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="run_090_1" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="run_090_2" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="run_090_3" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="run_090_2" x="0" y="0" /></frame>
+	</animation>
+
+	<animation id="run135">
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="run_135_1" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="run_135_2" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="run_135_3" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="run_135_2" x="0" y="0" /></frame>
+	</animation>
+
+	<animation id="run180">
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="run_180_1" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="run_180_2" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="run_180_3" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="run_180_2" x="0" y="0" /></frame>
+	</animation>
+
+	<animation id="run225">
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="run_225_1" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="run_225_2" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="run_225_3" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="run_225_2" x="0" y="0" /></frame>
+	</animation>
+
+	<animation id="run270">
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="run_270_1" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="run_270_2" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="run_270_3" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="run_270_2" x="0" y="0" /></frame>
+	</animation>
+
+	<animation id="run315">
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="run_315_1" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="run_315_2" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="run_315_3" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="shadow_1" x="0" y="0" /><put cutid="run_315_2" x="0" y="0" /></frame>
+	</animation>
+
+	<animation id="climb">
+		<frame time="1"><put cutid="climb_1" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="climb_2" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="climb_3" x="0" y="0" /></frame>
+		<frame time="1"><put cutid="climb_2" x="0" y="0" /></frame>
+	</animation>
+
+	<animation id="dead">
+		<frame time="1"><put cutid="dead_1" x="0" y="0" /></frame>
+	</animation>
+
+</agroup>

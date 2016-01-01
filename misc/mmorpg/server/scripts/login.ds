@@ -1,0 +1,36 @@
+﻿function onLogin(chara) {
+	// Creamos una habitación nueva de bienvenida
+	var room = new Room('stars');
+	// Creamos a un npc llamado Rem
+	var rem = new Character('Rem', 'rem', 270);
+	// Variable temporal utilizada para saber si se ha hablado con rem
+	var done = false;
+
+	// Movemos al npc al centro de la habitación correspondiente
+	rem.moveTo(520, 310, room);
+
+	// Movemos el personaje a la habitación
+	chara.moveTo(520, 310, room);
+	chara.set('Espíritu de Luz', 'spirit');
+
+	// Rem, se presenta
+	rem.say("Bienvenido joven espíritu. Soy Rem, <font color='#ff0000'>diosa de la luz</font>.\nHabla conmigo y te diré todo lo que necesitas saber.");
+
+	// Cada 10 segundos te recuerda que has de hablar con ella
+	var interval = setInterval(function() {
+		if (done) {
+			clearInterval(interval);
+			return;
+		}
+		rem.say("Venga, no te demores jovencito. Ven aquí y habla conmigo.");
+	}, 10000);
+
+	// Al hablar con rem, te materializa con un nuevo cuerpo en el dojo de Regulus.
+	rem.onTalk = function(chara) {
+		rem.say("Así me gusta. Ahora te materializaré");
+		chara.moveTo(520, 310, rooms['main']);
+		chara.set('Reid', 'reid');
+		delete rem.room;
+		delete rem;
+	}
+}

@@ -1,0 +1,7 @@
+﻿var rooms = {};
+
+rooms['main'] = new Room('dojo');
+
+function onLoad() {
+	print('Running');
+}

@@ -1,0 +1,12 @@
+Background.set('images/dojo_regulus.jpg', 963, 654);
+Background.addOver('images/dojo_regulus_000.png', 111, 261, 54, 65, 65);
+Background.addOver('images/dojo_regulus_001.png', 215, 219, 41, 50, 36);
+Background.addOver('images/dojo_regulus_002.png', 795, 220, 125, 254, 204);
+Background.addOver('images/dojo_regulus_003.png', 720, 202, 76, 200, 192);
+Background.addOver('images/dojo_regulus_004.png', 628, 68, 92, 311, 285);
+Background.addOver('images/dojo_regulus_005.png', 550, 68, 78, 249, 241);
+Background.addOver('images/dojo_regulus_006.png', 395, 65, 90, 182, 174);
+Background.addOver('images/dojo_regulus_007.png', 485, 65, 66, 229, 204);
+Background.addOver('images/dojo_regulus_008.png', 664, 426, 229, 167, 166);
+Background.addOver('images/dojo_regulus_009.png', 421, 489, 28, 46, 39);
+Background.addOver('images/dojo_regulus_010.png', 241, 398, 28, 46, 38);

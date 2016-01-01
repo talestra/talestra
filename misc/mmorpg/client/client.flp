@@ -1,0 +1,23 @@
+﻿<flash_project name="client" version="1">
+    <project_folder name="flash" expanded="true">
+        <project_folder name="geom" expanded="true">
+            <project_file path="./flash/geom/Geometry.as" filetype="as" />
+            <project_file path="./flash/geom/GeometryContainer.as" filetype="as" />
+            <project_file path="./flash/geom/GeometryContainerOptimized.as" filetype="as" />
+            <project_file path="./flash/geom/Line.as" filetype="as" />
+        </project_folder>
+    </project_folder>
+    <project_file path="./Waypoint.as" filetype="as" />
+    <project_file path="./Animation.as" filetype="as" />
+    <project_file path="./ClientSocket.as" filetype="as" />
+    <project_file path="./GameCharacter.as" filetype="as" />
+    <project_file path="./GameMain.as" filetype="as" />
+    <project_file path="./GameSprite.as" filetype="as" />
+    <project_file path="./md5.as" filetype="as" />
+    <project_file path="./Packet.as" filetype="as" />
+    <project_file path="./Spline.as" filetype="as" />
+    <project_file path="./SplinePoint.as" filetype="as" />
+    <project_file path="./TimedPoint.as" filetype="as" />
+    <project_file path="./client.fla" filetype="fla" profile="" def_file="true" />
+    <project_file path="./MovieClipOrdered.as" filetype="as" />
+</flash_project>

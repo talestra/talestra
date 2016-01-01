@@ -1,0 +1,4 @@
+#/usr/bin/bash
+rm gserv
+bin/gdc -lsqlite3 mmorpg/cards.d mmorpg/net/packet.d sqlite3.d mmorpg/util.d main.d -ogserv
+./gserv

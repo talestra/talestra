@@ -1,0 +1,104 @@
+
+; Lista de imágenes
+
+
+RAYTITLE_start {
+	data:  /titulo/RAYTITLE.BIN
+	color: /titulo/RAYTITLE.PLT
+	modo:  2
+	bpp:   8
+	width: 160
+	slice: 0x00050170-
+}
+
+RAYTITLE_00 {
+	data:  /titulo/RAYTITLE.BIN
+	color: /titulo/RAYTITLE.PLT
+	modo:  2
+	bpp:   8
+	width: 320
+	slice: 0x000002a0-0x00011800
+}
+
+RAYTITLE_01 {
+	data:  /titulo/RAYTITLE.BIN
+	color: /titulo/RAYTITLE.PLT
+	modo:  2
+	bpp:   8
+	width: 320
+	slice: 0x00011CB0-0x00011800
+}
+
+RAYTITLE_02 {
+	data:  /titulo/RAYTITLE.BIN
+	color: /titulo/RAYTITLE.PLT
+	modo:  2
+	bpp:   8
+	width: 80
+	slice: 0x000236c0-0x0002a80
+}
+
+RAYTITLE_03 {
+	data:  /titulo/RAYTITLE.BIN
+	color: /titulo/RAYTITLE.PLT
+	modo:  2
+	bpp:   8
+	width: 88
+	slice: 0x00026350-0x00002ec1
+}
+
+RAYTITLE_04 {
+	data:  /titulo/RAYTITLE.BIN
+	color: /titulo/RAYTITLE.PLT
+	modo:  2
+	bpp:   8
+	width: 80
+	slice: 0x00029420-0x00002a80
+}
+
+KEIKOKU0 {
+	data:  /ADV/KEIKOKU0.BIN
+	color: /ADV/KEIKOKU0.PLT
+	modo:  2
+	bpp:   8
+	width: 320
+	slice: 0x0000210-
+}
+
+KEIKOKU1 {
+	data:  /ADV/KEIKOKU1.BIN
+	color: /ADV/KEIKOKU1.PLT
+	modo:  2
+	bpp:   8
+	width: 320
+	slice: 0x0000210-
+}
+
+KEIKOKU2 {
+	data:  /ADV/KEIKOKU2.BIN
+	color: /ADV/KEIKOKU2.PLT
+	modo:  2
+	bpp:   8
+	width: 320
+	slice: 0x0000210-
+}
+
+0.bin {
+	   data:  0.bin
+	   modo:  2
+	   bpp:   4
+	   width: 16
+	reversed: 1
+	read_order: 0
+	#pal_gray: 0, 255, 204, 102
+	   slice: 0x0007163b-0x00002f04
+}
+
+#SEGALOGO{
+#	data:  SEGALOGO.BIN 
+#	color: SEGALOGO.PLT
+#	modo:  2
+#	bpp:   8
+#	width: 120
+#	slice: 0x0000210-
+#}

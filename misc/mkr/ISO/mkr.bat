@@ -1,0 +1,1 @@
+mkisofs.exe -quiet -sysid "SEGA SATURN" -volid "MKR_-_MANDANGA" -volset "MKR_-_MANDANGA" -publisher "SEGA ENTERPRISES, LTD." -preparer "SEGA ENTERPRISES, LTD." -appid "MKR_-_MANDANGA" -generic-boot IP.BIN -full-iso9660-filenames -o MKR-es.iso cd
