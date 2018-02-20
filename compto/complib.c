@@ -39,7 +39,7 @@ void LzStateDelete(LzState *State) {
 	free(State);
 }
 
-LZAPI char *GetErrorString(int error) {
+char *GetErrorString(int error) {
 	switch (error) {
 		case SUCCESS:               return "Success";
 		case ERROR_FILE_IN:         return "Error with input file";
@@ -129,7 +129,7 @@ void DeleteNode(LzState *State, int p) {
 	State->dad[p] = NIL;
 }
 
-LZAPI int Encode(int version, void *in, int inl, void *out, unsigned int *outl) {
+int Encode(int version, void *in, int inl, void *out, unsigned int *outl) {
 	unsigned char *insp, *inst, *ousp, *oust, *inspb, *insplb;
 	int i, c, len, r, s, last_match_length, dup_match_length = 0, code_buf_ptr, dup_last_match_length = 0;
 	unsigned char code_buf[1 + 8 * 5], mask;
@@ -275,7 +275,7 @@ _cleanup:
 	return SUCCESS;
 }
 
-LZAPI int Decode(int version, void *in, int inl, void *out, unsigned int *outl) {
+int Decode(int version, void *in, int inl, void *out, unsigned int *outl) {
 	unsigned char *insp, *inst, *ousp, *oust;
 	unsigned int flags = 0, i, j, k, r, c;
 	int error = SUCCESS;
@@ -308,7 +308,7 @@ _cleanup:
 	return error;
 }
 
-LZAPI int DecodeFile(char *in, char *out, int raw, int version) {
+int DecodeFile(char *in, char *out, int raw, int version) {
 	unsigned int inl, outl; int error = SUCCESS;
 	void *ind = 0, *outd = 0; FILE *fin = 0, *fout = 0;
 
@@ -356,7 +356,7 @@ _cleanup:
 	return error;
 }
 
-LZAPI int EncodeFile(char *in, char *out, int raw, int version) {
+int EncodeFile(char *in, char *out, int raw, int version) {
 	unsigned int inl, outl; int error = SUCCESS;
 	void *ind = 0, *outd = 0; FILE *fin = 0, *fout = 0;
 	int eversion = 0;
@@ -412,7 +412,7 @@ _cleanup:
 	return error;
 }
 
-LZAPI int DumpTextBuffer(char *out) {
+int DumpTextBuffer(char *out) {
 	int error = SUCCESS;
 	FILE *fout = 0;
 
@@ -437,7 +437,7 @@ _cleanup:
 	return error;
 }
 
-LZAPI int CheckCompression(char *in, int version) {
+int CheckCompression(char *in, int version) {
 	FILE *fin = 0; void *ind = 0, *outd = 0, *outd2 = 0;
 	unsigned int error = SUCCESS, inl, outl, outl2;
 
@@ -477,11 +477,11 @@ _cleanup:
 	return error;
 }
 
-LZAPI void ProfileStart(char *out) {
+void ProfileStart(char *out) {
 	profilef = fopen(out, "wb");
 }
 
-LZAPI void ProfileEnd() {
+void ProfileEnd() {
 	if (profilef == 0) return;
 	fclose(profilef);
 	profilef = 0;

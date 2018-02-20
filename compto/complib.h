@@ -9,19 +9,19 @@
 	#define ERROR_UNKNOWN_VERSION -5
 	#define ERROR_FILES_MISMATCH  -6
 	
-	#define LZAPI __declspec(dllexport) 
+	#define  __declspec(dllexport) 
 
-	LZAPI char *GetErrorString(int error);
-	LZAPI int Encode(int version, void *in, int inl, void *out, unsigned int *outl);
-	LZAPI int Decode(int version, void *in, int inl, void *out, unsigned int *outl);
-	LZAPI int DecodeFile(char *in, char *out, int raw, int version);
-	LZAPI int EncodeFile(char *in, char *out, int raw, int version);
-	LZAPI int DumpTextBuffer(char *out);
+	char *GetErrorString(int error);
+	int Encode(int version, void *in, int inl, void *out, unsigned int *outl);
+	int Decode(int version, void *in, int inl, void *out, unsigned int *outl);
+	int DecodeFile(char *in, char *out, int raw, int version);
+	int EncodeFile(char *in, char *out, int raw, int version);
+	int DumpTextBuffer(char *out);
 
-	LZAPI int CheckCompression(char *in, int version);
+	int CheckCompression(char *in, int version);
 	
 	// Non-Thread Safe
-	LZAPI void ProfileStart(char *out);
-	LZAPI void ProfileEnd();
+	void ProfileStart(char *out);
+	void ProfileEnd();
 
 #endif
