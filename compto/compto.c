@@ -26,6 +26,8 @@
 #include <string.h>
 #include <ctype.h>
 
+#include "complib.h"
+
 // ----------------------------------------------------------------------------
 
 // Modificadores
