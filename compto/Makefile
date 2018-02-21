@@ -1,5 +1,5 @@
 CFLAGS=-I.
 
 
-comptoe: comptoe
-	gcc complib.c compto.c -o $@ $^ $(CFLAGS)
+comptoe: complib.c compto.c
+	gcc $^ -o $@ $(CFLAGS)
