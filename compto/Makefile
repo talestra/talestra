@@ -2,7 +2,7 @@ CFLAGS=-I.
 
 
 comptoe: complib.c compto.c
-	gcc $^ -o $@ $(CFLAGS)A
+	gcc $^ -o $@ $(CFLAGS)
 
 .PHONY: clean
 clean:
